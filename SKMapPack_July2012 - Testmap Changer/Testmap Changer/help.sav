@@ -1,0 +1,29 @@
+設定例
+
+SK Folder:
+[D:\Game\SK-Ver0.10H\]
+
+Map Folder:
+[D:\Game\Maps\]
+
+□Game
+     □Maps   　←ココを指定
+          □map1
+               map1.bsp
+               map1.wad
+               test.ini
+               pic.jpg
+               comment.txt
+          □map2
+               map2.bsp
+               map2.wad
+               test.ini
+          .
+          .
+          .
+          □mapX
+               mapX.bsp
+               mapX.wad
+               test.ini
+               pic.jpg
+               comment.txt

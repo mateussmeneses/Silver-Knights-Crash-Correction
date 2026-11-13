@@ -1,0 +1,17 @@
+2006/02/23　気焔楽人
+SK効果音　音声キット
+
+auok.wav...[are you OK?]：敵に吹っ飛ばされたり、ガードブレイク食らったりした時とか。
+btst.wav...[battle start]：戦闘開始。
+d25.wav...[damage!left power is 25%]：損傷！パワー残り25％。
+d50.wav...[damage!left power is 50%]：損傷！パワー残り50％。
+d75.wav...[damage!left power is 75%]：損傷！パワー残り75％。
+ends.wav...[enemy destroyed]：敵機破壊。
+enlk.wav...[enemy locked]：敵にロックされました。[warning]と併用で。
+mist.wav...[mission start]：任務開始。
+mifl.wav...[mission failed]：任務失敗。
+micp.wav...[mission complete]：任務完了。
+misi.wav...[missile approaching]：ミサイル接近中！[warning]と併用で。
+wng.wav...[warning]：警告！
+
+
