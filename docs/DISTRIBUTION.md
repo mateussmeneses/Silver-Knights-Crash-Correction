@@ -99,6 +99,41 @@ Recorded so a future release decision rests on facts:
 - What is still untested, and therefore must not be claimed in any release note: network play,
   controller support, Linux, macOS, Story Mode, replay recording.
 
+### The archive, and its canonical hash
+
+`tools/build_release.py` produces the distributable package. **This is the canonical artefact:**
+
+```
+build-release/SilverKnights-0.13-Windows11.zip
+  63,889,891 bytes
+  sha256 11e40b9adfc627c63ed0a968d24b3c68f86f37a5181158f48c861ec2cc4acea8
+  md5    7fe3122b11208f2ab966f782ed76cd95
+  782 entries · zip integrity OK · manifest self-consistent (781/781 verified)
+```
+
+**It is byte-for-byte reproducible.** Two builds from identical inputs produced the identical
+hash, which means a published hash can be re-derived by anyone who has the source tree and the
+original game. That required pinning every zip entry's timestamp — without that, zip stores
+per-entry mtime and two builds minutes apart necessarily differ.
+
+Making it reproducible exposed three real bugs in my own tooling, each caught by measuring
+rather than assuming:
+
+| Symptom | Actual cause |
+|---|---|
+| Two builds, different SHA-256 (148 bytes apart) | the pre-fix manifest had a bare title line a verifier parses as a filename |
+| Archive 66 MB instead of 64 MB | `writestr()` ignores `ZipFile`-level `compresslevel` **and** `ZipInfo.compress_level`; the level must be passed as an argument. I first misdiagnosed this as leaked build files. |
+| Risk of shipping build machinery | `build_patched.py` writes `build-patched/` **inside** `game-dir`, so a naive copy of the game folder would ship it. Now `EXCLUDE_DIRS` plus a post-staging sweep that strips and reports anything non-shippable. |
+
+The superseded archives were **deleted** rather than kept. Two zips in circulation with different
+hashes is how a release loses trust: a recipient checking a hash against the wrong build would
+conclude the download had been tampered with.
+
+Note the earlier, pre-fix archive differed from its successor in **exactly one file** —
+`MANIFEST.md5` — which an entry-by-entry comparison proved. Every game file was identical, so the
+difference was cosmetic; it was still discarded, because "cosmetic" is not a thing a recipient
+can verify.
+
 ## 6. One honest caveat about the patch itself
 
 The patch disables an anti-tamper check. That is the point of it — the check misfires on modern

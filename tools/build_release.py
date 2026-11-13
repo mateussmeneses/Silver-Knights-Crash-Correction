@@ -47,6 +47,12 @@ ASSET_FILES = [
     "emblem.bmp", "ToonMap.bmp",
     "ReadMe-English.txt", "ReadMe-Japanese.txt",   # the licence must travel with the game
 ]
+# Never ship build machinery, VCS state or scratch output, even if it sits inside game-dir.
+EXCLUDE_DIRS = {
+    ".git", ".analysis", ".claude", ".agents", ".ai-workbench", ".github", ".vscode",
+    "docs", "tools", "__pycache__", "build-patched", "build-release", "build-test",
+    "temp", "sandbox",
+}
 # Patched by build_patched.py, not copied.
 PATCHED = ["SK-Main.exe", "SK-Startup.exe"]
 # Guides, at the archive root so they are impossible to miss.
@@ -154,11 +160,30 @@ def main() -> int:
         for d in ASSET_DIRS:
             src = game / d
             if src.is_dir():
-                shutil.copytree(src, root / d, ignore=shutil.ignore_patterns("*.log"))
+                shutil.copytree(src, root / d,
+                                ignore=shutil.ignore_patterns("*.log", *EXCLUDE_DIRS))
             else:
                 missing.append(d + "/")
         if missing:
             print(f"  WARNING: absent from the source tree: {', '.join(missing)}")
+
+        # Guard: the staged tree must not contain build machinery or VCS state. build_patched.py
+        # writes build-patched/ INSIDE game-dir, so a naive copy of game-dir would ship it.
+        leaked = sorted(
+            p.relative_to(root).as_posix()
+            for p in root.rglob("*")
+            if p.name in EXCLUDE_DIRS or p.suffix in (".py", ".ps1", ".zip")
+        )
+        if leaked:
+            print(f"  stripping {len(leaked)} non-shippable path(s) from the staged tree:")
+            for rel in leaked[:10]:
+                print(f"    - {rel}")
+            for rel in leaked:
+                target = root / rel
+                if target.is_dir():
+                    shutil.rmtree(target, ignore_errors=True)
+                elif target.exists():
+                    target.unlink()
 
         for src, dst in DOCS:
             s = game / src
@@ -190,10 +215,26 @@ def main() -> int:
         (root / "MANIFEST.md5").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
         print("\n== 4. write the archive ==")
-        with zipfile.ZipFile(out_zip, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+        # Pin every entry's timestamp. Zip stores per-entry mtime, so two builds minutes apart
+        # would otherwise produce different hashes - which makes a published hash impossible to
+        # re-verify. Pinning makes the archive reproducible byte-for-byte from the same inputs.
+        #
+        # Two notes, both learned by measuring rather than assuming:
+        #  - writestr() ignores ZipFile-level compresslevel and ZipInfo.compress_level; the level
+        #    must be passed as an ARGUMENT. Getting this wrong silently produced a 66MB archive
+        #    instead of 64MB, which I initially misdiagnosed as leaked build files.
+        #  - level 9 over ~120MB of raw data is worth it: 2.3MB smaller than level 6 for about a
+        #    minute of extra build time.
+        FIXED_DT = (1980, 1, 1, 0, 0, 0)
+        with zipfile.ZipFile(out_zip, "w", zipfile.ZIP_DEFLATED) as z:
             for p in sorted(root.rglob("*")):
                 if p.is_file():
-                    z.write(p, p.relative_to(work).as_posix())
+                    arc = p.relative_to(work).as_posix()
+                    zi = zipfile.ZipInfo(arc, date_time=FIXED_DT)
+                    zi.compress_type = zipfile.ZIP_DEFLATED
+                    zi.external_attr = 0o644 << 16
+                    with open(p, "rb") as fh:
+                        z.writestr(zi, fh.read(), compresslevel=9)
         print(f"  wrote {out_zip}")
         print(f"  size  {out_zip.stat().st_size:,} bytes")
         print(f"  sha256 {sha256(out_zip)}")
