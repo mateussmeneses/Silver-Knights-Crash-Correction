@@ -34,7 +34,8 @@ This is the current phase. Nothing else may start until M1.6 passes.
 | ID | Task | Owner | Deliverable | Pass criterion |
 |---|---|---|---|---|
 | **T-01** | ~~Prove interactivity past the title screen~~ | Codex | — | ✅ **PASS** — `run-19`, `run-24`. Menu reached; navigation verified (Story→Battle→Network→Battle) |
-| **T-01b** | **Reach a playable match with in-game HUD** | Codex | `tools/t01b-gameplay.ps1` + screenshots | In-game HUD visible (armor/boost gauges, radar); ≥3 distinct frames during movement; no dialogs |
+| **T-01b** | ~~Reach a playable match with in-game HUD~~ | Codex | `tools/t01h-start-match.ps1` | ✅ **PASS** — `run-27`. "Battle Start" → timer `00:10.912`, live HUD, mech took damage. Key insight: **F3 starts the match**, not Enter |
+| **T-05b** | **Exercise the high-end renderer** (`EFFECT_LEVEL`, `HDR_LIGHTING`, `DEPTH_OF_FIELD`, `BLUR_2_5D`, `OUTLINE`, `MOTION_BLUR`) | Codex | Screenshots at `EFFECT_LEVEL` 1 → max on the same map | Visual difference is attributable to the effects; no D3DX compile failure. **This is the cross-platform risk test** — these are the shader paths a translation layer will break first |
 | **T-02** | ~~Same-length patch pipeline~~ | Codex | `tools/build_patched.py` | ✅ **PASS** — `run-25`. Repacked to exactly 1,464,320 bytes; only the MD5 constant edited; game launched and navigated |
 | **T-03** | **Suppress the two startup dialogs** | Codex | `SK-Startup.exe` patch replacing the `ProductId` read with the documented fallback | Zero `Error Massage` dialogs on launch; `UserID` field populated; launcher proceeds |
 | **T-04** | Audio verification (SFX / MP3 / MIDI) | Codex | Recorded session notes + which path produced sound | SFX audible in menu; BGM audible; MIDI either audible or documented silent |
@@ -44,8 +45,12 @@ This is the current phase. Nothing else may start until M1.6 passes.
 | **T-08** | 30-minute stability + memory growth | Codex | Timeline of working set and thread count | No crash, no unbounded growth, no dialog appears |
 | **T-09** | Locale / `1033.ini` behaviour | Codex | Report on what the game does with no matching `%d.ini` | Documented behaviour on a non-Japanese locale |
 
-**T-01b is now the gate.** T-01 and T-02 are complete; a playable match is the last Windows
-milestone before cross-platform work.
+**T-05b is now the gate for cross-platform work.** The shipped `EFFECT_LEVEL=1` means the
+heavy D3DX effect paths (HDR, bloom, depth-of-field, 2.5D blur, outline, motion blur) were
+**never exercised** in the verified match. Those are exactly the shaders a translation layer
+(DXVK/MoltenVK) is most likely to break. Raising `EFFECT_LEVEL` and confirming the image
+changes correctly on Windows establishes the visual reference that Linux and macOS must
+match. Without it, "it renders" on another platform proves very little.
 
 **T-02 is done and is the shippable form.** `tools/build_patched.py` performs
 unpack → 1-byte patch → re-pack → pad to exactly 1,464,320 bytes. Because the length is

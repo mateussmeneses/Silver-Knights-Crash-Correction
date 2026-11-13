@@ -16,53 +16,68 @@ a tracked game binary in the working tree.
 | Menu navigation | **FIXED — was a focus problem, not an input-protocol problem** |
 | Main menu reached | **PASS** |
 | Battle Mode setup screen reached | **PASS** |
-| Playable match | **OPEN** |
+| Playable match | **PASS** (`run-27`) |
 | Same-length shippable build | **PASS** (`tools/build_patched.py`) |
 | Audio / controller / network | **OPEN** |
+| High-end renderer (`EFFECT_LEVEL`) | **OPEN — next gate** |
 | Linux / macOS | **NOT STARTED** |
 
 ---
 
-# CODEX BRIEF 1 — `codex/t01b-gameplay`
+# CODEX BRIEF 1 — `codex/t05b-render-reference`
 
-**Goal:** prove the game is playable. This is the last gate before any platform comparison.
+**Goal:** exercise and photograph the high-end renderer. This is the yardstick every other
+platform will be judged against.
+
+**Why it matters more than it looks**
+`SilverKnights.ini` ships `EFFECT_LEVEL=1` — the lowest setting — and the verified match in
+`run-27` used exactly that. So the heavy D3DX effect paths were **never run**. Every
+cross-platform question reduces to "do these shaders compile and produce the same image?",
+and those are precisely the paths a translation layer (DXVK, MoltenVK) breaks first.
+
+**Verified working harness — do not re-derive**
+
+- Build: `python tools/build_patched.py --game-dir . --upx <upx.exe>` → same-length
+  `SK-Main.exe` (1,464,320 bytes) + `SK-Startup.exe` with only the MD5 constant edited.
+- Launch + navigation: `tools/t01h-start-match.ps1`. This is the **only known-good sequence**:
+
+  | Step | Key | Scancode | Extended |
+  |---|---|---|---|
+  | main menu → Battle Mode | `DIK_DOWN` | `0x50` | **yes** |
+  | open Battle setup | `ENTER` | `0x1C` | no |
+  | **start the match** | **`F3`** | **`0x3D`** | **no** |
+  | confirm | `ENTER` | `0x1C` | no |
+
+  `Enter` at the setup screen only moves slot focus. **`F3` starts the match** — from
+  `1041.ini [FUNCTION] F3_START =F3 Start`.
+- Focus: `AttachThreadInput` + synthetic ALT tap, then verify
+  `GetForegroundWindow() == target` **before every injection**. Another window can steal focus
+  mid-run (observed: `XamlExplorerHostIslandWindow`).
 
 **Acceptance criteria**
 
-1. From a launched build, reachable in one scripted run: main menu → Battle Mode setup →
-   **an actual match**, captured as a screenshot showing in-game HUD (armor gauge, boost
-   gauge, radar, weapon labels).
-2. Frame-diff evidence that gameplay is live, not a frozen frame: at least 3 captures during
-   movement, all distinct in the region of the HUD/geometry (not only the background).
-3. No `Error Massage` dialog appears at any point.
-4. The run is reproducible by one committed command.
+1. A reference set: the same gameplay view captured at `EFFECT_LEVEL` = 1, then each of
+   `HDR_LIGHTING=1`, `DEPTH_OF_FIELD=1`, `BLUR_2_5D=1`, `OUTLINE=1`, `MOTION_BLUR=1`,
+   then `EFFECT_LEVEL` at maximum.
+2. For at least three of those, the frame must **visibly differ** from the `EFFECT_LEVEL=1`
+   baseline, demonstrated with `python tools/imgdiff.py` (bounding box + % changed pixels).
+3. **No D3DX compile failure** and no `Error Massage` dialog at any setting.
+4. `SilverKnights.ini` restored to its shipped values afterwards, and that restoration
+   verified (`git diff` clean on that file).
+5. Record the exact INI values used alongside each image.
 
-**Known-good starting point (do not re-derive)**
+**Do not** leave `SilverKnights.ini` modified. It is user data; the project must not ship a
+changed configuration.
 
-- Patched build: `tools/build_patched.py` → same-length `SK-Main.exe` (1,464,320 bytes) plus
-  `SK-Startup.exe` with only the MD5 constant edited.
-- **Input requires real foreground focus.** `SetForegroundWindow` alone is *refused* for a
-  background process. Use the working technique in `tools/t01f-force-focus.ps1`:
-  `AttachThreadInput(self, foregroundThread, true)` → synthetic ALT tap →
-  `SetForegroundWindow` → `AttachThreadInput(..., false)`.
-- **Keys are DirectInput scancodes.** Arrows are **E0-extended**: `DIK_DOWN = 0x50` **with**
-  `KEYEVENTF_EXTENDEDKEY`; `DIK_UP = 0x48` extended. Plain scancode `0x50` is NumPad-2 and
-  will not navigate. `Enter = 0x1C` plain, `Esc = 0x01` plain.
-- Config confirms the scancode contract: `SilverKnights.ini [KEYBOARD]` has `UP=200`,
-  `DOWN=208`, `LEFT=203`, `RIGHT=205` — these are `0x80|scancode` DIK codes.
-- Window class is `UDX_CLASS`. There is exactly one; verify with
-  `GetForegroundWindow() == target` before injecting, and retry focus if it is refused.
-- A competing window can steal focus mid-run (observed: `XamlExplorerHostIslandWindow`).
-  Re-assert focus immediately before each injection, not once at the start.
-
-**Do not**
-
-- Use `PostMessage(WM_KEYDOWN)` — a polling DirectInput app never sees it.
-- Use `keybd_event` with virtual-key codes — DirectInput reads scancodes.
-- Modify any tracked binary. Copy the game tree to a scratch directory first.
-
-**Deliverable:** `tools/t01b-gameplay.ps1` + `docs/evidence/t01b-gameplay/` + a row update
+**Deliverable:** `docs/evidence/t05b-render/` (images + a settings-to-image table) and a row
 proposal for `docs/COMPATIBILITY-MATRIX.md`.
+
+---
+
+# CODEX BRIEF 1b — `codex/t01b-gameplay` (ARCHIVED, COMPLETE)
+
+Superseded by `run-27`, which reached a playable match. Kept only as history: the lesson is
+that **`F3` starts a match, not `Enter`**.
 
 ---
 

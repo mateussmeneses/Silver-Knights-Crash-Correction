@@ -78,6 +78,20 @@ in the repository.
   acquire real foreground, plus **E0-extended DIK scancodes** for arrow keys. See
   `tools/t01f-force-focus.ps1`.
 
+- **Match would not start (navigation error, not a game defect).**
+  The Battle setup screen was reachable but inert because `Enter` only moves slot focus.
+  The start control is **`F3`**, from `1041.ini [FUNCTION] F3_START =F3 Start`.
+  Fix: press `F3` (scancode `0x3D`, non-extended). See `tools/t01h-start-match.ps1`.
+
+### Verified — playable match
+
+- A **live match runs**: "Battle Start" banner → timer advances `00:00.000` → `00:10.912`.
+- **Full HUD renders**: Philotes health 1160, Military Potential gauge, Radar, Altimeter,
+  `Danger` overlay, and the `Caution ! Minor damage...` message (which is
+  `SilverKnights.ini [MESSAGE] DAMAGE25` — so the damage system is live, not a static screen).
+- **3D map geometry renders**: a walled, textured arena with both mechs.
+- `SK-Main.exe` stayed alive throughout (106 MB, 35 threads), no error dialog.
+
 ### Added
 
 - `tools/build_patched.py` — reproducible same-length patched build.
@@ -90,6 +104,8 @@ in the repository.
 - `tools/t01-interactivity.ps1`, `t01b-menu-nav.ps1`, `t01c-scancode-input.ps1`,
   `t01d-extended-scancode.ps1`, `t01e-focus-target.ps1`, `t01f-force-focus.ps1` — the
   progressive input-injection investigation that isolated the focus defect.
+- `tools/t01g-gameplay.ps1`, `t01h-start-match.ps1` — the match-start harness that reached
+  gameplay.
 - `docs/DELEGATION.md` — complete, self-contained briefs for every open Codex and Claude task.
 
 ### Verified

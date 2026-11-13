@@ -29,8 +29,8 @@ Patched build = `.analysis` sandbox with `SK-Main.exe` `RVA 0x1f4d50` `7E`→`EB
 | **Main menu** | **PASS** | `run-19` (8 distinct frames) + `t01/08-final.png` — full 5-item menu rendered: Story Mode / Battle Mode / Network Mode / Replay Mode / Option |
 | **Menu navigation (selection moves)** | **PASS** | `run-24` + `t01f/` — Story → Battle → Network (down×2) → Battle (up×1), verified visually. Root cause of earlier failure: `SetForegroundWindow` was **refused**, so DirectInput never saw the keys; fixed with `AttachThreadInput` + synthetic ALT tap. |
 | **Mode entry (submenu)** | **PASS** | `run-24` `t01f/E-enter.png` — Enter opened the Battle Mode setup screen: "Select your Mech, Team, and Stage!", Victory Conditions, Military Potential, Player=Philotes, Team=RED, rendered "Training Room" stage preview |
-| **Playable match (in-game HUD)** | **NOT TESTED** | The setup screen is reached; an actual match is not |
-| **Map rendering (`.bsp` + effects)** | **INVESTIGATING** | A rendered stage preview thumbnail appears on the Battle Mode setup screen, proving the map/texture path is live; full `.bsp` geometry with D3DX effects is not yet confirmed |
+| **Playable match (in-game HUD)** | **PASS** | `run-27` + `t01h/04-after-F3.png` ("Battle Start", timer `00:00.000`) → `t01h/06-after-enter.png` (**active gameplay**, timer `00:10.912`). HUD confirmed: Philotes health 1160, Military Potential, Radar, Altimeter, Danger overlay, `Caution ! Minor damage...` |
+| **Map rendering (`.bsp` + effects)** | **PASS (geometry)** | `run-27` — a walled, textured arena renders with both mechs in 3D. **Post-processing effects (HDR/bloom/DoF) NOT exercised**: shipped `EFFECT_LEVEL=1` is the lowest setting. |
 | **Render loop is live (animation)** | **PASS** | `run-19`, `run-20` — consecutive frames differ across 70–84% of pixels with a full-window bounding box (`tools/imgdiff.py`) |
 | **Same-length shippable patch** | **PASS** | `run-25` — unpack → patch → re-pack → pad to **1,464,320 bytes**; only the MD5 constant needed editing; game launched, integrity check passed, navigation worked |
 | **Audio — SFX (DirectSound8)** | **NOT TESTED** | `DSOUND.dll` loaded (`run-17`); no audible verification |
@@ -45,30 +45,45 @@ Patched build = `.analysis` sandbox with `SK-Main.exe` `RVA 0x1f4d50` `7E`→`EB
 ### Windows 11 summary
 
 **3 defects found, 2 cosmetic, 1 fatal. The fatal one is fixed and verified.**
-**6 of 9 mission gameplay scenarios verified.**
+**8 of 10 mission gameplay scenarios verified — including a playable match.**
 
 Verified: launch · launcher UI · D3D9 init · title screen · **main menu** ·
-**menu navigation** · **Battle Mode setup screen** · live render loop · 180 s stability ·
-clean shutdown · **same-length shippable patch**.
+**menu navigation** · **Battle Mode setup** · **playable match with live HUD** ·
+**3D map geometry** · live render loop · 180 s stability · clean shutdown ·
+**same-length shippable patch**.
 
-Still unverified: an actual **playable match with in-game HUD**, full `.bsp` geometry with
-D3DX effects, all three **audio** paths, **controller**, and **network mode**.
+Still unverified: **post-processing effects** (the shipped `EFFECT_LEVEL=1` never
+exercises HDR/bloom/depth-of-field), all three **audio** paths, **controller**, and
+**network mode**.
 
-The correct overall verdict is **PARTIAL-ADVANCED**, not compatible. The mission's rule
-applies: *a platform must never be labelled compatible without actual execution evidence* —
-and execution evidence for a playable match does not exist yet.
+The verdict is **PARTIAL-PLAYABLE**: a real match runs, renders, and advances its clock.
+It is not yet **fully compatible**, because audio, input devices, network, and the high-end
+renderer are untested. The mission's rule still applies: no scenario is marked PASS without
+a recorded execution.
 
-### The two defects that were fixed
+### The three defects found
 
 | Defect | Root cause | Fix |
 |---|---|---|
 | Fatal self-termination at ~8 s | `winmm!timeGetTime` fingerprint expecting a Win9x prologue | `SK-Main.exe` RVA `0x1f4d50` `7E`→`EB` |
-| Menu input not registering | `SetForegroundWindow` **refused** for a background process, so DirectInput8 (which polls the foreground thread's keyboard) never saw injected keys | `AttachThreadInput` + synthetic ALT tap + `SetForegroundWindow`, with **E0-extended** DIK scancodes |
+| Menu input not registering | `SetForegroundWindow` **refused** for a background process, so DirectInput8 (which polls the foreground thread's keyboard) never saw injected keys | `AttachThreadInput` + synthetic ALT tap + **E0-extended** DIK scancodes |
+| Match would not start | The start control is **F3**, not Enter (`1041.ini [FUNCTION] F3_START =F3 Start`) | Press `F3` (scancode `0x3D`) at the Battle setup screen |
 
-The second one is worth emphasising: four prior attempts (`PostMessage`, `keybd_event`,
-`SendInput` with virtual keys, `SendInput` with plain scancodes) all failed and all looked
-like "the game ignores input". The actual fault was **focus**, not the input protocol. Only
-checking `GetForegroundWindow() == target` exposed it.
+All three were harness/navigation errors of *understanding*, not broken game code — except the
+first, which was a genuine defect in the shipped binary.
+
+### Playable-match evidence chain
+
+| Frame | Timer | State |
+|---|---|---|
+| `t01h/03-battle-setup.png` | — | "Select your Mech, Team, and Stage!" |
+| `t01h/04-after-F3.png` | `00:00.000` | "Battle Start" banner, both mechs rendered, full HUD |
+| `t01h/05-after-F3b.png` | advancing | countdown progressed |
+| `t01h/06-after-enter.png` | `00:10.912` | **active gameplay**, mech took damage, `Caution ! Minor damage...` fired |
+
+HUD elements observed, each cross-checked against the game's own string table:
+`Philotes` (mech), `Military Potential`, `Radar`, `Altimeter`, `Danger` overlay,
+`Caution ! Minor damage...` (= `SilverKnights.ini [MESSAGE] DAMAGE25`).
 
 ---
 

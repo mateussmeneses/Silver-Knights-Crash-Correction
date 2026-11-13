@@ -163,13 +163,16 @@ Gitignored (must stay local):
 | 19 | Enumerate all windows + focus retry | **Exactly one `UDX_CLASS`** window; `SetForegroundWindow` still refused | `run-23` |
 | 20 | **`AttachThreadInput` + ALT tap** | **Focus acquired (`match=True`)**; navigation works | `run-24` |
 | 21 | Same-length re-packed build | **1,464,320 bytes, launched, integrity passed, navigated** | `run-25` |
+| 22 | Battle setup via Enter | Reached setup screen; Enter only moves slot focus | `run-26` |
+| 23 | **F3 to start the match** | **"Battle Start" → timer `00:10.912` → live HUD** | `run-27` |
 
 ### Verified PASS
 
 Launch · launcher UI · D3D9 init · title screen · **main menu** · **menu navigation**
-(Story→Battle→Network→Battle) · **Battle Mode setup screen** ("Select your Mech, Team, and
-Stage!", rendered stage preview) · live render loop · 180 s stability · clean shutdown ·
-**same-length shippable patch**.
+(Story→Battle→Network→Battle) · **Battle Mode setup** · **playable match with live HUD**
+(timer advanced 10.9 s, mech took damage, `Caution ! Minor damage...` fired) · **3D map
+geometry** (walled textured arena, both mechs) · live render loop · 180 s stability · clean
+shutdown · **same-length shippable patch**.
 
 ### Verified FAIL
 
@@ -178,8 +181,8 @@ by design).
 
 ### NOT TESTED
 
-Playable match with in-game HUD · full `.bsp` geometry with D3DX effects · all audio ·
-controller · network · every Linux row · every macOS row.
+Post-processing effects at higher `EFFECT_LEVEL` · all audio · controller · network ·
+every Linux row · every macOS row.
 
 ---
 
@@ -187,7 +190,7 @@ controller · network · every Linux row · every macOS row.
 
 | # | Blocker | Severity | Owner |
 |---|---|---|---|
-| B-1 | **No playable match yet.** Menu and setup screen are reached; entering a match with in-game HUD is unproven. | **High** | Codex (T-01b) |
+| B-1 | **High-end renderer unexercised.** Shipped `EFFECT_LEVEL=1` never runs HDR/bloom/DoF/2.5D-blur/outline/motion-blur — the exact paths a translation layer breaks first. | **High** | Codex (T-05b) |
 | B-2 | Root cause has not been independently reviewed. | High | Claude (R-01) |
 | B-3 | Patch blast radius unknown — does `0x1f4d50` gate anything besides the anti-hook verdict? | High | Claude (R-02) |
 | B-4 | `SKGuard.dll` hook body not reversed; behaviour on Win11 unknown. | Medium | Claude (R-03) |
@@ -200,15 +203,20 @@ controller · network · every Linux row · every macOS row.
 
 ## 6. Next task
 
-**T-01b — reach a playable match and capture in-game HUD.**
+**T-05b — exercise the high-end renderer and capture the visual reference.**
 
-Everything needed is documented in `docs/DELEGATION.md` (Codex Brief 1): the working build
-script, the focus-forcing sequence, and the DIK scancode map. The remaining work is to
-navigate the Battle Mode setup screen (select a mech, team and stage), start the match, and
-capture frames showing the armor gauge, boost gauge, radar and weapon labels.
+Set `EFFECT_LEVEL` to its maximum in `SilverKnights.ini` (and enable `HDR_LIGHTING`,
+`DEPTH_OF_FIELD`, `BLUR_2_5D`, `OUTLINE`, `MOTION_BLUR` one at a time), start a match with
+`tools/t01h-start-match.ps1`, and capture the same view at each setting. Then restore the
+shipped values.
 
-**T-01b is incomplete until in-game HUD is visible and ≥3 distinct frames are captured during
-movement.**
+**Why this is the next gate:** every cross-platform question reduces to "do the D3DX effect
+shaders compile and produce the same image?" On Windows they use the embedded D3DX9 compiler
+directly. On Linux (DXVK) and macOS (MoltenVK) they go through a translation layer that is
+most fragile exactly here. A verified high-effect reference on Windows is the yardstick.
+
+**T-05b is incomplete until the effect-on and effect-off frames differ visibly and no D3DX
+compile failure occurs.**
 
 ---
 
@@ -216,7 +224,7 @@ movement.**
 
 | Agent | Branch | Task |
 |---|---|---|
-| **Codex** | `codex/t01b-gameplay` | Reach a playable match; capture in-game HUD; frame-diff proof of live gameplay |
+| **Codex** | `codex/t05b-render-reference` | Raise `EFFECT_LEVEL` and each effect toggle; capture the visual reference set |
 | **Codex** | `codex/t03-startup-registry` | Patch `SK-Startup.exe`'s `ProductId` read path to eliminate the two dialogs |
 | **Codex** | `codex/t04-audio` | Verify SFX / MP3 / MIDI audibly; PASS-FAIL-BLOCKED per path |
 | **Claude** | n/a | R-01 independently reproduce the `0x1FF` arithmetic; R-02 enumerate what `0x1f4d50` gates; R-03 reverse the `SKGuard` hook body; R-05 challenge the strategy choice |
