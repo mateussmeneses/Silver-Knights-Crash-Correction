@@ -37,3 +37,7 @@ desktop.ini
 build-patched/
 build-test/
 *.patched.exe
+
+# Release archives (contain patched game binaries). See docs/DISTRIBUTION.md.
+build-release/
+*.zip

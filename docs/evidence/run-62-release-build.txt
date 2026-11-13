@@ -1,0 +1,23 @@
+== 1. verify the originals ==
+  SK-Main.exe md5 = 84a321d3035de0e2f03539123667f3d6
+
+== 2. build the patched executables ==
+  $ C:\Users\Mateus\AppData\Local\Python\pythoncore-3.14-64\python.exe C:\projetos\Silver-Knights-Crash-Correction\tools\build_patched.py --game-dir C:\projetos\Silver-Knights-Crash-Correction --upx C:/Users/Mateus/AppData/Local/hermes/cache/scratch/upxtmp/upx-4.2.4-win64/upx.exe --out-dir C:\projetos\Silver-Knights-Crash-Correction\build-patched
+  SK-Main.exe        1,464,320 bytes  md5=0c4de1d940cf176f87bf86b4c7777d38
+  SK-Startup.exe       102,400 bytes  md5=721641895cc342df9607e55b63d426b7
+
+== 3. stage the release tree ==
+  patched  SK-Main.exe
+  patched  SK-Startup.exe
+  added    PLAY.bat
+
+== 4. write the archive ==
+  wrote C:\projetos\Silver-Knights-Crash-Correction\build-release\SilverKnights-0.13-Windows11.zip
+  size  63,889,220 bytes
+  sha256 6d1b29a8033191f2e296ab06ef5c9f20dfdb4a0eacce2d71e871f951ed6b1b4e
+
+== done ==
+  NOT published. Publishing is your decision; see docs/DISTRIBUTION.md.
+  to publish:  gh release create v0.13-win11 "C:\projetos\Silver-Knights-Crash-Correction\build-release\SilverKnights-0.13-Windows11.zip" \
+                   --title 'Silver Knights 0.13 — Windows 11 build' \
+                   --notes-file docs/RELEASE-NOTES.md
