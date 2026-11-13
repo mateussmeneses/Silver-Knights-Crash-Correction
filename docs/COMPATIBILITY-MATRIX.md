@@ -53,32 +53,44 @@ Patched build = `.analysis` sandbox with `SK-Main.exe` `RVA 0x1f4d50` `7E`→`EB
 
 ### Windows 11 summary
 
-**3 defects found. 2 fixed and verified (fatal self-termination + 2 startup dialogs).**
-**11 of 13 mission scenarios verified — gameplay, audio and rendering included.**
+**5 findings. 1 genuine crash-class defect (fixed and verified). 1 genuine defect unfixed
+(handle leak). 1 gameplay behaviour (not a defect). 2 launcher/UX defects fixed.**
 
 Verified: launch · launcher UI (dialog-free) · D3D9 init · title screen · **main menu** ·
 **menu navigation** · **Battle Mode setup** · **playable match with live HUD** ·
 **3D map geometry** · **high-end renderer compiles and runs** · **effects alter the 3D scene
 on a matched frame (partial)** · **audio: SFX + BGM measured, real signal** ·
-180 s stability · clean shutdown · **same-length reproducible build**.
+**29.7 min memory stability** · **30-minute cap identified** · clean shutdown ·
+**same-length reproducible build**.
 
-Still open: **per-effect attribution**, **MIDI path**, **controller**, **network mode**.
+Still open: **per-effect attribution**, **MIDI path (measured but not attributable)**,
+**controller**, **network mode (blocked at name entry)**, **handle-leak call site**.
 
 The verdict is **PLAYABLE AND AUDIBLE, NOT YET FULLY VERIFIED**. A real match runs with
 effects enabled, renders 3D geometry, advances its clock, fires gameplay messages, and puts
-measured signal on the audio device. What remains is per-effect rigour, MIDI, a controller,
-and multiplayer — plus the fact that Linux and macOS have no runtime evidence at all.
+measured signal on the audio device. What remains is per-effect rigour, MIDI attribution, a
+controller, and multiplayer — plus the fact that Linux and macOS have no runtime evidence at
+all.
 
-### The three defects found
+### The findings, by nature
 
-| Defect | Root cause | Fix |
-|---|---|---|
-| Fatal self-termination at ~8 s | `winmm!timeGetTime` fingerprint expecting a Win9x prologue | `SK-Main.exe` RVA `0x1f4d50` `7E`→`EB` |
-| Menu input not registering | `SetForegroundWindow` **refused** for a background process, so DirectInput8 (which polls the foreground thread's keyboard) never saw injected keys | `AttachThreadInput` + synthetic ALT tap + **E0-extended** DIK scancodes |
-| Match would not start | The start control is **F3**, not Enter (`1041.ini [FUNCTION] F3_START =F3 Start`) | Press `F3` (scancode `0x3D`) at the Battle setup screen |
+| # | Finding | Nature | Status |
+|---|---|---|---|
+| 1 | Fatal self-termination at ~8 s — `winmm!timeGetTime` fingerprint expecting a Win9x prologue; `SK-Main.exe` RVA `0x1f4d50` `7E`→`EB` | **Genuine defect** in the shipped binary | **FIXED, verified 4/4** |
+| 2 | Handle leak: ~+20/min, linear, in both menu and match, memory flat | **Genuine defect** | **NOT FIXED** — type/call site unknown (T-08b) |
+| 3 | Session ends at exactly 1800 s with a clean `End` line | **Gameplay/trial behaviour, NOT a defect** | Characterised; per-match vs per-process-age open (T-11) |
+| 4 | Two startup dialogs about a missing `ProductId` registry value | Launcher UX defect | **FIXED** (2 sites NOPed) |
+| 5 | Menu input / match start not registering | **Harness** misunderstanding, not game code | Resolved; documented |
 
-All three were harness/navigation errors of *understanding*, not broken game code — except the
-first, which was a genuine defect in the shipped binary.
+Finding 3 is the one that reframes the project: the "crash on Windows 11" that motivated this
+work was **finding 1**, but a user who plays for half an hour and sees the game vanish would
+now be reporting **finding 3**, which is not a crash at all. Both produce a silent exit and a
+clean `End` line, which is exactly why they are easy to conflate.
+
+Finding 2 is real but should be sized honestly: 1284 handles after half an hour against a
+~16.7 million per-process limit is roughly 580 days to exhaustion. It is hygiene, not a
+stability threat, and an earlier claim in this project that it might explain crashes has been
+withdrawn.
 
 ### Playable-match evidence chain
 
