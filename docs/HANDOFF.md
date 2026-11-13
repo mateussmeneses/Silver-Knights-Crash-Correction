@@ -199,27 +199,33 @@ by design).
 | B-1 | **No matched effect comparison.** The high-end shaders compile and run, but whether each effect visibly changes the image is unconfirmed — the camera confound in `run-28` prevents attribution. | **High** | Codex (T-05c) |
 | B-2 | Root cause has not been independently reviewed. | High | Claude (R-01) |
 | B-3 | Patch blast radius unknown — does `0x1f4d50` gate anything besides the anti-hook verdict? | High | Claude (R-02) |
-| B-4 | `SKGuard.dll` hook body not reversed; behaviour on Win11 unknown. | Medium | Claude (R-03) |
-| B-5 | Two cosmetic startup dialogs remain. | Medium | Codex (T-03) |
-| B-6 | All three audio paths loaded but unheard. | Medium | Codex (T-04) |
-| B-7 | DirectPlay 8 availability on Windows 11 unconfirmed; expected to block network play everywhere. | Medium | Claude (R-04) |
-| B-8 | Linux and macOS entirely unstarted. | Deferred | — |
+| B-4 | **No Linux or macOS host.** Linux/macOS runtime work cannot proceed on this machine. Static Linux audit done; runtime is blocked on hardware. | **Blocking** | — needs the user |
+| B-5 | 12 case-mismatched asset references will fail on ext4/case-sensitive APFS; consequence uncharacterised. | High | Codex (T-10a/T-10b) |
+| B-6 | `SKGuard.dll` hook body not reversed; behaviour on Win11 unknown. | Medium | Claude (R-03) |
+| B-7 | Two cosmetic startup dialogs remain. | Medium | Codex (T-03) |
+| B-8 | All three audio paths loaded but unheard. | Medium | Codex (T-04) |
+| B-9 | DirectPlay 8 availability on Windows 11 unconfirmed; expected to block network play everywhere. | Medium | Claude (R-04) |
 
 ---
 
 ## 6. Next task
 
-**T-05c — matched effect comparison via the replay system.**
+**Depends on what becomes available.**
 
-The goal is one fixed camera pose captured under each effect profile, so any difference is
-attributable to the effect rather than to a different gameplay moment.
+**If a Linux host (or a real Linux VM with a GPU/Vulkan driver) can be provided:**
+run `T-11` → `T-13` from `docs/LINUX.md`. `T-13` (does the D3DX effect surface compile under
+DXVK?) is the single most important unknown in the whole project. Everything on the Linux and
+macOS roadmap is gated behind it. Also run `T-10b` to characterise the 12 case mismatches.
 
-Approach: record or use an existing `replay\sk-%02d.rep`, enable `F2_REP_ON`, play it back to a
-fixed timestamp, pause or capture at that exact point, and repeat under each profile from
-`tools/t05b-render-reference.ps1`. Then `tools/imgdiff.py` gives a meaningful number.
+**If it cannot, the highest-value work that stays on Windows is:**
 
-**T-05c is incomplete until effect-on and effect-off differ in an attributable region on a
-matched frame.**
+1. **T-05c — matched effect comparison via the replay system.** Turns "the shaders compile"
+   into "here is the exact expected picture", which is the only usable yardstick for a
+   translation layer. Use `replay\sk-%02d.rep` + `F2_REP_ON` to hold the camera fixed.
+2. **R-01/R-02 — independent review.** The fix's justification and blast radius should not
+   rest on one agent's analysis alone.
+3. **T-03 — remove the two startup dialogs**, and **T-04 — audio**. Both are small and
+   independent.
 
 ---
 
@@ -230,6 +236,7 @@ matched frame.**
 | **Codex** | `codex/t05c-replay-reference` | Matched-camera effect comparison via `replay\` + `F2_REP_ON` |
 | **Codex** | `codex/t03-startup-registry` | Patch `SK-Startup.exe`'s `ProductId` read path to eliminate the two dialogs |
 | **Codex** | `codex/t04-audio` | Verify SFX / MP3 / MIDI audibly; PASS-FAIL-BLOCKED per path |
+| **Codex** | `codex/t10a-case-remediation` | Per-file case-mismatch decision table (needs no Linux host) |
 | **Claude** | n/a | R-01 independently reproduce the `0x1FF` arithmetic; R-02 enumerate what `0x1f4d50` gates; R-03 reverse the `SKGuard` hook body; R-05 challenge the strategy choice |
 
 File ownership is disjoint. No task modifies a tracked game binary.
