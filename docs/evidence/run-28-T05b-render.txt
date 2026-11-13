@@ -79,3 +79,18 @@ NEXT if a matched comparison is wanted
   Use the game's replay system (replay\sk-%02d.rep, F2_REP_ON / F2_REP_OFF,
   "Silver Knights - Replay File") to replay one identical match under each effect
   profile and capture at a fixed timestamp. That removes the camera confound.
+
+--- SUPERSEDED IN PART (added later in the same session) ---
+The suggestion above was tried and did not work:
+  run-34: pressing F2 and playing 20 s produced ZERO .rep files in replay\, so the
+          camera could not be frozen that way. The in-match precondition for recording
+          was not identified.
+  run-35: the Battle setup screen turned out NOT to apply post-processing at all -
+          effects-off vs effects-on there gave byte-identical PNGs. So it cannot serve
+          as the comparison surface either.
+  run-36: what DID work was a burst of frames from the deterministic spawn pose during
+          a live match: matched first-frame diff 3.67%, concentrated in the upper scene
+          band (y61-372).
+
+Read run-36 for the usable result, and T-05d in docs/ROADMAP.md for the remaining gap
+(per-effect attribution, one toggle at a time).
