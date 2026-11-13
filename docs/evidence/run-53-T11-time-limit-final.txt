@@ -1,0 +1,4 @@
+T+0 LAUNCH  (log had 42 lines)
+main menu is up - NO match started. Idling from here; no further input.
+
+  T+   85s  WS=  94,9MB  thr= 30  hnd=  676

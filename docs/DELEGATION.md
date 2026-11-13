@@ -139,6 +139,14 @@ Three independent paths are loaded at the menu (`docs/evidence/run-17-32bit-modu
 
 **Goal:** independently confirm or refute the root-cause claim. Do not accept it on trust.
 
+> **STATUS: still open, and now higher-value than when first written.** Since this brief was
+> drafted, the coordinator re-derived the entire chain from the disassembly in
+> `docs/evidence/r02-fingerprint-cascade-verified.txt`. That document is *still the same
+> author*, so it does not satisfy independence — but it gives you the exact addresses and
+> expected instruction sequences to check, which makes refutation cheap. If the chain is
+> sound you should be able to reproduce it in minutes; if it is not, the specific wrong step
+> will be obvious.
+
 **Claim under review**
 `SK-Main.exe` RVA `0x1f4ee0` copies 20 bytes of `winmm!timeGetTime` and fingerprints them
 against the Windows 9x/2000 prologue `83 3D <abs32> 00 0F 85 <rel32>`. Mismatch returns
@@ -154,14 +162,42 @@ Control flow at `0x1f4d43` treats any verdict `> 5` as a detected hook.
 3. Confirm or refute the return-value ladder (`0x100`, `0x200`, `0x600`, `0x700`, `0x800`,
    `0x1100`, `0x1200`, `0xFFFFFFFF`).
 4. Confirm the `cmp eax,-1` / `jle` / `cmp eax,ebp` / `je` / `jg` branch structure.
+5. **NEW — check the claim in `CRASH-ANALYSIS.md` §3.3.1**, that this whole function is
+   debugger detection. The evidence offered is the set of string references
+   (`0x72b09c` `SetThreadContext`; `0x72b0b0` / `0x72b0c4` `OLLYDBG`, `FindWindowA`,
+   `GetCurrentThread`; `\\.\RE...`). Decide whether that establishes intent, or whether it is
+   coincidence. This affects how the fix must be described (anti-cheat removal vs. bug fix).
+6. **NEW — already answered by the coordinator, please re-check it:** "is `0x1f4ee0` called
+   anywhere other than `0x1f4d48`?" An E8/xref scan found **exactly one call site
+   (`0x5f4d48`) and zero immediate references** to the function. The method cannot see a call
+   through a register or a run-time-computed address. If you can construct such a path — or
+   confirm none exists — that closes the last gap in the patch's justification.
 
-**Deliverable:** an explicit PASS/REFUTE on each of the four points, with the disassembly and
+**Deliverable:** an explicit PASS/REFUTE on each of the six points, with the disassembly and
 byte dumps you used. If any point is wrong, say so plainly — the patch's justification depends
 on this chain.
 
 ---
 
 # CLAUDE BRIEF 2 — `R-02` patch blast-radius audit
+
+> **STATUS: ANSWERED statically, 2026-11-13. This brief is retained for independent re-check,
+> not as outstanding work.**
+>
+> Findings (evidence: `docs/evidence/r02-fingerprint-cascade-verified.txt`):
+> - `0x1f4ee0` has **exactly one call site**, `0x5f4d48`, immediately before the patched
+>   branch. Zero immediate references to the function address anywhere in the image.
+> - The patched branch is the **sole consumer** of the return value: `cmp eax,-1` / `jle` /
+>   `cmp eax,ebp` / `je` / `cmp eax,5` / `jg` then report-and-shutdown.
+> - The global at `0x21428a4` is a "shutting down" flag, read only at `0x5f4da4`.
+> - The enclosing function's string references (`FindWindowA`/`OLLYDBG`,
+>   `Get`/`SetThreadContext`, `\\.\RE...`) identify it as debugger detection, so the timer
+>   check is one arm of the anti-tamper gate.
+>
+> Remaining ask: **try to break it.** The xref method used cannot see a call through a register
+> or a run-time-computed address. If such a path exists, the patch is incomplete and the game
+> can still self-terminate. Also worth checking: whether `0x1f4ee0` is reached more than once
+> in a session (a loop), which a single 29.7-minute soak cannot rule out.
 
 **Goal:** determine exactly what the 1-byte change affects.
 

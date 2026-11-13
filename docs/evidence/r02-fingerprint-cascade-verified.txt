@@ -110,3 +110,42 @@ side-by-side table in docs/CRASH-ANALYSIS.md section 1.1.
   a mid-session re-check could interact with the patch. `run-48`'s 29.7-minute soak produced no
   dialog and no unexpected exit, which is weak but real evidence against a periodic re-check
   firing - a re-check would have to be rare enough not to have triggered in half an hour.
+
+7. XREF ENUMERATION - THE CHECK IS CALLED FROM EXACTLY ONE PLACE
+------------------------------------------------------------------
+Question raised while writing this file: if 0x5f4ee0 were called from somewhere else, the
+patch would not cover that path and the game could still self-terminate through it.
+
+Method: scan .text for every E8 (call rel32) whose resolved destination is 0x5f4ee0, and
+separately scan the whole image for the 4-byte immediate 0x005f4ee0 (which would indicate the
+function being taken as a pointer, e.g. into a vtable or callback).
+
+    call sites for 0x5f4ee0 : 1
+        0x005f4d48   (file offset 0x53bd48, RVA 0x1f4d48)
+    immediate references    : 0
+
+So the checker has exactly ONE caller, and that caller is the instruction immediately before
+the patched branch:
+
+    0x005f4d48  call 0x5f4ee0
+    0x005f4d4d  cmp  eax, -1
+    0x005f4d50  jle  0x5f4da4      <-- PATCHED 7E -> EB
+
+Combined with the earlier finding that the site gates only report-and-shutdown versus
+continuing, this closes R-02 completely:
+
+  * one call site, covered by the patch
+  * no function-pointer escape that could bypass the patch
+  * the patched branch is the sole consumer of the return value
+  * the 1-byte change cannot affect anything else
+
+Residual caveat, stated plainly: this enumerates direct E8 calls and immediate operands. A
+call reached through a register (call eax) or through an import thunk loaded from memory would
+not be caught by this method. Given that the function's address appears nowhere as an
+immediate, that would require the address to be computed at run time, which no string or
+constant in the image suggests. Treated as very unlikely, not impossible.
+
+This also means the periodic-re-check concern in section 6 is narrower than feared: with one
+static call site and a check that runs at startup, a mid-session re-check would have to be
+this same call reached from a loop. run-48's 29.7 minutes with no dialog and no unexpected
+exit argues against that, but a loop with a long period is still not excluded by one soak.
