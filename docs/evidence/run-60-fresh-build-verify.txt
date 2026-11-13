@@ -1,0 +1,20 @@
+T+0 LAUNCH pid=13020
+T+0,8 CLICK Window
+T+22,2 game window hwnd=0x470A2A
+  SNAP 01-main-menu                 221440 bytes
+  >> DIK_DOWN -> Battle Mode
+  SNAP 02-battle-selected           706249 bytes
+  >> ENTER -> open Battle setup
+  SNAP 03-battle-setup              782321 bytes
+  >> F3 -> START match
+  SNAP 04-after-F3                  1402174 bytes
+  >> F3 -> again (may need Ready)
+  SNAP 05-after-F3b                 1313106 bytes
+  >> ENTER -> confirm any prompt
+  SNAP 06-after-enter               1363855 bytes
+
+ELAPSED 45,7s
+SK-Main alive ws=114,1MB threads=35
+=== teardown ===
+killing owned SK-Main 20756
+killing owned SK-Startup 13020

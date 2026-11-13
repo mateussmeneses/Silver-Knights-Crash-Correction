@@ -31,3 +31,9 @@ venv/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Patched game binaries. Derived from a copyrighted game which forbids redistribution;
+# see docs/DISTRIBUTION.md. Never commit these.
+build-patched/
+build-test/
+*.patched.exe
