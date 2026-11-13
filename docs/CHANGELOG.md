@@ -76,6 +76,35 @@ in the repository.
 - **3D map geometry renders**: a walled, textured arena with both mechs.
 - `SK-Main.exe` stayed alive throughout (106 MB, 35 threads), no error dialog.
 
+### Verified — audio (measured, not inferred)
+
+- `run-33` attached to the Windows default render endpoint via WASAPI
+  (`IAudioMeterInformation::GetPeakValue`) and sampled the endpoint peak while the game ran.
+- **Control:** idle with no game running → peak `0.00000`. The instrument is trustworthy.
+- **Menu BGM:** peak `0.04986`, **24/24 samples non-zero** — continuous, low-level signal,
+  exactly what looping background music looks like on a peak meter.
+- **In-match:** peak `1.00000`, 24/24 non-zero — the DirectSound8 path plus music bed.
+- Audio previously recorded as "loaded but unheard" is now **measured**.
+
+Not proven: MIDI specifically (`dmusic.dll` path), per-effect attribution, gain staging and
+clipping (a sustained 1.0 peak may indicate clipping), and anything a peak meter cannot see —
+distortion, channel swap, wrong pitch. This does **not** replace a human listening test.
+
+### Verified — effect comparison (partial)
+
+- `run-35` established a **negative** result that corrected an earlier plan: the Battle setup
+  screen does **not** apply post-processing (effects-off vs effects-on produced byte-identical
+  PNGs, 0/1228800 px). It is UI, not a rendered scene, and cannot serve as the comparison
+  surface.
+- `run-34`: replay recording via `F2` produced **no** `.rep` file, so the camera could not be
+  frozen.
+- `run-36` therefore used a burst of 4 frames per profile from the deterministic spawn pose.
+  Matched first-frame diff = **3.67 %**, concentrated in the upper 3D scene band (y61–372)
+  including a large arc-shaped region — not HUD-only. Effects-on burst file sizes cluster
+  tightly (1.35–1.40 MB) vs off (1.31–1.83 MB), the expected signature of smoothing.
+- **Not proven:** which effect causes which change (all six toggles flipped together), and
+  camera drift cannot be excluded without a replay.
+
 ### Verified — high-end renderer
 
 - Four effect profiles (`EFFECT_LEVEL` 1 → 3, HDR + depth-of-field, all effects including

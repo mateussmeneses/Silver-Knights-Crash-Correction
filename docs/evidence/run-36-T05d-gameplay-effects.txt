@@ -1,0 +1,75 @@
+
+##### off #####
+  ini: BLUR_2_5D=0 DEPTH_OF_FIELD=0 EFFECT_LEVEL=1 HDR_LIGHTING=0 MOTION_BLUR=0 OUTLINE=0
+  cap1 1375892 bytes
+  cap2 1828148 bytes
+  cap3 1643828 bytes
+  cap4 1311977 bytes
+
+##### on #####
+  ini: BLUR_2_5D=1 DEPTH_OF_FIELD=1 EFFECT_LEVEL=3 HDR_LIGHTING=1 MOTION_BLUR=1 OUTLINE=1 THICKNESS=1
+  cap1 1370643 bytes
+  cap2 1351016 bytes
+  cap3 1357640 bytes
+  cap4 1400958 bytes
+
+RESTORED SilverKnights.ini, verified byte-identical
+
+========================================================================
+ANALYSIS - what this does and does not establish
+========================================================================
+
+NEGATIVE RESULT FIRST (important, rules out an earlier assumption)
+  run-35 captured the Battle setup screen under effects-off vs effects-on and got
+  BYTE-IDENTICAL PNGs (same md5 bdc812c8..., 0/1228800 pixels changed).
+  Conclusion: the Battle setup screen does NOT apply post-processing. It is a UI screen
+  with a stage preview thumbnail, not a rendered 3D scene. Using it as the comparison
+  surface - the original plan for T-05c - was wrong. That is now known, not assumed.
+
+REPLAY RECORDING FAILED (run-34)
+  Pressing F2 and playing 20 s produced 0 .rep files in replay\. The exact in-match
+  precondition for recording was not identified, so a frozen camera could not be used.
+
+MITIGATION USED
+  Capture a burst of 4 frames per profile immediately after the "Battle Start" banner
+  clears, from the deterministic spawn camera pose, with NO movement input. The first
+  frame of each burst is the most comparable pair because the camera has had the least
+  time to drift.
+
+MEASUREMENTS
+  Burst file sizes (a proxy for scene complexity / entropy):
+    off:  1375892, 1828148, 1643828, 1311977   -> range 1.31-1.83 MB, WIDE spread
+    on :  1370643, 1351016, 1357640, 1400958   -> range 1.35-1.40 MB, TIGHT cluster
+  Effects-on frames are markedly more uniform in size. That is the expected signature
+  of stronger smoothing post-processing (blur/DoF/bloom reduce high-frequency detail
+  and therefore PNG entropy), but it is a PROXY, not proof.
+
+  Matched-frame pixel diff, off-1 vs on-1 (first frame after match start):
+    3.67% of pixels changed (45117/1228800)
+    changed rows concentrate in y61-372 - the upper 3D scene band - NOT the HUD strip
+    at y0-60 or the bottom dialogue band.
+
+  For contrast, off-4 vs on-4 (4th frame, camera may have drifted) differs by 31.6%,
+  which is consistent with camera movement rather than effects. This is exactly why the
+  first-frame pair is the one to read.
+
+VISUAL CHECK of diff-1.png
+  The diff is NOT confined to HUD digits. It includes a large curved magenta arc across
+  the upper 3D scene and scattered changes along the floor grid lines - i.e. changes in
+  rendered geometry/lighting, not just clock text. HUD differences present too (timer,
+  Danger warning), which are expected because the timer differs by design.
+
+VERDICT: PARTIAL - attributable difference on a matched frame, not a controlled proof
+  * PROVEN: the effects settings change the rendered image in the 3D scene region while
+    the camera is nominally identical (3.67%, upper-scene band, arc-shaped regions).
+  * NOT PROVEN: which effect causes which visual change. All six toggles were flipped
+    together, so this does not isolate HDR vs DoF vs outline vs motion blur.
+  * NOT PROVEN: that the result is free of camera drift. Without a replay the camera
+    could not be frozen, and 3.67% could partly be a small camera settle.
+  * The honest reading: this is strong evidence that the effect pipeline is active and
+    alters the scene, not a rigorous per-effect measurement.
+
+WHAT WOULD CLOSE IT
+  Either (a) find the in-match precondition that makes F2 record .rep files, or
+  (b) toggle ONE effect at a time across many runs and look for a consistent signature
+  in the upper-scene band. (b) is cheap and needs no replay.

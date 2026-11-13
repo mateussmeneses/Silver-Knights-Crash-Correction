@@ -1,0 +1,10 @@
+=== OPTION B: static matched comparison at the Battle setup screen ===
+Rationale: the Battle setup screen is a static rendered frame (3D stage preview).
+Capturing there gives an identical camera pose across effect profiles.
+
+##### A-effects-off #####
+  captured A-effects-off (851350 bytes)
+##### B-effects-on #####
+  captured B-effects-on (851350 bytes)
+
+RESTORED SilverKnights.ini, verified byte-identical

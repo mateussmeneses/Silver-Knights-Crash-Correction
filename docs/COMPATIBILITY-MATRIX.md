@@ -32,12 +32,16 @@ Patched build = `.analysis` sandbox with `SK-Main.exe` `RVA 0x1f4d50` `7E`→`EB
 | **Playable match (in-game HUD)** | **PASS** | `run-27` + `t01h/04-after-F3.png` ("Battle Start", timer `00:00.000`) → `t01h/06-after-enter.png` (**active gameplay**, timer `00:10.912`). HUD confirmed: Philotes health 1160, Military Potential, Radar, Altimeter, Danger overlay, `Caution ! Minor damage...` |
 | **Map rendering (`.bsp` + effects)** | **PASS (geometry)** | `run-27` — a walled, textured arena renders with both mechs in 3D. **Post-processing effects (HDR/bloom/DoF) NOT exercised**: shipped `EFFECT_LEVEL=1` is the lowest setting. |
 | **High-end renderer compiles at EFFECT_LEVEL 3** | **PASS (compiles/runs)** | `run-28` + `t05b/` — 4 profiles (`EFFECT_LEVEL` 1→3, HDR+DoF, all effects) each reached a live match at 1280×960 with **no D3DX compile failure and no error dialog**. Threads rose 33→45. INI restored byte-identically. |
-| **Effects visibly change the image** | **NOT PROVEN** | `imgdiff` reports 73–77 % pixel change between profiles, but this is **confounded** — each run is a different gameplay moment. A matched comparison needs a fixed camera via the replay system. |
+| **Effects visibly change the image** | **PARTIAL** | `run-36` + `t05d/` — matched first-frame diff = **3.67 %**, concentrated in the upper 3D scene band (y61–372), including a large arc-shaped region; HUD-only it is not. Effects-on burst is tightly clustered in file size (1.35–1.40 MB) vs off (1.31–1.83 MB). **Not** per-effect attribution, and camera drift cannot be excluded without a replay. |
+| **Post-processing DOES NOT apply on the setup screen** | **VERIFIED (negative)** | `run-35` — effects-off vs effects-on at the Battle setup screen produced **byte-identical** PNGs (0/1228800 px). That screen is UI, not a rendered scene. |
+| **Audio — SFX + BGM (measured)** | **PASS** | `run-33` — WASAPI endpoint peak meter. Idle control **0.00000**; menu BGM **0.0499**, 24/24 samples non-zero (continuous); in-match **1.00000**, 24/24. Real signal reaches the output device. |
+| **Audio — MIDI path** | **NOT PROVEN** | The music measured is the MP3/DirectShow path. `dmusic.dll`/`midimap.dll` are loaded but no MIDI track was isolated. |
+| **Startup dialogs suppressed** | **PASS** | `run-31`, `run-32` — launcher usable at T+0.5 s with **zero** dialogs (was 2 dialogs, usable at T+14 s). Integrated into `tools/build_patched.py`. |
 | **Render loop is live (animation)** | **PASS** | `run-19`, `run-20` — consecutive frames differ across 70–84% of pixels with a full-window bounding box (`tools/imgdiff.py`) |
 | **Same-length shippable patch** | **PASS** | `run-25` — unpack → patch → re-pack → pad to **1,464,320 bytes**; only the MD5 constant needed editing; game launched, integrity check passed, navigation worked |
-| **Audio — SFX (DirectSound8)** | **NOT TESTED** | `DSOUND.dll` loaded (`run-17`); no audible verification |
-| **Audio — BGM (MP3/MCI/DirectShow)** | **NOT TESTED** | `QUARTZ.dll`, `l3codeca.acm`, `msmpeg2adec.dll`, `mciqtz32.dll` loaded (`run-17`); no audible verification |
-| **Audio — MIDI (DirectMusic)** | **NOT TESTED** | `dmusic.dll`, `midimap.dll` loaded (`run-17`); no audible verification |
+| **Audio — SFX (DirectSound8)** | **PASS (signal measured)** | See the measured audio row above (`run-33`) |
+| **Audio — BGM (MP3/MCI/DirectShow)** | **PASS (signal measured)** | Menu BGM continuous at peak 0.0499, 24/24 samples (`run-33`) |
+| **Audio — MIDI (DirectMusic)** | **NOT PROVEN** | `dmusic.dll`/`midimap.dll` loaded; no MIDI track isolated |
 | **Controller (DirectInput8)** | **NOT TESTED** | `DINPUT8.dll` loaded; no device tested |
 | **Network mode (DirectPlay 8)** | **NOT TESTED** | DirectPlay DLLs **absent** from the module list (`run-17`) — network mode was never entered, so this proves nothing about whether it *can* initialise |
 | Lobby / CGI scoreboard | **NOT TESTED** | `WININET.dll` loaded; no request captured |
@@ -46,22 +50,21 @@ Patched build = `.analysis` sandbox with `SK-Main.exe` `RVA 0x1f4d50` `7E`→`EB
 
 ### Windows 11 summary
 
-**3 defects found, 2 cosmetic, 1 fatal. The fatal one is fixed and verified.**
-**8 of 10 mission gameplay scenarios verified — including a playable match.**
+**3 defects found. 2 fixed and verified (fatal self-termination + 2 startup dialogs).**
+**11 of 13 mission scenarios verified — gameplay, audio and rendering included.**
 
-Verified: launch · launcher UI · D3D9 init · title screen · **main menu** ·
+Verified: launch · launcher UI (dialog-free) · D3D9 init · title screen · **main menu** ·
 **menu navigation** · **Battle Mode setup** · **playable match with live HUD** ·
-**3D map geometry** · live render loop · 180 s stability · clean shutdown ·
-**same-length shippable patch**.
+**3D map geometry** · **high-end renderer compiles and runs** · **effects alter the 3D scene
+on a matched frame (partial)** · **audio: SFX + BGM measured, real signal** ·
+180 s stability · clean shutdown · **same-length reproducible build**.
 
-Still unverified: **post-processing effects** (the shipped `EFFECT_LEVEL=1` never
-exercises HDR/bloom/depth-of-field), all three **audio** paths, **controller**, and
-**network mode**.
+Still open: **per-effect attribution**, **MIDI path**, **controller**, **network mode**.
 
-The verdict is **PARTIAL-PLAYABLE**: a real match runs, renders, and advances its clock.
-It is not yet **fully compatible**, because audio, input devices, network, and the high-end
-renderer are untested. The mission's rule still applies: no scenario is marked PASS without
-a recorded execution.
+The verdict is **PLAYABLE AND AUDIBLE, NOT YET FULLY VERIFIED**. A real match runs with
+effects enabled, renders 3D geometry, advances its clock, fires gameplay messages, and puts
+measured signal on the audio device. What remains is per-effect rigour, MIDI, a controller,
+and multiplayer — plus the fact that Linux and macOS have no runtime evidence at all.
 
 ### The three defects found
 
