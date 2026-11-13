@@ -92,18 +92,66 @@ if($AttachToExisting){
     $gamePid = $m.Id
     Write-Host ("attached to pid={0} age={1:N0}s" -f $gamePid, ((Get-Date)-$m.StartTime).TotalSeconds)
 } else {
+    # The launcher shows two "Error Massage" dialogs (missing ProductId on Windows 11) and a
+    # "Window" button that starts the game. Without dismissing them the game never appears -
+    # this is why the first run of this tool died with "SK-Main not running".
+    Add-Type -TypeDefinition @'
+using System;
+using System.Text;
+using System.Runtime.InteropServices;
+public class WinProbe {
+    public delegate bool EnumProc(IntPtr h, IntPtr p);
+    [DllImport("user32.dll")] public static extern bool EnumWindows(EnumProc cb, IntPtr p);
+    [DllImport("user32.dll")] public static extern bool EnumChildWindows(IntPtr h, EnumProc cb, IntPtr p);
+    [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern int GetWindowTextW(IntPtr h, StringBuilder s, int n);
+    [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern int GetClassNameW(IntPtr h, StringBuilder s, int n);
+    [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr h, out uint pid);
+    [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern IntPtr SendMessageW(IntPtr h, uint m, IntPtr w, IntPtr l);
+    public static string T(IntPtr h){ var s=new StringBuilder(512); GetWindowTextW(h,s,512); return s.ToString(); }
+    public static string C(IntPtr h){ var s=new StringBuilder(256); GetClassNameW(h,s,256); return s.ToString(); }
+}
+'@
+    function Get-Wins([int]$procId){
+        $r = New-Object System.Collections.ArrayList
+        [WinProbe]::EnumWindows({param($h,$z) $o=0;[void][WinProbe]::GetWindowThreadProcessId($h,[ref]$o)
+            if($o -eq $procId){[void]$r.Add([pscustomobject]@{H=$h;Cls=[WinProbe]::C($h);Text=[WinProbe]::T($h)})}
+            return $true},[IntPtr]::Zero) | Out-Null
+        return $r
+    }
+    function Get-Kids([IntPtr]$h){
+        $r = New-Object System.Collections.ArrayList
+        [WinProbe]::EnumChildWindows($h,{param($c,$z) [void]$r.Add([pscustomobject]@{H=$c;Cls=[WinProbe]::C($c);Text=[WinProbe]::T($c)}); return $true},[IntPtr]::Zero) | Out-Null
+        return $r
+    }
+
     $psi = New-Object System.Diagnostics.ProcessStartInfo
     $psi.FileName = Join-Path $WorkDir 'SK-Startup.exe'
     $psi.WorkingDirectory = $WorkDir
     $psi.UseShellExecute = $false
     $sp = New-Object System.Diagnostics.Process
     $sp.StartInfo = $psi
-    $script:SKStartedAt = Get-Date   # teardown ownership boundary
-[void]$sp.Start()
-    Write-Host "launched launcher"
-    Start-Sleep -Seconds 28
+    $script:SKStartedAt = (Get-Date).AddSeconds(-5)
+    [void]$sp.Start()
+    Write-Host "launched launcher - dismissing dialogs and pressing Window"
+
+    $t0 = Get-Date
+    $clicked = $false
+    while(((Get-Date)-$t0).TotalSeconds -lt 45){
+        Start-Sleep -Milliseconds 400
+        foreach($w in (Get-Wins $sp.Id)){
+            if($w.Text -eq 'Error Massage'){
+                $ok = (Get-Kids $w.H) | Where-Object { $_.Cls -eq 'Button' -and $_.Text -eq 'OK' } | Select-Object -First 1
+                if($ok){ [void][WinProbe]::SendMessageW($ok.H,0x00F5,[IntPtr]::Zero,[IntPtr]::Zero); Start-Sleep -Milliseconds 250 }
+            } elseif($w.Text -like 'SK Startup*' -and -not $clicked){
+                $b = (Get-Kids $w.H) | Where-Object { $_.Cls -eq 'Button' -and $_.Text -eq 'Window' } | Select-Object -First 1
+                if($b){ [void][WinProbe]::SendMessageW($b.H,0x00F5,[IntPtr]::Zero,[IntPtr]::Zero); $clicked = $true; Start-Sleep -Milliseconds 400 }
+            }
+        }
+        $mm = Get-Process -Name 'SK-Main' -ErrorAction SilentlyContinue
+        if($mm -and ((Get-Date)-$t0).TotalSeconds -gt 20){ break }
+    }
     $m = Get-Process -Name 'SK-Main' -ErrorAction SilentlyContinue | Select-Object -First 1
-    if(-not $m){ Write-Host "FATAL: SK-Main not running"; exit 1 }
+    if(-not $m){ Write-Host "FATAL: SK-Main not running (dialogs not dismissed?)"; exit 1 }
     $gamePid = $m.Id
     Write-Host "game pid=$gamePid"
 }

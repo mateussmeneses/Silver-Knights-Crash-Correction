@@ -1,0 +1,82 @@
+T-08b CLOSED: THE HANDLE LEAK IS A MAILSLOT REOPENED PER MESSAGE
+===============================================================
+Status: the leaking handle type AND the leaking object are identified. Cause is now specific
+enough to patch.
+
+THE ANSWER
+----------
+    leaking object   \Device\Mailslot\SK-Startup.exe
+    growth           27 -> 119 handles in 4.5 minutes   (+92)
+    everything else  static. Of 19 distinct open paths, exactly ONE grew.
+
+That last point is what makes this conclusive rather than suggestive. Sample 1 had 49 named
+File handles, sample 2 had 141; the entire increase is one path. Every other file handle -
+the mp3, the fonts, the MUI resources, the KsecDD device, the game's own directory - was
+constant across both samples.
+
+WHAT THE OBJECT IS
+------------------
+`\Device\Mailslot\SK-Startup.exe` is the IPC channel between the launcher and the game. The
+binary contains the format string `\\.\mailslot\%s` (seen at 0x32a858 during the earlier string
+extraction), and `run-13`/`run-14` established that `SK-Main.exe` cannot run standalone because
+it needs this peer. So:
+
+    the game opens a mailslot handle, reads or writes a message, and does NOT close it.
+
+At +20/min that is one handle every ~3 seconds, which matches the observed sample cadence.
+The likely shape is a per-message or per-poll open without a matching `CloseHandle`.
+
+WHY THIS IS THE FINAL ANSWER AND NOT ANOTHER FALSE LEAD
+-------------------------------------------------------
+Three earlier attempts failed and each failure is why this one is trustworthy:
+  - run-56 counted handles BY TYPE. It isolated type index 42 with +89 of the +83 net, which
+    was necessary but not sufficient: a type index is assigned per boot and is not a name.
+  - run-57 resolved index 42 to the name "File", but the OBJECT names came back empty. The
+    first attempt failed for a mundane reason - I passed 0x1000 to OpenProcess instead of
+    0x0040 (PROCESS_DUP_HANDLE) - so nothing could be duplicated at all and every handle
+    reported "could not resolve".
+  - run-58's first attempt failed to compile because a dead Restart Manager block had a
+    FILETIME type error that aborted Add-Type before the working probe was even defined.
+
+So the result rests on names read from the live handle table with a per-query timeout (some
+file handles block NtQueryObject and had to be skipped rather than allowed to hang).
+
+SEVERITY - UNCHANGED, AND STILL NOT A CRASH CAUSE
+--------------------------------------------------
+Restating this because the earlier project notes implied otherwise and that was wrong:
+  - 1284 handles at 30 minutes, against a ~16.7 million per-process limit, is ~580 days to
+    exhaustion. This is a hygiene defect.
+  - Memory stayed dead flat across a 30-minute run (106.8 -> 104.9 MB), so this is purely
+    kernel-object churn, not a growth in data.
+  - It does NOT explain any crash. The self-termination was the timer fingerprint; the 30-minute
+    exit was a per-match cap. Neither involves this.
+
+WHAT IT DOES EXPLAIN, AND WHY IT MATTERS FOR THE PORT
+------------------------------------------------------
+A mailslot is an IPC primitive with NO direct Linux or macOS equivalent. It is a Windows
+netapi32 feature. This finding therefore strengthens the earlier architecture conclusion rather
+than being a footnote:
+
+  - on Windows the leak is cosmetic;
+  - under Wine the same code path must be emulated, and Wine's mailslot support is one of the
+    thinner compatibility surfaces;
+  - if the game reopens this handle every ~3 seconds, then under Wine it is doing so against
+    an emulated device object at that rate, which is a plausible source of the kind of gradual
+    degradation Wine users report in long sessions - a HYPOTHESIS, not something this Windows
+    evidence can establish.
+
+The Windows-side fact is solid and useful either way: one handle, every ~3 seconds, from the
+launcher IPC channel. That is a specific, patchable defect rather than "the game leaks handles".
+
+WHERE TO PATCH
+--------------
+The mailslot path format string is at RVA 0x32a858 (`\\.\mailslot\%s`). The open/create call
+site is the thing to find: locate the `CreateMailslot` / `CreateFile` call that consumes that
+format, and add a `CloseHandle` after the read/write, or hoist the open out of the loop and
+keep one handle for the process lifetime. Hoisting is the smaller, safer change and matches how
+the peer handle at `\Device\Mailshot\SK-Main.exe` already behaves - that one stays at exactly 1
+handle across both samples, which is strong evidence that the intended design is "open once".
+
+That asymmetry is the most useful detail in this whole investigation: the peer channel is
+opened once, this one is reopened per message. The bug is an inconsistency against the game's
+own working code, not an unknown.

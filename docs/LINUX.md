@@ -45,7 +45,7 @@ From verified imports and runtime observation:
 | Network (lobby) | `WININET` HTTP to a dead 2000s CGI host | Degrades or hangs; unverified |
 | Text input | **IME** (`ImmGetContext`) | Japanese input via Wine IME |
 | Filesystem | Relative paths, ANSI names, case-insensitive | Case sensitivity is a real risk |
-| Process model | `SK-Startup.exe` → mailslot → `SK-Main.exe` | Wine implements mailslots |
+| Process model | `SK-Startup.exe` → mailslot → `SK-Main.exe` | Wine implements mailslots, but see the reopen issue below |
 
 ### The decisive constraint
 
@@ -290,6 +290,7 @@ it is the most pinnable and the most auditable. Proton is the fallback if its bu
 | 7 | 8-button joystick mapping | **HYPOTHESIS** | Degraded input |
 | 8 | IME/Japanese font (`MS Gothic`) unavailable | **HYPOTHESIS** | Untranslated text or tofu glyphs |
 | 9 | `1033.ini` missing → locale fallback undefined | **VERIFIED absent** | Possibly unreadable UI on non-JP locale |
+| 10 | **Mailslot handle reopened every ~3 s** | **VERIFIED on Windows** (`run-58`) | Degraded over time under Wine. On Windows it is harmless (~580 days to exhaustion); under Wine it drives the emulated mailslot device at 20 opens/min for the whole session, which is a plausible cause of gradual long-session degradation — **HYPOTHESIS**, not established. Mailslots have no native Linux/macOS equivalent, so this is the one IPC dependency with no clean translation target. |
 
 Item 9 deserves emphasis: the repository ships **only** `1041.ini` (Japanese). On a Linux
 system with a non-Japanese locale, the game's `%d.ini` lookup for the system language code

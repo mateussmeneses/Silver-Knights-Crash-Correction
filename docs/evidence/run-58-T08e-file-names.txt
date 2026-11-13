@@ -1,0 +1,49 @@
+probes compiled OK
+launched - dismissing dialogs
+game pid=7568  - sampling open files twice
+
+=== SAMPLE 1: 49 named File handle(s) ===
+    x27   \Device\Mailslot\SK-Startup.exe
+    x3    \Device\KsecDD
+    x2    \Device\HarddiskVolume3\Users\Mateus\AppData\Local\hermes\cache\scratch\sk-sandbox5\mp3\title.mp3
+    x2    \Device\000000ca
+    x1    \Device\MMCSS
+    x1    \Device\HarddiskVolume3\Windows\Fonts\StaticCache.dat
+    x1    \Device\HarddiskVolume3\Program Files\WindowsApps\Microsoft.LanguageExperiencePackpt-BR_26100.183.275.0_neutral__8wekyb3d8bbwe\Windows\System32\pt-BR\f99c3d98393226c5f5bdab070d889cc2\MMDevAPI.dll.mui
+    x1    \Device\HarddiskVolume3\Users\Mateus\AppData\Local\hermes\cache\scratch\sk-sandbox5
+    x1    \Device\HarddiskVolume3\Program Files\WindowsApps\Microsoft.LanguageExperiencePackpt-BR_26100.183.275.0_neutral__8wekyb3d8bbwe\Windows\System32\pt-BR\17e7113a56f3171dc40844c9d3ee9e47\l3codeca.acm.mui
+    x1    \Device\HarddiskVolume3\Program Files\WindowsApps\Microsoft.LanguageExperiencePackpt-BR_26100.183.275.0_neutral__8wekyb3d8bbwe\Windows\System32\pt-BR\81abff1f665315504ea35e9d0912674b\wdmaud.drv.mui
+    x1    \Device\HarddiskVolume3\Program Files\WindowsApps\Microsoft.LanguageExperiencePackpt-BR_26100.183.275.0_neutral__8wekyb3d8bbwe\Windows\System32\pt-BR\8836c193640d589410b5cc3dbe67e146\msacm32.dll.mui
+    x1    \Device\CNG
+    x1    \Device\Mailslot\SK-Main.exe
+    x1    \Device\HarddiskVolume3\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_5.82.26100.8521_none_cf9e08b68ea73d80
+    x1    \Device\DeviceApi
+    ... 4 more distinct paths
+distinct paths: 19
+
+=== SAMPLE 2: 141 named File handle(s) ===
+    x119  \Device\Mailslot\SK-Startup.exe
+    x3    \Device\KsecDD
+    x2    \Device\HarddiskVolume3\Users\Mateus\AppData\Local\hermes\cache\scratch\sk-sandbox5\mp3\title.mp3
+    x2    \Device\000000ca
+    x1    \Device\MMCSS
+    x1    \Device\HarddiskVolume3\Windows\Fonts\StaticCache.dat
+    x1    \Device\HarddiskVolume3\Program Files\WindowsApps\Microsoft.LanguageExperiencePackpt-BR_26100.183.275.0_neutral__8wekyb3d8bbwe\Windows\System32\pt-BR\f99c3d98393226c5f5bdab070d889cc2\MMDevAPI.dll.mui
+    x1    \Device\HarddiskVolume3\Users\Mateus\AppData\Local\hermes\cache\scratch\sk-sandbox5
+    x1    \Device\HarddiskVolume3\Program Files\WindowsApps\Microsoft.LanguageExperiencePackpt-BR_26100.183.275.0_neutral__8wekyb3d8bbwe\Windows\System32\pt-BR\17e7113a56f3171dc40844c9d3ee9e47\l3codeca.acm.mui
+    x1    \Device\HarddiskVolume3\Program Files\WindowsApps\Microsoft.LanguageExperiencePackpt-BR_26100.183.275.0_neutral__8wekyb3d8bbwe\Windows\System32\pt-BR\81abff1f665315504ea35e9d0912674b\wdmaud.drv.mui
+    x1    \Device\HarddiskVolume3\Program Files\WindowsApps\Microsoft.LanguageExperiencePackpt-BR_26100.183.275.0_neutral__8wekyb3d8bbwe\Windows\System32\pt-BR\8836c193640d589410b5cc3dbe67e146\msacm32.dll.mui
+    x1    \Device\CNG
+    x1    \Device\Mailslot\SK-Main.exe
+    x1    \Device\HarddiskVolume3\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_5.82.26100.8521_none_cf9e08b68ea73d80
+    x1    \Device\DeviceApi
+    ... 4 more distinct paths
+distinct paths: 19
+
+=== GROWTH PER PATH ===
+      27 ->  119   \Device\Mailslot\SK-Startup.exe
+totals: 49 -> 141 named File handles
+
+=== teardown ===
+killing SK-Main 7568
+killing SK-Startup 28824
