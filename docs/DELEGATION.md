@@ -270,12 +270,97 @@ them.
 
 ---
 
+# CODEX BRIEF 4 — `T-11b` locate and characterise the 1800-second session cap
+
+**Branch:** `codex/t11b-session-cap`
+**Prerequisite:** read `docs/evidence/run-48-analysis.txt` and
+`docs/evidence/t11-time-cap-search-analysis.txt` first. Both save you hours.
+
+**Established facts (do not re-derive)**
+
+- The game self-terminates at **exactly 1800.067 s** in a live match, writing a clean
+  `SK-Main.exe End` line. No dialog, no WER event. `run-48`.
+- There is **no `1800000` ms immediate** and no `1800.0` float/double anywhere in the image.
+  So the cap is almost certainly a timestamp difference against a computed or stored limit.
+- `SilverKnights.ini` (17 sections) and `1041.ini` expose **no** time, duration, round or
+  match-limit key. The value is compiled in.
+- Open question: is the cap **per-match** or **per-process-age**? `run-53` is running to
+  settle it by idling in the menu. **Check its result before you start** - it may already
+  answer your question and you would then only need the static side.
+
+**What to do**
+
+1. Read `run-53`'s verdict. It is only valid if the log shows a **matched `Start`/`End`
+  pair**. A `Start` with no `End` means the process was killed and the run is void.
+2. Find the shutdown routine `0x5fd640` (called from the anti-hook path) and enumerate its
+   callers. One of them should be guarded by a time comparison. That is the cap site.
+3. Do **not** byte-search for constants. That was already tried and produced only
+   misaligned-decode false positives.
+4. Once located, answer: does the cap read a stored variable that could be patched, or is it
+   a bare immediate comparison? Report the address, the encoding, and whether a same-length
+   patch is possible (the project requires same-length patches for the launcher's MD5/size
+   integrity check - see `tools/build_patched.py`).
+
+**Acceptance criteria**
+
+- Named code address for the cap comparison, with disassembly.
+- Explicit statement of per-match vs per-process-age, backed by a valid `run-53` log pair.
+- If a patch is proposed: same length, no new imports, and a documented reason plus expected
+  behaviour. Do **not** apply it to a tracked binary; the original must stay byte-identical.
+
+**Do not:** kill game processes by name (see `tools/lib-teardown.ps1` - this mistake already
+invalidated two experiments), and do not run this concurrently with another game harness.
+
+---
+
+# CODEX BRIEF 5 — `T-07b` human-assisted network probe
+
+**Branch:** `codex/t07b-network-human`
+**Prerequisite:** `run-37`/`38`/`39`.
+
+**Why a human is needed.** Network Mode is reachable and stable - the screen renders
+"Enter your name. (12 Letters Max)" and the process stays healthy. But the name field accepts
+**neither** `SendInput` scancodes **nor** `PostMessage(WM_CHAR)`. The binary imports no
+`GetKeyboardState`/`ToAscii`/`ToUnicode`/`MapVirtualKey`/`GetAsyncKeyState`, so it almost
+certainly reads characters from its own DirectInput poll and renders the field itself. Three
+automation attempts failed; stop trying to automate it and use a person.
+
+**Procedure (about two minutes of human time)**
+
+1. Launch, navigate to Network Mode, and **type a name by hand** at the keyboard.
+2. While the name-entry screen is up, capture the module list from a **32-bit** PowerShell
+   (`probe-32bit-modules.ps1` shows the pattern; 64-bit cannot see WOW64 modules).
+3. Record whether `dpnet.dll`, `dplayx.dll`, `dpwsockx.dll`, `ws2_32.dll` load.
+4. Advance past the name and screenshot whatever appears (lobby, host/join, error).
+5. If a lobby appears, attempt to host a session and record the result.
+
+**Acceptance criteria**
+
+- Definitive answer to "does `IDirectPlay8Peer` initialise on Windows 11 build 26300?"
+- Either a named failure point with the verbatim dialog text, or evidence of a working lobby.
+- Module list captured **before and after** the name is accepted, so the load is attributable.
+
+**Why this matters beyond Windows.** DirectPlay 8 is unimplemented in Wine. If it fails here,
+network play is dead on every platform and the mission's "preserve network functionality"
+objective needs a replacement transport (a much larger project). If it works here, the Linux
+question becomes "can Wine be given a working DirectPlay", which is a different problem. Either
+answer is valuable; do not leave it unknown.
+
+---
+
 # Sequencing rules
 
+0. **Never run two game harnesses at once.** `tools/lib-teardown.ps1` exists because this
+   destroyed a 33-minute experiment twice and fabricated a false verdict. If a harness needs
+   to refuse rather than proceed, let it throw. Any long runtime experiment (T-11, soaks)
+   must be the only thing touching the game for its whole duration.
 1. `codex/t01b-gameplay` first — nothing on Linux or macOS is meaningful without a playable
    Windows reference.
-2. `R-01` and `R-02` may run in parallel with T-01b; they are read-only.
+2. `R-01` and `R-02` may run in parallel with T-01b; they are read-only. `R-02` is answered;
+   only an adversarial re-check remains.
 3. `codex/t03-startup-registry` and `codex/t04-audio` are independent and may run in parallel.
 4. `R-03` gates any decision to touch `SKGuard.dll`.
 5. Linux (`T-10`…`T-15`) starts only after a playable match exists.
 6. macOS starts only after Linux `T-13` (D3DX under DXVK) has an answer.
+7. `T-07b` needs a human at the keyboard. Schedule it when one is available; it cannot be
+   automated and should not block other work.
