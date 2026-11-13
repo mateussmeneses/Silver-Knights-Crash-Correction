@@ -119,11 +119,23 @@ Recorded for the baseline. This is the reference against which the fix was measu
 | Input — keyboard | **NOT TESTED** |
 | Input — controller | **NOT TESTED** |
 | Network mode (DirectPlay 8) | **NOT TESTED** — expected **BLOCKED** (Wine does not implement DirectPlay 8) |
-| Filesystem / case sensitivity | **NOT TESTED** |
+| Filesystem / case sensitivity | **INVESTIGATING** — 12 case mismatches proven statically (`run-29`); consequence untested. `Shaft.bsp`/`.wad` is the biggest risk. |
 | Shutdown | **NOT TESTED** |
 | Reproducible prefix script | **NOT TESTED** |
 
 Wine version, Proton version, graphics layer, audio backend, driver: **undetermined**.
+
+### Why nothing is PASS or FAIL here
+
+There is no Linux host available to this session: WSL contains only a `docker-desktop` distro
+with the Docker daemon stopped, there are no Hyper-V VMs, and no Linux image is present.
+WSL2's Vulkan is `dzn` (Vulkan-on-D3D12), not a real Vulkan driver, so Wine+DXVK there would
+not represent Linux — producing a result that *looks* like evidence without being evidence.
+
+**The case-sensitivity row is the exception** because it was answerable statically: 645 literal
+asset references from the binary were resolved case-sensitively against 1595 files on disk, and
+12 differ by case only. The *risk* is proven; the *consequence* (crash vs. degrade vs. fallback)
+still requires execution.
 
 ---
 
@@ -165,8 +177,9 @@ Ranked by how much of the project they threaten.
 | 6 | DirectShow/MCI MP3 | **VERIFIED runtime** | works (verified load) | at risk | at risk |
 | 7 | DirectMusic MIDI | **VERIFIED runtime** | works (verified load) | at risk | at risk |
 | 8 | IME / `MS Gothic` font | **VERIFIED import** | works | at risk | at risk |
-| 9 | Case sensitivity | **HYPOTHESIS** | n/a | at risk | at risk |
+| 9 | Case sensitivity | **VERIFIED risk** | n/a | **12 proven mismatches** (`run-29`); consequence untested | at risk — same audit needed on APFS |
 | 10 | 32-bit on modern macOS | **VERIFIED (platform)** | n/a | n/a | hard constraint |
+| 11 | Five undeclared mech mesh sets (Joker, Kaede, Maikaze, Siegfried + 1) | **VERIFIED content gap** | same everywhere — **not a porting defect** | same | same |
 
 ---
 

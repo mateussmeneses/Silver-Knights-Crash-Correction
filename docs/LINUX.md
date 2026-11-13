@@ -9,6 +9,25 @@ compatibility. It is a *porting assessment* derived from the verified binary fac
 Per project rules, this platform must not be labelled compatible without recorded
 execution evidence, and no such evidence exists yet.
 
+### Why nothing was executed here
+
+The coordinating machine is Windows 11 with no usable Linux target:
+
+- **WSL** has only a `docker-desktop` distro, and the Docker daemon is stopped.
+- **No Hyper-V VMs** exist and no Linux ISO/VHD is present.
+- Even if WSL were present, **WSL2's Vulkan is `dzn` (Vulkan-on-D3D12), not a real Vulkan
+  driver.** Running Wine+DXVK there would produce evidence that does not represent Linux
+  and would be worse than no evidence, because it would look like a result.
+
+Recording "could not test" is the correct outcome. Fabricating a Linux result from a WSL
+proxy would violate the mission's evidence rule.
+
+### What *was* determined statically
+
+One concrete Linux defect was found without needing a Linux host: **12 asset references
+differ from the on-disk filename only by letter case**, and will not resolve on ext4 or
+case-sensitive APFS. See §L-6. That is a proven risk with an unproven consequence.
+
 ---
 
 ## 1. What the target actually requires
@@ -156,21 +175,55 @@ Game Controls.
 
 ### L-6 — Filesystem / case sensitivity
 
-The engine opens `bsp\`, `mesh\`, `png\`, `logo\`, `se\`, `midi\`, `mp3\` as literal
-lowercase relative paths, and also references `SKY16.bmp`, `INFINITY_OF_BASE_A.png`,
-`AUDIOSES`-style mixed-case names. On a case-sensitive filesystem a mismatch is fatal.
+**This one has already been audited statically, and a real risk was found.** See
+`docs/evidence/run-29-case-audit.txt` and `tools/case_audit.py`.
 
-Test on a case-**sensitive** filesystem (ext4 is fine; btrfs with `casefold` is not a valid
-test). Then check:
+Method: every literal asset filename referenced by `SK-Main.exe` (645 references across
+`.x/.bmp/.png/.wav/.mid/.mp3/.ini/.rep/.bsp/.wad`) was resolved case-sensitively against the
+1595 files on disk. 553 matched exactly; **12 did not**, differing only by letter case:
 
-```bash
-# find assets referenced in mixed case that exist only in one casing
-grep -ri "\.bmp\|\.png\|\.wav\|\.x\b" --include=*.ini . | head
-```
+| Reference in binary | On disk |
+|---|---|
+| `blast.x` | `mesh/blast.X` |
+| `blast2.x` | `mesh/blast2.X` |
+| `bullet.x` | `mesh/icarus/bullet.X`, `mesh/thor/bullet.X` |
+| `force.x` | `mesh/force.X` |
+| `giga-bazooka.X` | `mesh/giga/giga-bazooka.x` ← **reverse direction** |
+| `mist.png` | `png/mist.PNG` |
+| `philo-gun-emb.X` | `mesh/philo/philo-gun-emb.x` ← **reverse direction** |
+| `philo-option.x` | `mesh/philo/philo-option.X` |
+| `shaft.bsp` | `bsp/Shaft.bsp` |
+| `shaft.wad` | `bsp/Shaft.wad` |
+| `smoke.x` | `mesh/smoke.X` |
+| `smoke2.x` | `mesh/smoke2.X` |
 
-**Pass:** all referenced assets resolve. If not, record every miss — a case-insensitive
-mount (`ciopfs`, or a `vfat`/`ntfs` loopback) is an acceptable documented workaround for
-preservation purposes, but it must be stated, not hidden.
+The casing direction is **inconsistent**, so a blanket rename in either direction is wrong —
+each name has to be decided individually.
+
+`Shaft.bsp` / `Shaft.wad` is the most serious pair: a `.bsp` that fails to open means the map
+cannot load at all. The rest are meshes and textures, where failure may be a missing model or
+an untextured surface instead of a crash.
+
+**Status: INVESTIGATING.** The risk is proven statically; the *consequence* is not. Whether the
+game crashes, degrades, or falls back must be observed on a case-sensitive filesystem. Calling
+it FAIL would overclaim; calling it NOT TESTED would understate a proven defect.
+
+**How to test:** run on ext4 (ext4 is fine; btrfs `casefold` is not a valid test), watch for
+file-open failures, and check specifically whether `Shaft` loads. Do **not** paper over it with a
+case-insensitive mount before recording the native behaviour — the mount is an acceptable
+documented workaround for preservation, but only after the failure is characterised.
+
+### A content gap that is NOT a porting defect
+
+The audit also found five character mesh sets referenced by the binary but absent from disk:
+`joker` (24 occurrences), `kaede` (22), `maikaze`/`mai1`, and `sieg`. `1041.ini` defines
+K01–K16 and a second tier K20–K26 (Siegfried, 楓, 闘龍, 舞風, 不知火, Joker), but only 15 mech
+directories ship.
+
+**This is a content gap in the original 0.13 release, not a compatibility bug.** It will behave
+identically on every platform. It is recorded here so a future engineer does not misdiagnose
+`missing kaede-body.X` as a Linux failure. What the game does when such a knight is selected is
+**NOT TESTED**.
 
 ### L-7 — Network mode
 

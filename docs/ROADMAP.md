@@ -89,7 +89,9 @@ R-03 gates any decision about `SKGuard.dll`.
 
 | ID | Task | Owner | Pass criterion |
 |---|---|---|---|
-| T-10 | Reproducible Wine prefix script | Codex | Script recreates the prefix from scratch; version-pinned; committed |
+| **T-10** | Reproducible Wine prefix script | Codex | Script recreates the prefix from scratch; version-pinned; committed |
+| **T-10a** | **Case-mismatch remediation plan** for the 12 verified references | Codex | A per-file decision table (12 known: `blast`/`blast2`/`bullet`/`force`/`giga-bazooka`/`mist`/`philo-gun-emb`/`philo-option`/`shaft.bsp`/`shaft.wad`/`smoke`/`smoke2`), with a documented reason for each direction |
+| **T-10b** | **Characterise the consequence** of each case mismatch on ext4 | Codex | For each: crash / missing model / untextured / silent fallback — one row each |
 | T-11 | L-1: launch under Wine | Codex | `SK-Main.exe Start` logged, 60 s survival |
 | T-12 | L-2: D3D9 via DXVK | Codex | Title art renders; DXVK HUD shows a D3D9 device |
 | T-13 | **L-3: D3DX effect compilation** | Codex | A `.bsp` scene renders with effects — **the critical unknown** |
