@@ -13,17 +13,22 @@ Silver Knights is © 2003–2012 **Haruo Teshima (TESHIMA)**. Its own `ReadMe-En
 > "Do not change any datas in this software without permission from the author."
 > "This software is still under development, so do not distribute or upload this software."
 
-Therefore **no game files are distributed here and no release zip is published**. Any binary
-artifacts are gitignored by design. Get the game from the author:
+To be precise about the current state, because it would be dishonest to imply otherwise: **the
+repository's base commit already contains the full game** (it was pushed before this analysis
+began, in a commit with no `.gitignore`). This project did not add those files and does not add
+more; everything committed since is analysis, tooling and documentation, and the game binaries are
+byte-identical to that base commit.
 
-- http://philotes.sv1.sp-land.net/
+No **Release** asset is published. A verified archive can be built locally with
+`tools/build_release.py`; whether to publish it is the repository owner's decision, and
+`docs/DISTRIBUTION.md` §0 lays out what that decision actually changes.
 
-What you will find here is a **patch tool** that you run against your own lawfully-obtained copy,
-plus the documentation and the evidence that the fix works. Screenshots are used under the
-author's explicit permission for introducing the game.
+The author's site (`philotes.sv1.sp-land.net`) **no longer resolves** as of November 2026. The
+Internet Archive holds snapshots through January 2026.
 
-If you hold the rights and want a redistribution published, that is your call to make — this
-project does not make it for you.
+What this project adds is a **patch tool** you run against your own copy, plus the documentation
+and the evidence that the fix works. Screenshots are used under the author's explicit permission
+for introducing the game.
 
 ---
 
@@ -47,7 +52,7 @@ The fix is **one byte**: `7E` → `EB` at `SK-Main.exe` RVA `0x1f4d50`.
 |---|---|
 | **[docs/SETUP-WINDOWS.md](docs/SETUP-WINDOWS.md)** | Install and patch, step by step (EN / PT) |
 | **[docs/HOW-TO-PLAY.md](docs/HOW-TO-PLAY.md)** | Tutorial: controls, movement modes, combat (EN / PT) |
-| **[docs/DISTRIBUTION.md](docs/DISTRIBUTION.md)** | Why no zip is released, and what a lawful release would need |
+| **[docs/DISTRIBUTION.md](docs/DISTRIBUTION.md)** | Licence status, and what publishing a release would change |
 | [docs/CRASH-ANALYSIS.md](docs/CRASH-ANALYSIS.md) | Full root cause, proven by disassembly |
 | [docs/COMPATIBILITY-MATRIX.md](docs/COMPATIBILITY-MATRIX.md) | What is verified, what is not |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Binary architecture, no source available |
@@ -115,17 +120,22 @@ Silver Knights é © 2003–2012 **Haruo Teshima (TESHIMA)**. O próprio `ReadMe
 > "Do not change any datas in this software without permission from the author."
 > "This software is still under development, so do not distribute or upload this software."
 
-Portanto **nenhum arquivo do jogo é distribuído aqui e nenhum zip de release é publicado**. Os
-artefatos binários são ignorados pelo git de propósito. Obtenha o jogo com o autor:
+Para ser preciso sobre o estado atual, porque seria desonesto insinuar o contrário: **o commit
+base do repositório já contém o jogo completo** (foi enviado antes desta análise começar, num
+commit sem `.gitignore`). Este projeto não adicionou esses arquivos e não adiciona mais; tudo o
+que foi commitado depois é análise, ferramental e documentação, e os binários do jogo são
+byte-idênticos ao commit base.
 
-- http://philotes.sv1.sp-land.net/
+Nenhum **asset de Release** é publicado. Um arquivo verificado pode ser gerado localmente com
+`tools/build_release.py`; publicá-lo ou não é decisão do dono do repositório, e o §0 de
+`docs/DISTRIBUTION.md` expõe o que essa decisão realmente muda.
 
-O que existe aqui é uma **ferramenta de patch** que você executa sobre a sua própria cópia obtida
-legalmente, mais a documentação e as evidências de que a correção funciona. As capturas de tela
-são usadas sob permissão explícita do autor para divulgar o jogo.
+O site do autor (`philotes.sv1.sp-land.net`) **não resolve mais** em novembro de 2026. O Internet
+Archive tem snapshots até janeiro de 2026.
 
-Se você detém os direitos e quer publicar uma redistribuição, essa decisão é sua — este projeto
-não a toma em seu nome.
+O que este projeto adiciona é uma **ferramenta de patch** que você roda sobre a sua própria cópia,
+mais a documentação e as evidências de que a correção funciona. As capturas de tela são usadas sob
+permissão explícita do autor para divulgar o jogo.
 
 ---
 

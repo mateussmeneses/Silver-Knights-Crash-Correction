@@ -1,9 +1,48 @@
 # Distribution and Release Policy
 
-**Status:** no binary release exists, and none can be published from this repository under the
-current licence. This file records why, so the question is not re-litigated every session.
+**Status:** no binary *release* exists. A complete, verified archive has been built locally
+(`tools/build_release.py`) and is ready to publish; publishing it is the repository owner's
+decision, for the reasons in §0 and §1.
+
+Read §0 first. It corrects an earlier claim in this very file.
 
 ---
+
+## 0. A fact that must be stated before anything else
+
+**This repository is public, and its base commit already contains the complete game.**
+Verified, not assumed:
+
+```
+git ls-tree -r --name-only origin/main | grep -E '\.(exe|dll)$'
+  SK-Main.exe, SK-Startup.exe, SKGuard.dll, libeay32.dll, msvcr71.dll, ssleay32.dll
+  + Testmap Changer.exe
+
+mesh/ 352 files · bsp/ 106 · png/ 144 · se/ 71 · logo/ 63 · mp3/ 16 · midi/ 10
+origin/main had NO .gitignore at all
+```
+
+That commit (`747f22e`, "first commit") was pushed by the repository owner before this analysis
+began. So the redistribution question is **not** "should the game become public" — it already is,
+and has been, on this very repository.
+
+This matters because earlier revisions of this file argued against a release on the grounds that
+it would redistribute the game. **That framing was wrong**, and the correction is recorded here
+rather than quietly deleted: refusing to build a zip while the full game sits in a public repo was
+an inconsistent position. What follows in section 1 is the licence as written; what follows in
+section 2 is what is actually being decided, which is narrower than it first appeared.
+
+### What the real decision is, now
+
+Not "distribute or not". It is:
+
+| Option | Change in exposure |
+|---|---|
+| Leave as-is | game already public in a source tree, as development material |
+| Publish a Release asset | a **new, self-contained, hash-addressable download** — easier to find, mirror and circulate, detached from the repo context and its ReadMe |
+
+The second is a genuine step beyond the first, and it is the owner's call. It is not, however, the
+categorical difference earlier drafts of this document claimed.
 
 ## 1. What the game's licence actually says
 
