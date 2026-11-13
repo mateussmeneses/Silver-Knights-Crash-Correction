@@ -166,29 +166,37 @@ Gitignored (must stay local):
 | 22 | Battle setup via Enter | Reached setup screen; Enter only moves slot focus | `run-26` |
 | 23 | **F3 to start the match** | **"Battle Start" → timer `00:10.912` → live HUD** | `run-27` |
 | 24 | High-effect profiles (4 runs) | **No D3DX compile failure at any setting**; 1280×960; threads 33→45; INI restored | `run-28` |
+| 25 | Static audit: case sensitivity | **12 case mismatches + 5 undeclared mechs** found without a Linux host | `run-29` |
+| 26 | T-03 startup dialogs suppressed | **Zero dialogs**; launcher usable T+0.5 s (was 2 dialogs, T+14 s) | `run-31`, `run-32` |
+| 27 | Replay recording via F2 | **FAILED** — no `.rep` produced; camera cannot be frozen | `run-34` |
+| 28 | Battle setup as effect surface | **NEGATIVE** — effects-off/on byte-identical; that screen is UI, not a scene | `run-35` |
+| 29 | Audio via WASAPI peak meter | **PASS** — idle 0.00000 (control), menu 0.0499 (24/24), match 1.00000 (24/24) | `run-33` |
+| 30 | Matched effect diff, gameplay | **PARTIAL** — 3.67 % in upper-scene band; per-effect attribution not isolated | `run-36` |
 
 ### Verified PASS
 
-Launch · launcher UI · D3D9 init · title screen · **main menu** · **menu navigation**
-(Story→Battle→Network→Battle) · **Battle Mode setup** · **playable match with live HUD**
-(timer advanced 10.9 s, mech took damage, `Caution ! Minor damage...` fired) · **3D map
-geometry** (walled textured arena, both mechs) · **high-end renderer compiles and runs**
-(`EFFECT_LEVEL` 1→3, HDR, DoF, 2.5D blur, outline, motion blur — no D3DX failure) · live
-render loop · 180 s stability · clean shutdown · **same-length shippable patch**.
+Launch · launcher UI (dialog-free) · D3D9 init · title screen · **main menu** · **menu
+navigation** · **Battle Mode setup** · **playable match with live HUD** · **3D map geometry** ·
+**high-end renderer compiles and runs** · **audio: SFX + BGM measured as real signal** ·
+180 s stability · clean shutdown · **same-length reproducible single-command build**.
 
 ### Verified FAIL
 
-Registry read (cosmetic) · UserID acquisition (cosmetic) · anti-cheat integrity (neutralised
-by design).
+Anti-cheat integrity (neutralised by design — documented behavioural change).
+
+### PARTIAL
+
+- **Effect comparison.** A matched first-frame diff shows 3.67 % change concentrated in the
+  3D scene band, but all six effect toggles were flipped together, so per-effect attribution
+  is not established, and camera drift cannot be excluded without a replay (which would not
+  record).
 
 ### NOT TESTED / NOT PROVEN
 
-- **Effects visibly change the image — NOT PROVEN.** `run-28` compared different gameplay
-  moments, so its 73–77 % pixel diff is confounded and proves nothing about effect
-  attribution. Needs a fixed-camera replay comparison (T-05c).
-- All three **audio** paths — loaded but unheard.
-- **Controller** · **network mode**.
-- Every **Linux** and **macOS** row.
+- **MIDI audio path** — the measured music is MP3/DirectShow. `dmusic.dll` loaded but silent
+  vs. unused is undetermined.
+- **Controller** · **network mode** · **lobby/CGI**.
+- Every **Linux** and **macOS** row (no host available).
 
 ---
 
@@ -196,36 +204,31 @@ by design).
 
 | # | Blocker | Severity | Owner |
 |---|---|---|---|
-| B-1 | **No matched effect comparison.** The high-end shaders compile and run, but whether each effect visibly changes the image is unconfirmed — the camera confound in `run-28` prevents attribution. | **High** | Codex (T-05c) |
-| B-2 | Root cause has not been independently reviewed. | High | Claude (R-01) |
-| B-3 | Patch blast radius unknown — does `0x1f4d50` gate anything besides the anti-hook verdict? | High | Claude (R-02) |
-| B-4 | **No Linux or macOS host.** Linux/macOS runtime work cannot proceed on this machine. Static Linux audit done; runtime is blocked on hardware. | **Blocking** | — needs the user |
-| B-5 | 12 case-mismatched asset references will fail on ext4/case-sensitive APFS; consequence uncharacterised. | High | Codex (T-10a/T-10b) |
-| B-6 | `SKGuard.dll` hook body not reversed; behaviour on Win11 unknown. | Medium | Claude (R-03) |
-| B-7 | Two cosmetic startup dialogs remain. | Medium | Codex (T-03) |
-| B-8 | All three audio paths loaded but unheard. | Medium | Codex (T-04) |
-| B-9 | DirectPlay 8 availability on Windows 11 unconfirmed; expected to block network play everywhere. | Medium | Claude (R-04) |
+| B-1 | **No Linux or macOS host.** Runtime testing on those platforms cannot proceed here. Static Linux audit is done; runtime is blocked on hardware. | **Blocking** | — needs the user |
+| B-2 | 12 case-mismatched asset references will fail on ext4/case-sensitive APFS; consequence uncharacterised. | High | Codex (T-10b) |
+| B-3 | Root cause has not been independently reviewed. | High | Claude (R-01) |
+| B-4 | Patch blast radius unknown — does `0x1f4d50` gate anything besides the anti-hook verdict? | High | Claude (R-02) |
+| B-5 | Per-effect attribution missing; camera drift not excluded. | Medium | Codex (T-05d) |
+| B-6 | MIDI path unverified. | Medium | Codex (T-04b) |
+| B-7 | `SKGuard.dll` hook body not reversed. | Medium | Claude (R-03) |
+| B-8 | DirectPlay 8 availability on Windows 11 unconfirmed; likely blocks network play everywhere. | Medium | Claude (R-04) |
 
 ---
 
 ## 6. Next task
 
-**Depends on what becomes available.**
+**Windows-only work, in priority order** (the user chose this track):
 
-**If a Linux host (or a real Linux VM with a GPU/Vulkan driver) can be provided:**
-run `T-11` → `T-13` from `docs/LINUX.md`. `T-13` (does the D3DX effect surface compile under
-DXVK?) is the single most important unknown in the whole project. Everything on the Linux and
-macOS roadmap is gated behind it. Also run `T-10b` to characterise the 12 case mismatches.
-
-**If it cannot, the highest-value work that stays on Windows is:**
-
-1. **T-05c — matched effect comparison via the replay system.** Turns "the shaders compile"
-   into "here is the exact expected picture", which is the only usable yardstick for a
-   translation layer. Use `replay\sk-%02d.rep` + `F2_REP_ON` to hold the camera fixed.
-2. **R-01/R-02 — independent review.** The fix's justification and blast radius should not
-   rest on one agent's analysis alone.
-3. **T-03 — remove the two startup dialogs**, and **T-04 — audio**. Both are small and
-   independent.
+1. **T-05d — per-effect attribution.** Toggle one effect at a time (6 profiles × several
+   runs) and look for a consistent signature in the upper-scene band (y61–372). Needs no
+   replay, and converts the current PARTIAL into real per-effect evidence.
+2. **T-04b — isolate the MIDI path.** Temporarily rename the `mp3\` set (or set
+   `MIDI=1 WAVE=0`) so any signal measured must come from `dmusic.dll`. Cheap and decisive.
+3. **T-10a — case-mismatch decision table.** Needs no Linux host; removes the largest known
+   Linux blocker on paper before any Linux run happens.
+4. **R-01 / R-02 — independent review** of the root cause and the patch's blast radius. These
+   should not rest on one agent's analysis.
+5. **T-06 controller**, then **T-07 network mode**.
 
 ---
 
@@ -233,11 +236,11 @@ macOS roadmap is gated behind it. Also run `T-10b` to characterise the 12 case m
 
 | Agent | Branch | Task |
 |---|---|---|
-| **Codex** | `codex/t05c-replay-reference` | Matched-camera effect comparison via `replay\` + `F2_REP_ON` |
-| **Codex** | `codex/t03-startup-registry` | Patch `SK-Startup.exe`'s `ProductId` read path to eliminate the two dialogs |
-| **Codex** | `codex/t04-audio` | Verify SFX / MP3 / MIDI audibly; PASS-FAIL-BLOCKED per path |
-| **Codex** | `codex/t10a-case-remediation` | Per-file case-mismatch decision table (needs no Linux host) |
-| **Claude** | n/a | R-01 independently reproduce the `0x1FF` arithmetic; R-02 enumerate what `0x1f4d50` gates; R-03 reverse the `SKGuard` hook body; R-05 challenge the strategy choice |
+| **Codex** | `codex/t05d-per-effect` | One effect at a time; attribute each to a scene-band signature |
+| **Codex** | `codex/t04b-midi` | Isolate the DirectMusic MIDI path by removing the MP3 path |
+| **Codex** | `codex/t10a-case-remediation` | Per-file case-mismatch decision table (no Linux host needed) |
+| **Claude** | n/a | R-01 reproduce the `0x1FF` arithmetic; R-02 enumerate what `0x1f4d50` gates; R-03 reverse the `SKGuard` hook body; R-05 challenge the strategy choice |
+| **Blocked** | — | Linux/macOS runtime (T-10…T-15, T-20…T-22) pending a host |
 
 File ownership is disjoint. No task modifies a tracked game binary.
 
