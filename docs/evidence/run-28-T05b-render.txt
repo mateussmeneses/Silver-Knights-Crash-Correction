@@ -1,0 +1,81 @@
+backed up INI to C:\Users\Mateus\AppData\Local\hermes\cache\scratch\sk-sandbox2\SilverKnights.ini.t05b-backup
+
+##### PROFILE 00-baseline-effectlevel-1 #####
+  settings: BLUR_2_5D=0 BODY_EFFECT=1 DEPTH_OF_FIELD=0 EFFECT_LEVEL=1 HDR_LIGHTING=0 MOTION_BLUR=0 OUTLINE=0
+  T+0 LAUNCH pid=32632
+  T+0,4 [Startup] DIALOG: RegQueryValueEx function failed.(REsult:2)
+  T+1,0 [Startup] DIALOG: Failed to acquire the user ID.
+  T+1,7 CLICK Window
+  SNAP 00-baseline-effectlevel-1-a.png 1606938 bytes
+  SNAP 00-baseline-effectlevel-1-b.png 1586506 bytes
+  elapsed 47,1s, ws=101,7MB, threads=33
+
+##### PROFILE 01-effectlevel-3 #####
+  settings: BLUR_2_5D=0 BODY_EFFECT=1 DEPTH_OF_FIELD=0 EFFECT_LEVEL=3 HDR_LIGHTING=0 MOTION_BLUR=0 OUTLINE=0
+  T+0 LAUNCH pid=22100
+  T+0,4 [Startup] DIALOG: RegQueryValueEx function failed.(REsult:2)
+  T+1,1 [Startup] DIALOG: Failed to acquire the user ID.
+  T+1,8 CLICK Window
+  SNAP 01-effectlevel-3-a.png 1302118 bytes
+  SNAP 01-effectlevel-3-b.png 1756371 bytes
+  elapsed 47,0s, ws=101,7MB, threads=33
+
+##### PROFILE 02-hdr-dof #####
+  settings: BLUR_2_5D=0 BODY_EFFECT=1 DEPTH_OF_FIELD=1 EFFECT_LEVEL=3 HDR_LIGHTING=1 MOTION_BLUR=0 OUTLINE=0
+  T+0 LAUNCH pid=18496
+  T+0,4 [Startup] DIALOG: RegQueryValueEx function failed.(REsult:2)
+  T+1,0 [Startup] DIALOG: Failed to acquire the user ID.
+  T+1,8 CLICK Window
+  SNAP 02-hdr-dof-a.png 1390950 bytes
+  SNAP 02-hdr-dof-b.png 1349384 bytes
+  elapsed 46,9s, ws=102,9MB, threads=45
+
+##### PROFILE 03-all-effects #####
+  settings: BLUR_2_5D=1 BODY_EFFECT=1 DEPTH_OF_FIELD=1 EFFECT_LEVEL=3 HDR_LIGHTING=1 MOTION_BLUR=1 OUTLINE=1 THICKNESS=1
+  T+0 LAUNCH pid=38900
+  T+0,4 [Startup] DIALOG: RegQueryValueEx function failed.(REsult:2)
+  T+1,0 [Startup] DIALOG: Failed to acquire the user ID.
+  T+1,7 CLICK Window
+  SNAP 03-all-effects-a.png 1364354 bytes
+  SNAP 03-all-effects-b.png 1416829 bytes
+  elapsed 46,8s, ws=102,7MB, threads=45
+
+RESTORED SilverKnights.ini from backup
+VERIFY: restored content is byte-identical to the shipped file
+images in C:\projetos\Silver-Knights-Crash-Correction\docs\evidence\t05b
+
+=== ANALYSIS (honest limits stated) ===
+
+VERIFIED
+  * All four effect profiles launched, reached a LIVE MATCH, and ran to completion.
+  * NO D3DX compile failure at any setting. No "Error Massage" dialog from SK-Main
+    in any profile.
+  * Render resolution: 1280x960 (RESOLUTION=4 -> 1280x960, confirmed by image size).
+  * Thread count rose from 33 (EFFECT_LEVEL=1) to 45 (effects enabled), consistent
+    with additional render work being scheduled.
+  * SilverKnights.ini was restored and verified byte-identical to the shipped file.
+  * The all-effects frame (03-all-effects-b.png) shows a full 3D scene: hex-tiled
+    green floor, curved wall with emissive yellow lights, player mech with specular
+    highlights, a distant target with an additive glow sprite, plus the complete HUD
+    (Philotes health, Military Potential pips, radar, altimeter, timer 00:11.712).
+
+  This is the important cross-platform signal: the high-end D3DX shader paths
+  COMPILE AND RUN on Windows. A translation layer that breaks them will now be
+  detectable against a working baseline.
+
+NOT PROVEN - stated explicitly
+  * "The effects visibly differ" is NOT established. tools/imgdiff.py reports
+    73-77% pixel change between profiles, but that number is CONFOUNDED: each run is
+    a different gameplay moment with a different camera position and different enemy
+    positions. Different frames of the same settings would also differ by that much.
+  * Therefore this run does NOT isolate the visual contribution of HDR/bloom/DoF/
+    outline/motion blur. A controlled comparison needs the SAME camera pose across
+    profiles, which requires either a fixed replay or a scripted camera hold.
+  * The vision inspection of the all-effects frame found no obvious cel outline and
+    no strong full-screen blur. That is suggestive but not conclusive, because with
+    one sample per profile there is no matched frame to compare against.
+
+NEXT if a matched comparison is wanted
+  Use the game's replay system (replay\sk-%02d.rep, F2_REP_ON / F2_REP_OFF,
+  "Silver Knights - Replay File") to replay one identical match under each effect
+  profile and capture at a fixed timestamp. That removes the camera confound.

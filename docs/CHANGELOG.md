@@ -60,7 +60,34 @@ in the repository.
   caches and editor noise. Analysis derivatives of the original executable must never be
   committed.
 
-### Fixed (experimentally validated, not yet shipped)
+### Fixed (navigation / harness, not game defects)
+
+- **Match would not start (navigation error, not a game defect).**
+  The Battle setup screen was reachable but inert because `Enter` only moves slot focus.
+  The start control is **`F3`**, from `1041.ini [FUNCTION] F3_START =F3 Start`.
+  Fix: press `F3` (scancode `0x3D`, non-extended). See `tools/t01h-start-match.ps1`.
+
+### Verified — playable match
+
+- A **live match runs**: "Battle Start" banner → timer advances `00:00.000` → `00:10.912`.
+- **Full HUD renders**: Philotes health 1160, Military Potential gauge, Radar, Altimeter,
+  `Danger` overlay, and the `Caution ! Minor damage...` message (which is
+  `SilverKnights.ini [MESSAGE] DAMAGE25` — so the damage system is live, not a static screen).
+- **3D map geometry renders**: a walled, textured arena with both mechs.
+- `SK-Main.exe` stayed alive throughout (106 MB, 35 threads), no error dialog.
+
+### Verified — high-end renderer
+
+- Four effect profiles (`EFFECT_LEVEL` 1 → 3, HDR + depth-of-field, all effects including
+  2.5D blur / outline / motion blur) each reached a **live 1280×960 match** with **no D3DX
+  compile failure and no error dialog**. Thread count rose 33 → 45 under full effects.
+- `SilverKnights.ini` was restored byte-identically after the sweep, verified by content
+  comparison.
+- **Not proven:** that each effect *visibly* changes the image. The pixel diff (73–77 %) is
+  confounded because each profile was a different gameplay moment. Needs a fixed-camera replay
+  comparison (T-05c).
+
+### Fixed (genuine binary defect)
 
 - **Windows 11 self-termination after ~8 seconds.** Cause: `SK-Main.exe` at RVA `0x1f4ee0`
   fingerprints the machine code of `winmm!timeGetTime` against a hard-coded Windows 9x/2000

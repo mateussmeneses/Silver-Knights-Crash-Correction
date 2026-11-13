@@ -165,24 +165,30 @@ Gitignored (must stay local):
 | 21 | Same-length re-packed build | **1,464,320 bytes, launched, integrity passed, navigated** | `run-25` |
 | 22 | Battle setup via Enter | Reached setup screen; Enter only moves slot focus | `run-26` |
 | 23 | **F3 to start the match** | **"Battle Start" → timer `00:10.912` → live HUD** | `run-27` |
+| 24 | High-effect profiles (4 runs) | **No D3DX compile failure at any setting**; 1280×960; threads 33→45; INI restored | `run-28` |
 
 ### Verified PASS
 
 Launch · launcher UI · D3D9 init · title screen · **main menu** · **menu navigation**
 (Story→Battle→Network→Battle) · **Battle Mode setup** · **playable match with live HUD**
 (timer advanced 10.9 s, mech took damage, `Caution ! Minor damage...` fired) · **3D map
-geometry** (walled textured arena, both mechs) · live render loop · 180 s stability · clean
-shutdown · **same-length shippable patch**.
+geometry** (walled textured arena, both mechs) · **high-end renderer compiles and runs**
+(`EFFECT_LEVEL` 1→3, HDR, DoF, 2.5D blur, outline, motion blur — no D3DX failure) · live
+render loop · 180 s stability · clean shutdown · **same-length shippable patch**.
 
 ### Verified FAIL
 
 Registry read (cosmetic) · UserID acquisition (cosmetic) · anti-cheat integrity (neutralised
 by design).
 
-### NOT TESTED
+### NOT TESTED / NOT PROVEN
 
-Post-processing effects at higher `EFFECT_LEVEL` · all audio · controller · network ·
-every Linux row · every macOS row.
+- **Effects visibly change the image — NOT PROVEN.** `run-28` compared different gameplay
+  moments, so its 73–77 % pixel diff is confounded and proves nothing about effect
+  attribution. Needs a fixed-camera replay comparison (T-05c).
+- All three **audio** paths — loaded but unheard.
+- **Controller** · **network mode**.
+- Every **Linux** and **macOS** row.
 
 ---
 
@@ -190,7 +196,7 @@ every Linux row · every macOS row.
 
 | # | Blocker | Severity | Owner |
 |---|---|---|---|
-| B-1 | **High-end renderer unexercised.** Shipped `EFFECT_LEVEL=1` never runs HDR/bloom/DoF/2.5D-blur/outline/motion-blur — the exact paths a translation layer breaks first. | **High** | Codex (T-05b) |
+| B-1 | **No matched effect comparison.** The high-end shaders compile and run, but whether each effect visibly changes the image is unconfirmed — the camera confound in `run-28` prevents attribution. | **High** | Codex (T-05c) |
 | B-2 | Root cause has not been independently reviewed. | High | Claude (R-01) |
 | B-3 | Patch blast radius unknown — does `0x1f4d50` gate anything besides the anti-hook verdict? | High | Claude (R-02) |
 | B-4 | `SKGuard.dll` hook body not reversed; behaviour on Win11 unknown. | Medium | Claude (R-03) |
@@ -203,20 +209,17 @@ every Linux row · every macOS row.
 
 ## 6. Next task
 
-**T-05b — exercise the high-end renderer and capture the visual reference.**
+**T-05c — matched effect comparison via the replay system.**
 
-Set `EFFECT_LEVEL` to its maximum in `SilverKnights.ini` (and enable `HDR_LIGHTING`,
-`DEPTH_OF_FIELD`, `BLUR_2_5D`, `OUTLINE`, `MOTION_BLUR` one at a time), start a match with
-`tools/t01h-start-match.ps1`, and capture the same view at each setting. Then restore the
-shipped values.
+The goal is one fixed camera pose captured under each effect profile, so any difference is
+attributable to the effect rather than to a different gameplay moment.
 
-**Why this is the next gate:** every cross-platform question reduces to "do the D3DX effect
-shaders compile and produce the same image?" On Windows they use the embedded D3DX9 compiler
-directly. On Linux (DXVK) and macOS (MoltenVK) they go through a translation layer that is
-most fragile exactly here. A verified high-effect reference on Windows is the yardstick.
+Approach: record or use an existing `replay\sk-%02d.rep`, enable `F2_REP_ON`, play it back to a
+fixed timestamp, pause or capture at that exact point, and repeat under each profile from
+`tools/t05b-render-reference.ps1`. Then `tools/imgdiff.py` gives a meaningful number.
 
-**T-05b is incomplete until the effect-on and effect-off frames differ visibly and no D3DX
-compile failure occurs.**
+**T-05c is incomplete until effect-on and effect-off differ in an attributable region on a
+matched frame.**
 
 ---
 
@@ -224,7 +227,7 @@ compile failure occurs.**
 
 | Agent | Branch | Task |
 |---|---|---|
-| **Codex** | `codex/t05b-render-reference` | Raise `EFFECT_LEVEL` and each effect toggle; capture the visual reference set |
+| **Codex** | `codex/t05c-replay-reference` | Matched-camera effect comparison via `replay\` + `F2_REP_ON` |
 | **Codex** | `codex/t03-startup-registry` | Patch `SK-Startup.exe`'s `ProductId` read path to eliminate the two dialogs |
 | **Codex** | `codex/t04-audio` | Verify SFX / MP3 / MIDI audibly; PASS-FAIL-BLOCKED per path |
 | **Claude** | n/a | R-01 independently reproduce the `0x1FF` arithmetic; R-02 enumerate what `0x1f4d50` gates; R-03 reverse the `SKGuard` hook body; R-05 challenge the strategy choice |

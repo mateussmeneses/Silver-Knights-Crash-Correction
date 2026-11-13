@@ -35,11 +35,31 @@ precompiled shaders; it compiles effect/HLSL source at runtime through the D3DX 
 that is statically linked into `SK-Main.exe`. Wine's `d3dx9` implementation is incomplete,
 and DXVK deliberately does **not** implement `d3dx9` (it implements `d3d9`, `d3d10`,
 `d3d11`, `dxgi`). A working runtime path therefore needs *both* DXVK *and* a functional
-`d3dx9` — either Wine's builtin, a native Microsoft `d3dx9_*.dll`, or a shim.
+`d3dx9` — either Wine's builtin, a native Microsoft `d3dx_*.dll`, or a shim.
 
 This is a materially harder requirement than for a D3D9 title with precompiled shaders,
 and it must be the first thing tested on Linux. If the D3DX effect compilation path fails,
-no amount of D3D9 translation helps. **HYPOTHESIS — untested.**
+no amount of D3D9 translation helps. **HYPOTHESIS — untested on Linux.**
+
+### What is now established on Windows (relevant to the above)
+
+`run-28` verified on Windows 11 that the high-end effect profiles **compile and run**: four
+profiles (`EFFECT_LEVEL` 1 → 3, HDR + depth-of-field, and all effects including 2.5D blur,
+outline and motion blur) each reached a live 1280×960 match with **no D3DX compile failure and
+no error dialog**, and thread count rose from 33 to 45.
+
+That is a *working baseline*, which is exactly what was missing. It means:
+
+- The shaders are real and they do compile through the embedded D3DX9 compiler on Windows.
+- A Linux failure at this stage is therefore a **translation-layer** failure, not a
+  misdiagnosis of the game.
+- Conversely, a Linux run that renders the *low*-effect path but fails at high effects
+  localises the problem precisely to the D3DX shader surface.
+
+Caveat, stated plainly: `run-28` did **not** prove the effects visibly change the image (its
+pixel diff was confounded by comparing different gameplay moments). So the Windows reference
+is "the shaders compile and the game runs", not "here is the exact expected picture". A
+matched-camera reference (T-05c) is still needed before claiming render parity.
 
 ---
 
