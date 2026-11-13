@@ -16,10 +16,17 @@ constant across both samples.
 
 WHAT THE OBJECT IS
 ------------------
-`\Device\Mailslot\SK-Startup.exe` is the IPC channel between the launcher and the game. The
-binary contains the format string `\\.\mailslot\%s` (seen at 0x32a858 during the earlier string
-extraction), and `run-13`/`run-14` established that `SK-Main.exe` cannot run standalone because
-it needs this peer. So:
+`\\Device\\Mailslot\\SK-Startup.exe` is the IPC channel between the launcher and the game.
+`SK-Main.exe` cannot run standalone because it needs this peer.
+
+CORRECTION (added after the code was disassembled - see t08c-mailslot-inverted-branch.txt):
+an earlier revision cited 0x32a858 as the mailslot format string. That address is a different
+literal (smoke2.x / smoke.x / force.x). The real mailslot format strings are at VA 0x729280
+(send channel, SK-Startup.exe) and VA 0x72a83c (receive channel, SK-Main.exe). The runtime
+finding here is unaffected - the handle NAMES came from the live handle table, not from a
+string address - but the citation was wrong and is corrected here.
+
+So:
 
     the game opens a mailslot handle, reads or writes a message, and does NOT close it.
 
@@ -68,14 +75,16 @@ than being a footnote:
 The Windows-side fact is solid and useful either way: one handle, every ~3 seconds, from the
 launcher IPC channel. That is a specific, patchable defect rather than "the game leaks handles".
 
-WHERE TO PATCH
---------------
-The mailslot path format string is at RVA 0x32a858 (`\\.\mailslot\%s`). The open/create call
-site is the thing to find: locate the `CreateMailslot` / `CreateFile` call that consumes that
-format, and add a `CloseHandle` after the read/write, or hoist the open out of the loop and
-keep one handle for the process lifetime. Hoisting is the smaller, safer change and matches how
-the peer handle at `\Device\Mailshot\SK-Main.exe` already behaves - that one stays at exactly 1
-handle across both samples, which is strong evidence that the intended design is "open once".
+WHERE TO PATCH (SUPERSEDED - see t08c-mailslot-inverted-branch.txt)
+--------------------------------------------------------------------
+This section originally proposed "hoist the open out of the loop". The disassembly shows
+that is not the defect and would be a larger change than necessary. The open-per-message is
+deliberate and cheap; the bug is that the CloseHandle at RVA 0x1d06ed is unreachable on the
+success path, because the jne at 0x1d06ea skips it. Fix that branch, not the open.
+
+Superseded reasoning, kept for audit: the peer handle at \Device\Mailslot\SK-Main.exe does
+stay at exactly 1 across both samples, which correctly indicated that the RECEIVE path is
+open-once - but the send path being open-per-message turned out to be by design.
 
 That asymmetry is the most useful detail in this whole investigation: the peer channel is
 opened once, this one is reopened per message. The bug is an inconsistency against the game's
