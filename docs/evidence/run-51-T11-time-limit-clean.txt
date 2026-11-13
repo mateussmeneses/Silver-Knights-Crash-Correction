@@ -1,0 +1,3 @@
+T+0 LAUNCH  (log had 41 lines)
+main menu is up - NO match started. Idling from here; no further input.
+

@@ -22,6 +22,14 @@
 | T-00.9 | Tooling and evidence | Done — 24 scripts, 25 execution records |
 | T-01 | Menu reachability + navigation | **DONE** — menu reached, navigation proven |
 | T-02 | Same-length shippable patch | **DONE** — `tools/build_patched.py`, validated |
+| T-03 | Launcher dialog suppression | **DONE** — 2 `MessageBox` sites NOPed, launcher usable at T+0.5 s |
+| T-04 | Audio verified at the device | **DONE** — WASAPI peak: idle 0.000 (control), menu 0.0499, in-match 1.0000 |
+| T-05b | High-end D3DX renderer | **DONE** — 4 effect profiles, no compile failure, 1280×960 live match |
+| T-05d | Effects visibility | **PARTIAL** — 3.67 % matched first-frame diff; per-effect attribution open |
+| T-07 | Network Mode | **BLOCKED (UI verified)** — screen renders and is stable; DirectPlay never loads because the name field rejects automated input |
+| T-08 | Long-run stability | **PARTIAL** — memory flat; handles leak ~+20/min (hygiene, not a crash cause) |
+| T-10a | Case-mismatch audit + renames | **DONE (audit) / NOT PROVEN (runtime)** — 12 → 0 mismatches; renames applied on `002-case-normalization`; Shaft map never loaded, so unverified at runtime |
+| T-11 | 30-minute termination | **VERIFIED mechanism** — clean `End` at exactly 1800.067 s; per-match vs per-process-age still open |
 
 ---
 
@@ -205,13 +213,15 @@ Anti-cheat integrity (neutralised by design — documented behavioural change).
 | # | Blocker | Severity | Owner |
 |---|---|---|---|
 | B-1 | **No Linux or macOS host.** Runtime testing on those platforms cannot proceed here. Static Linux audit is done; runtime is blocked on hardware. | **Blocking** | — needs the user |
-| B-2 | 12 case-mismatched asset references will fail on ext4/case-sensitive APFS; consequence uncharacterised. | High | Codex (T-10b) |
+| B-2 | Case-mismatched asset references: **audit resolved (12 → 0)**, renames applied on `002-case-normalization`, but the Shaft map was never loaded so runtime behaviour is unproven, and a control test showed a missing effect mesh fails **silently** rather than crashing. | Medium (was High) | Codex (T-10b) |
 | B-3 | Root cause has not been independently reviewed. | High | Claude (R-01) |
 | B-4 | Patch blast radius unknown — does `0x1f4d50` gate anything besides the anti-hook verdict? | High | Claude (R-02) |
 | B-5 | Per-effect attribution missing; camera drift not excluded. | Medium | Codex (T-05d) |
 | B-6 | MIDI path unverified. | Medium | Codex (T-04b) |
 | B-7 | `SKGuard.dll` hook body not reversed. | Medium | Claude (R-03) |
-| B-8 | DirectPlay 8 availability on Windows 11 unconfirmed; likely blocks network play everywhere. | Medium | Claude (R-04) |
+| B-8 | DirectPlay 8: binaries **confirmed present** in `SysWOW64`, but initialisation unproven because the network name field rejects all automated input (`SendInput` and `WM_CHAR`). Needs a human keystroke. | Medium | Codex (T-07b) |
+| B-9 | **30-min cap: per-match or per-process-age?** Decides whether the port needs a "restart every half hour" workaround or not. `run-51` is the deciding experiment. | Medium | Codex (T-11) |
+| B-10 | Handle leak type unidentified (leaks ~+20/min in **both** menu and match). Named as a hygiene defect, not a crash cause, but the call site is unknown. | Low | Codex (T-08b) |
 
 ---
 
@@ -219,16 +229,20 @@ Anti-cheat integrity (neutralised by design — documented behavioural change).
 
 **Windows-only work, in priority order** (the user chose this track):
 
-1. **T-05d — per-effect attribution.** Toggle one effect at a time (6 profiles × several
-   runs) and look for a consistent signature in the upper-scene band (y61–372). Needs no
-   replay, and converts the current PARTIAL into real per-effect evidence.
-2. **T-04b — isolate the MIDI path.** Temporarily rename the `mp3\` set (or set
-   `MIDI=1 WAVE=0`) so any signal measured must come from `dmusic.dll`. Cheap and decisive.
-3. **T-10a — case-mismatch decision table.** Needs no Linux host; removes the largest known
-   Linux blocker on paper before any Linux run happens.
-4. **R-01 / R-02 — independent review** of the root cause and the patch's blast radius. These
-   should not rest on one agent's analysis.
-5. **T-06 controller**, then **T-07 network mode**.
+1. **T-11 — finish the cap discrimination.** `run-51` idles in the menu for 33 min. If it
+   survives, the cap is per-match (benign). If it writes a matched `Start`/`End` pair, it is
+   per-process-age and the port needs a documented restart rule. **Do not** accept a verdict
+   that is not backed by a matched log pair — that mistake was already made once (`run-49`).
+2. **T-07b — network, human-assisted.** Type one name at the keyboard, then record whether
+   `dpnet.dll`/`dplayx.dll` load. Minutes of work, and it is the only way past the field.
+3. **T-05d — per-effect attribution.** One toggle at a time, several runs each, comparing the
+   upper-scene band (y61–372). Converts the current PARTIAL into per-effect evidence.
+4. **T-04b — isolate the MIDI path.** Rename the `mp3\` set (or `MIDI=1 WAVE=0`) so any
+   measured signal must come from `dmusic.dll`. Cheap and decisive.
+5. **R-01 / R-02 — independent review** of the root cause and the patch's blast radius.
+6. **T-08b — name the leaking handle type** using `tools/t08c-handle-diff.ps1 -AttachToExisting`.
+7. **T-10b — confirm the Shaft map loads** under the renamed tree, or reverse the stage-focus
+   model the way the F3 match-start key was reversed.
 
 ---
 
@@ -268,3 +282,26 @@ File ownership is disjoint. No task modifies a tracked game binary.
    author forbids distributing.
 10. **The title's licence forbids distribution.** Any packaging effort must be personal-use
     only.
+11. **`Get-Process -Name 'SK-Main' | Kill` in a teardown kills EVERY instance**, including one
+    another harness is sampling. This already destroyed a 33-minute experiment and produced a
+    false "the cap is per-process-age" verdict (`run-49`). Sample by **pid**, and make teardown
+    kill only the pid you launched.
+12. **A verdict must be derived from the log's `Start`/`End` pair, not from liveness.** A
+    self-termination writes both lines; a kill writes only `Start`. Checking "is the process
+    still running" cannot tell the two apart and has already produced one wrong conclusion.
+13. **Do not draw conclusions from a run shorter than its schedule.** A 33-minute experiment
+    that ends at 11 minutes has been interfered with; the duration is the tell.
+14. **PowerShell 5.1's `Add-Type` compiles C# 5.** `out int x` inline declarations and other
+    C# 7 syntax fail with a cryptic parse error in a temp `.cs` file. Declare the variable
+    first.
+15. **`Write-Output` inside a PowerShell function pollutes its return value.** A helper that
+    prints diagnostics and returns a collection returns both, and the collection is silently
+    gone. Use `Write-Host` for diagnostics.
+16. **The game's UI is game-rendered and DirectInput-polled.** Text fields and the stage
+    selector do **not** accept `SendInput`, `PostMessage(WM_CHAR)`, or synthetic clicks. Three
+    separate attempts to drive the stage selector failed. Do not budget automation time for
+    these; either drive them by hand or reverse the focus model first (as was done for the
+    `F3` match-start key).
+17. **A missing effect mesh fails silently.** Deleting `mesh/blast.x` produced no dialog and a
+    normally running match (`run-46`). Do not assume an asset failure will announce itself —
+    the likely Linux symptom is "effects are missing", not "the game will not start".
