@@ -1,0 +1,16 @@
+T+0 LAUNCH pid=35648
+name entry screen captured
+typing name: TestPilot
+name typed, screen captured
+
+=== dialogs after name entry ===
+=== modules ===
+    (none)
+
+=== modules after F3 ===
+    (none)
+alive ws=103,2MB threads=34
+
+=== teardown ===
+killing SK-Main 40568
+killing SK-Startup 35648

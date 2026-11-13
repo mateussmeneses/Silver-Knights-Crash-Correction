@@ -43,7 +43,8 @@ Patched build = `.analysis` sandbox with `SK-Main.exe` `RVA 0x1f4d50` `7E`→`EB
 | **Audio — BGM (MP3/MCI/DirectShow)** | **PASS (signal measured)** | Menu BGM continuous at peak 0.0499, 24/24 samples (`run-33`) |
 | **Audio — MIDI (DirectMusic)** | **NOT PROVEN** | `dmusic.dll`/`midimap.dll` loaded; no MIDI track isolated |
 | **Controller (DirectInput8)** | **NOT TESTED** | `DINPUT8.dll` loaded; no device tested |
-| **Network mode (DirectPlay 8)** | **NOT TESTED** | DirectPlay DLLs **absent** from the module list (`run-17`) — network mode was never entered, so this proves nothing about whether it *can* initialise |
+| **Network mode (DirectPlay 8)** | **BLOCKED (UI verified)** | `run-37/38/39` — Network Mode screen **reaches and renders** ("Enter your name. 12 Letters Max"), process survives (34 threads, 103 MB, no dialogs). **DirectPlay never loaded** (`dpnet.dll`/`dplayx.dll`/`ws2_32` absent) because the name field would not accept automated input: both `SendInput` scancodes and `WM_CHAR` left it blank. Transport layer therefore **untested**. |
+| **DirectPlay binaries present in SysWOW64** | **VERIFIED** | `run-37` — `dpnet.dll`, `dplayx.dll`, `dpwsockx.dll`, `dpnaddr.dll`, `dplaysvr.exe`, `dpnsvr.exe` all YES in SysWOW64. Contradicts the "DirectPlay is missing on Windows 11" assumption for this install. Optional-feature state unqueryable without elevation. |
 | Lobby / CGI scoreboard | **NOT TESTED** | `WININET.dll` loaded; no request captured |
 | **Clean shutdown** | **PASS** | `run-16` — `WM_CLOSE` → process exits, `SK-Main.exe End` log line written |
 | Anti-cheat integrity preserved | **FAIL (by design)** | The patch neutralises the timer check. Documented as an accepted behavioural change. |
@@ -174,7 +175,7 @@ Ranked by how much of the project they threaten.
 |---|---|---|---|---|---|
 | 1 | `winmm!timeGetTime` fingerprint | **VERIFIED** | **FIXED** (1-byte patch) | unknown — depends on Wine's `winmm` | unknown — same |
 | 2 | Runtime D3DX9 effect compiler | **VERIFIED** | works (native D3DX) | **at risk** | **at risk** |
-| 3 | DirectPlay 8 | **VERIFIED import** | available but untested | expected **BLOCKED** | expected **BLOCKED** |
+| 3 | DirectPlay 8 | **VERIFIED binaries present; init untested** | **BLOCKED at name entry** — DLLs exist in SysWOW64 but never load | expected **BLOCKED** (Wine implements no DirectPlay) | expected **BLOCKED** |
 | 4 | `ProductId` registry read | **VERIFIED** | cosmetic FAIL | unknown | unknown |
 | 5 | `1033.ini` absent | **VERIFIED** | unknown | unknown | unknown |
 | 6 | DirectShow/MCI MP3 | **VERIFIED runtime** | works (verified load) | at risk | at risk |

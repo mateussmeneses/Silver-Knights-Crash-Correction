@@ -44,7 +44,9 @@ This is the current phase. Nothing else may start until M1.6 passes.
 | **T-05d** | **Per-effect attribution** — toggle ONE effect at a time | Codex | 6 profiles × N runs, look for a consistent signature in the upper-scene band | Each effect's contribution distinguishable, no replay needed |
 | **T-05** | Full `.bsp` map render with D3DX effects | Codex | Screenshot of in-game geometry + effects | Non-title-screen geometry renders; no D3DX compile failure |
 | **T-06** | Controller verification | Codex | Mapping table: game action → button pressed → observed result | All 12 actions from `ReadMe-English.txt` respond |
-| **T-07** | Network mode investigation | Codex | Report: does DirectPlay8 initialise? Where exactly does it fail? | A definitive answer, either pass or a named failure point |
+| **T-07** | **Network mode: does DirectPlay8 initialise?** | Codex | Report naming the exact failure point | ⚠️ **BLOCKED** — `run-37/38/39`. UI reachable and stable; DirectPlay **never loaded** because the name field rejects automation (`SendInput` and `WM_CHAR` both leave it blank). Needs a human keystroke or a reversal of the name-entry routine |
+| **T-07b** | **Human-assisted network probe** | Codex (needs a person at the keyboard) | Type a name once by hand, then record module load + screenshots | `dpnet.dll`/`dplayx.dll` load or fail — a definitive answer in minutes |
+| **T-07c** | **Reveal the name-entry routine** | Codex | Find where typed characters are stored and what advances the field | Documented structure, enabling automated injection or explaining the block |
 | **T-08** | 30-minute stability + memory growth | Codex | Timeline of working set and thread count | No crash, no unbounded growth, no dialog appears |
 | **T-09** | Locale / `1033.ini` behaviour | Codex | Report on what the game does with no matching `%d.ini` | Documented behaviour on a non-Japanese locale |
 

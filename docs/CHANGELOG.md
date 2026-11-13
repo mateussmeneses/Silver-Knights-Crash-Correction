@@ -90,6 +90,26 @@ Not proven: MIDI specifically (`dmusic.dll` path), per-effect attribution, gain 
 clipping (a sustained 1.0 peak may indicate clipping), and anything a peak meter cannot see —
 distortion, channel swap, wrong pitch. This does **not** replace a human listening test.
 
+### Verified — Network Mode UI (transport BLOCKED)
+
+- `run-37/38/39`: Network Mode **is reachable and renders** — title, the instruction
+  "Enter your name. (12 Letters Max)", and a text field. The process stays healthy
+  (34 threads, ~103 MB) with **no crash, no dialog, no WER event**.
+- **DirectPlay binaries are present** on this Windows 11 install in SysWOW64
+  (`dpnet.dll`, `dplayx.dll`, `dpwsockx.dll`, `dpnaddr.dll`, `dplaysvr.exe`, `dpnsvr.exe`).
+  This contradicts the common assumption that DirectPlay is simply absent on Windows 11 —
+  for this install it exists in the 32-bit view.
+- **But DirectPlay never loaded.** No `dpnet.dll`/`dplayx.dll`/`ws2_32.dll` in the module
+  list before, during or after Network Mode.
+- **Reason: the name field rejects automated input.** Two methods tried, both left it
+  blank: `SendInput` scancodes (`run-38`) and `PostMessage(WM_CHAR)` (`run-39`). The
+  binary imports no `GetKeyboardState`/`ToAscii`/`ToUnicode`/`MapVirtualKey`/
+  `GetAsyncKeyState`, ruling out the classic message-based text path and suggesting the
+  field is drawn by the game's renderer and fed from its own DirectInput poll
+  (**INFERRED**).
+- **Status: BLOCKED, not FAIL.** Nothing failed; the harness could not get past name
+  entry. Claiming either PASS or FAIL here would be wrong.
+
 ### Verified — effect comparison (partial)
 
 - `run-35` established a **negative** result that corrected an earlier plan: the Battle setup

@@ -176,10 +176,26 @@ Two unrelated mechanisms:
    (`1041.ini` → `http://philo.rosx.net/cgi-bin/`) with paths
    `%sIpManage2.cgi?`, `%sUpdateScore2.cgi?`.
 
-DirectPlay 8 is a **deprecated** Windows component. It ships in modern Windows only
-as an optional legacy feature and is absent from Windows 11 by default in many
-configurations. This is the single largest risk to the "preserve network
-functionality" objective (**INFERRED** — the network path was **NOT TESTED**).
+DirectPlay 8 is a **deprecated** Windows component, shipped only as an optional legacy
+feature. The assumption that it is simply missing from Windows 11 turned out to be wrong
+for this install: `run-37` verified that **all the 32-bit DirectPlay binaries are present
+in `SysWOW64`** (`dpnet.dll`, `dplayx.dll`, `dpwsockx.dll`, `dpnaddr.dll`, `dplaysvr.exe`,
+`dpnsvr.exe`). Whether the optional feature is formally enabled could not be queried —
+`Get-WindowsOptionalFeature` requires elevation.
+
+**However, DirectPlay was never actually loaded.** Entering Network Mode reaches a
+player-name entry screen, and the process stops there: no `dpnet.dll`, `dplayx.dll` or
+even `ws2_32.dll` appears in the module list. So the transport layer is **completely
+untested** on Windows 11 — the binaries exist, but nothing has exercised them.
+
+Status: **BLOCKED at name entry.** The field did not accept automated input by either
+`SendInput` scancodes or `PostMessage(WM_CHAR)`, so the flow could not be advanced. The
+binary imports no message-based text helpers (`GetKeyboardState`, `ToAscii`, `ToUnicode`,
+`MapVirtualKey`, `GetAsyncKeyState`), which suggests the field is rendered by the game and
+fed from its own DirectInput poll (**INFERRED**).
+
+This remains the largest risk to the "preserve network functionality" objective, and it is
+now a *proven unknown* rather than an assumption in either direction.
 
 The CGI host `philo.rosx.net` is a 2000s-era community server. Whether it still
 resolves or responds was **NOT TESTED**; the game is expected to degrade gracefully
