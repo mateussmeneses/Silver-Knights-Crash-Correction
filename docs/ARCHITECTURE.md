@@ -24,6 +24,14 @@ proceed from static and dynamic analysis of that binary.
 | Toolchain era | Linker 6.0 image, VC7.1 (`msvcr71` 7.10.3052.4) runtime |
 | Packaging | UPX-compressed main and launcher executables |
 | Source availability | **None** |
+| Session length | **Capped at exactly 1800 s (30 min) in compiled code** — see §9 |
+
+### On the word "trial"
+
+The build identifies itself as **"The Trial-Production Version"**. A runtime session cap of
+exactly 1800 seconds was measured (below), and no INI key exposes it, so the cap is compiled
+in. That is the expected shape of a trial restriction, and it is a much better explanation
+for "the game closes itself after a while" than a compatibility defect.
 
 ---
 

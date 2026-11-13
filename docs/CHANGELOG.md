@@ -90,6 +90,28 @@ Not proven: MIDI specifically (`dmusic.dll` path), per-effect attribution, gain 
 clipping (a sustained 1.0 peak may indicate clipping), and anything a peak meter cannot see —
 distortion, channel swap, wrong pitch. This does **not** replace a human listening test.
 
+### Verified — long-run stability (memory clean, handles leaking)
+
+- `run-48`: a 29.7-minute live match (58 samples) held **memory dead flat** — working set
+  106.8 → 104.9 MB, private bytes 93.3 → 91.8 MB. No growth, no dialog, no WER event.
+- **Handles grew perfectly linearly**: 697 → 1284 over the run, exactly **+10 per 30 s sample
+  (~+20/min)**, a straight line rather than noise. Memory stability rules out a growing data
+  structure and points at an object created and never closed on a repeating tick.
+- This is a **new, real defect** (fourth on Windows), found only because the soak sampled
+  `HandleCount` rather than just memory. Task T-08b. **It is a hygiene defect, not a stability
+  threat**: 1284 handles against a ~16.7 million per-process limit means exhaustion would take
+  roughly 580 days at this rate. An earlier note in this project implied handle growth might
+  explain instability — **that inference is withdrawn**; it is not a plausible crash cause.
+- **The run's ending is a separate finding, and not a failure.** The game wrote a clean
+  `SK-Main.exe End` line at **1800.067 s** after `Start` — exactly 1800 s — with no dialog and
+  no WER event. That is a **30-minute session cap**, verified arithmetically from the log
+  timestamps. It retroactively explains "the game quits after about half an hour" reports
+  without any crash being involved. Whether the cap is per-match or per-process-age is the
+  open question that `run-49` (menu idle, no match) is designed to settle.
+- Note on the first attempt: `run-40` was truncated at 18.7 min because a second harness
+  launched another game instance and the sampler latched onto it. The sampler now matches only
+  the instance it launched (`tools/t08-stability.ps1`), and `run-48` is the clean repeat.
+
 ### Verified — Network Mode UI (transport BLOCKED)
 
 - `run-37/38/39`: Network Mode **is reachable and renders** — title, the instruction
