@@ -1,0 +1,136 @@
+mp3 emptied
+CONFIG: MIDI=1  WAVE=0  mp3=EMPTY
+game up, pid=12544
+
+=== 32-bit module list (SysWOW64 powershell) ===
+module count: 96
+
+--- DirectMusic / audio specifically ---
+    dmusic.dll           LOADED
+    dmloader.dll         LOADED
+    dmsynth.dll          LOADED
+    midimap.dll          LOADED
+    quartz.dll           absent
+    dsound.dll           LOADED
+    winmm.dll            LOADED
+    l3codeca.acm         absent
+    msmpeg2adec.dll      absent
+    wdmaud.drv           LOADED
+    msacm32.drv          LOADED
+
+--- all modules matching audio/stream patterns ---
+    AUDIOSES.DLL
+    dmloader.dll
+    dmsynth.dll
+    dmusic.dll
+    DSOUND.dll
+    dwmapi.dll
+    midimap.dll
+    MSACM32.dll
+    msacm32.drv
+    wdmaud.drv
+    wdmaud2.drv
+    WINMM.dll
+    winmmbase.dll
+
+--- full module list (96) ---
+    ADVAPI32.dll
+    AUDIOSES.DLL
+    AVRT.dll
+    bcrypt.dll
+    bcryptPrimitives.dll
+    cfgmgr32.dll
+    clbcatq.dll
+    combase.dll
+    COMCTL32.dll
+    comdlg32.dll
+    CoreMessaging.dll
+    CRYPT32.dll
+    CRYPTBASE.DLL
+    cryptnet.dll
+    CRYPTSP.dll
+    d3d9.dll
+    dbghelp.dll
+    devobj.dll
+    DINPUT8.dll
+    directxdatabasehelper.dll
+    dmband.dll
+    dmime.dll
+    dmloader.dll
+    dmstyle.dll
+    dmsynth.dll
+    dmusic.dll
+    drvstore.dll
+    DSOUND.dll
+    dwmapi.dll
+    dxcore.dll
+    GDI32.dll
+    gdi32full.dll
+    gpapi.dll
+    HID.DLL
+    imagehlp.dll
+    IMM32.dll
+    inputhost.dll
+    kernel.appcore.dll
+    KERNEL32.DLL
+    KERNELBASE.dll
+    ksuser.dll
+    LIBEAY32.dll
+    midimap.dll
+    MMDevApi.dll
+    MSACM32.dll
+    msacm32.drv
+    msasn1.dll
+    MSCTF.dll
+    msdmo.dll
+    msvcp_win.dll
+    MSVCR71.dll
+    msvcrt.dll
+    ntdll.dll
+    ntmarta.dll
+    nvd3dum.dll
+    nvgpucomp32.dll
+    nvldumd.dll
+    NvMemMapStorage.dll
+    nvppe.dll
+    nvspcap.dll
+    ole32.dll
+    Oleacc.dll
+    OLEAUT32.dll
+    powrprof.dll
+    profapi.dll
+    ResampleDmo.DLL
+    resourcepolicyclient.dll
+    RPCRT4.dll
+    rsaenh.dll
+    sechost.dll
+    SETUPAPI.DLL
+    shcore.dll
+    SHELL32.dll
+    SHLWAPI.dll
+    SKGuard.dll
+    SK-Main.exe
+    textinputframework.dll
+    TextShaping.dll
+    ucrtbase.dll
+    UMPDC.dll
+    USER32.dll
+    usp10.dll
+    uxtheme.dll
+    VERSION.dll
+    wdmaud.drv
+    wdmaud2.drv
+    win32u.dll
+    windows.storage.dll
+    Windows.UI.dll
+    WININET.dll
+    WINMM.dll
+    winmmbase.dll
+    wintrust.dll
+    wldp.dll
+    WS2_32.dll
+    WSOCK32.dll
+
+=== teardown ===
+killing owned SK-Main 12544
+killing owned SK-Startup 28108

@@ -1,0 +1,24 @@
+mp3 disabled: removed 16 file(s)
+CONFIG: MIDI=0  WAVE=0  mp3=EMPTY
+
+=== quiet baseline (10 samples over 5 s, nothing launched yet) ===
+pre-launch max=0,00000 avg=0,00000  raw: 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000
+game window up
+
+=== audio-related modules (via 32-bit view where available) ===
+    wow64.dll
+    wow64base.dll
+    wow64con.dll
+    wow64cpu.dll
+    wow64win.dll
+    (total modules seen: 7)
+
+=== peak meter while the game is up (30 x 300 ms) ===
+non-zero : 0 / 30
+max      : 0,00000
+average  : 0,00000
+raw      : 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000, 0,0000
+
+=== teardown ===
+killing owned SK-Main 28508
+killing owned SK-Startup 3456

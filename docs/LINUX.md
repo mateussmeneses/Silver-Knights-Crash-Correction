@@ -286,7 +286,7 @@ it is the most pinnable and the most auditable. Proton is the fallback if its bu
 | 3 | DirectPlay 8 absent | **INFERRED** | Network mode unusable |
 | 4 | Case-sensitivity asset misses | **HYPOTHESIS** | Fatal at load, or missing textures |
 | 5 | MCI/DirectShow MP3 silence | **HYPOTHESIS** | Degraded (no music) |
-| 6 | DirectMusic MIDI silence | **HYPOTHESIS** | Degraded (no MIDI music) |
+| 6 | DirectMusic MIDI silence | **HYPOTHESIS — and now less concerning** | Degraded (no MIDI music). **Note:** MIDI is proven working on Windows (`run-52`/`54`/`55`), so this is a Wine-specific risk, not a game defect. Because the game has TWO independent music paths (MP3/DirectShow and MIDI/DirectMusic), a Wine config that breaks one may still have the other — test **both** explicitly rather than assuming music is either working or broken. |
 | 7 | 8-button joystick mapping | **HYPOTHESIS** | Degraded input |
 | 8 | IME/Japanese font (`MS Gothic`) unavailable | **HYPOTHESIS** | Untranslated text or tofu glyphs |
 | 9 | `1033.ini` missing → locale fallback undefined | **VERIFIED absent** | Possibly unreadable UI on non-JP locale |
