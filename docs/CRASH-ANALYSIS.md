@@ -30,6 +30,51 @@ appears: `SK-Startup.exe` reads a registry value that no longer exists on Window
 non-fatal (two dialog boxes, then it continues), but it must be understood because it
 pollutes the log and the user experience.
 
+### 1.1 There is a third self-termination path, and it is not a defect
+
+After the anti-hook check was patched, a 29.7-minute soak (`run-48`) ended with a clean
+`End` line at **exactly 1800.067 seconds** after `Start`:
+
+```
+2026/11/13 14:53:01.919, SK-Main.exe Start ------------------------>
+2026/11/13 15:23:01.986, SK-Main.exe End   <------------------------
+```
+
+No dialog, no WER event, no harness kill. The game ended itself on a timer at 30:00.
+
+**This must be distinguished from the defect in §3.** Both produce a silent exit and a clean
+`End` line, but they are different mechanisms:
+
+| | Anti-hook check (§3) | Session cap (§1.1) |
+|---|---|---|
+| When | ~8 s after launch | 1800 s after launch |
+| Trigger | `winmm!timeGetTime` fingerprint mismatch | elapsed time |
+| Dialog | yes — `Timer-API hook was detected.(01ff)` | none |
+| Fix | 1-byte branch inversion | unknown; value compiled in |
+| Defect? | **yes** | **no — expected trial behaviour** |
+
+The committed baseline log contains exactly two sessions, and they corroborate both numbers:
+
+```
+2012/07/29 22:07:21 -> 22:11:02    221.495 s   the original author's session, normal exit
+2026/11/13 10:19:58 -> 10:20:06      8.385 s   this project's first reproduction
+```
+
+The 8.385 s pair is an independent confirmation of the anti-hook defect: an unrelated
+machine, fourteen years later, self-terminating on the same 8-second schedule. The 221.495 s
+pair is simply a user quitting after a few minutes and says nothing about the cap either way.
+
+Neither INI file exposes a time or round limit (`SilverKnights.ini` has 17 sections, none of
+them timing; `1041.ini` has no duration key), so the cap is compiled into `SK-Main.exe`.
+The build's own title string is `<The Trial-Production Version>`, which is consistent with a
+trial restriction rather than a bug.
+
+Whether the cap is per-**match** or per-**process age** is still open: a menu-idle
+discriminating experiment (`run-49`) is in progress. The distinction matters for the port —
+one is a gameplay rule, the other means "restart the game every half hour even in menus".
+See `docs/evidence/run-48-analysis.txt` for the full reasoning and the withdrawn
+handle-leak-causes-instability inference.
+
 ---
 
 ## 2. Observed behaviour, in order
