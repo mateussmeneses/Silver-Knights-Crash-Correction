@@ -5,3 +5,55 @@ main menu is up - NO match started. Idling from here; no further input.
   T+  145s  WS=    95MB  thr= 27  hnd=  699
   T+  205s  WS=    95MB  thr= 26  hnd=  717
   T+  265s  WS=    95MB  thr= 27  hnd=  738
+  T+  325s  WS=  95,5MB  thr= 27  hnd=  753
+  T+  385s  WS=  95,8MB  thr= 29  hnd=  778
+  T+  445s  WS=  95,7MB  thr= 27  hnd=  798
+  T+  505s  WS=  95,7MB  thr= 27  hnd=  819
+  T+  565s  WS=  95,7MB  thr= 27  hnd=  840
+  T+  625s  WS=  95,7MB  thr= 28  hnd=  860
+  T+  685s  PROCESS GONE
+
+=== log lines added by this run ===
+  2026/11/13 17:19:53.386, SK-Main.exe Start ------------------------>
+elapsed this run: 685,5s (11,42 min)
+VERDICT: process did NOT survive menu idle -> PROCESS-AGE cap (hypothesis B)
+
+=== teardown ===
+
+========================================================================
+RUN INVALIDATED - DO NOT CITE THE VERDICT ABOVE
+========================================================================
+
+The "PROCESS-AGE cap (hypothesis B)" line above is WRONG and must be ignored.
+
+Why it is wrong: this run only lasted 685.5 s (11.4 min), not the 33 min it was scheduled
+for. The verdict was printed because the process had disappeared - but its own log output
+shows a single "Start" line with NO matching "End" line:
+
+    2026/11/13 17:19:53.386, SK-Main.exe Start ------------------------>
+
+A self-termination always writes BOTH lines (proved by run-48, which wrote Start and End
+1800.067 s apart). A kill writes only Start. So this process was KILLED, not capped.
+
+Cause, confirmed: a second harness (a first attempt at run-50, tools/t08b-handle-types.ps1)
+launched its own game instance, and its teardown ran
+
+    Get-Process -Name 'SK-Main','SK-Startup' | ForEach-Object { $_.Kill() }
+
+which kills EVERY process with that name, including this unrelated soak. Its own log records
+"killing SK-Main 24328" - and 24328 is exactly the pid this run was sampling.
+
+Two tool defects are fixed as a result:
+  - tools/t11-time-limit.ps1 now derives its verdict from the LOG (Start+End pair), not from
+    "is the process still running". A Start without an End is now reported as INVALID RUN.
+  - tools/t08c-handle-diff.ps1 replaces t08b and supports -AttachToExisting, so it can sample
+    a running process instead of starting a competing one.
+
+The 30-minute cap finding itself is UNAFFECTED - that rests on run-48, whose log has a
+matched Start/End pair 1800.067 s apart. What remains unknown is still only the
+per-match vs per-process-age question.
+
+The handle data in this run is still VALID and still useful: handles grew 684 -> 860 over
+11.4 min while in the MENU with no match running (~+15/min), and memory stayed flat at
+95 MB. That independently shows the handle leak is NOT match-specific - it happens in the
+front-end too.

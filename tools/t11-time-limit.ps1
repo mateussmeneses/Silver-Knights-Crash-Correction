@@ -104,9 +104,33 @@ if(Test-Path $log){
   $new | ForEach-Object { Write-Output ("  {0}" -f $_) }
   $totalSec = ((Get-Date)-$t0).TotalSeconds
   Write-Output ("elapsed this run: {0:N1}s ({1:N2} min)" -f $totalSec,($totalSec/60))
-  if($ended){ Write-Output "VERDICT: process did NOT survive menu idle -> PROCESS-AGE cap (hypothesis B)" }
-  else { Write-Output "VERDICT: survived 30 min in menu -> MATCH TIME LIMIT (hypothesis A)" }
-} else { Write-Output "  (no log file)" }
+
+  # The verdict MUST be driven by the log, not by "is the process still there".
+  # An earlier version concluded "process-age cap" simply because the process had gone -
+  # but the process had been killed by an unrelated harness, and the log showed a Start
+  # with no End. A self-termination writes BOTH lines; a kill writes only Start.
+  $sawStart = $false
+  $sawEnd   = $false
+  foreach($l in $new){
+    if($l -match 'SK-Main\.exe Start'){ $sawStart = $true }
+    if($l -match 'SK-Main\.exe End'){ $sawEnd = $true }
+  }
+  Write-Output ""
+  if($sawStart -and $sawEnd){
+    Write-Output "VERDICT: self-termination - the game wrote a matching 'End' line."
+    Write-Output "         Process ended during MENU IDLE, so the 1800 s cap is PER-PROCESS-AGE"
+    Write-Output "         (hypothesis B): it fires even with no match running."
+  } elseif($sawStart -and -not $sawEnd){
+    Write-Output "VERDICT: INVALID RUN - a 'Start' with no 'End' means the process was KILLED,"
+    Write-Output "         not that it self-terminated. Another harness almost certainly killed it."
+    Write-Output "         Re-run with no other game instance active. Do not draw a conclusion."
+  } elseif($ended){
+    Write-Output "VERDICT: process vanished but no log line at all - inconclusive, investigate."
+  } else {
+    Write-Output "VERDICT: process SURVIVED past the 1800 s mark while idle in the menu."
+    Write-Output "         Therefore the cap is PER-MATCH (hypothesis A): it needs a match to arm."
+  }
+} else { Write-Output "  (no log file - inconclusive)" }
 
 Write-Output ""
 Write-Output "=== teardown ==="
