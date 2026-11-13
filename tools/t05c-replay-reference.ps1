@@ -105,7 +105,9 @@ function Capture($hwnd,$path){
 function Launch {
   $psi=New-Object System.Diagnostics.ProcessStartInfo
   $psi.FileName=Join-Path $WorkDir 'SK-Startup.exe'; $psi.WorkingDirectory=$WorkDir; $psi.UseShellExecute=$false
-  $sp=New-Object System.Diagnostics.Process; $sp.StartInfo=$psi; [void]$sp.Start()
+  $sp=New-Object System.Diagnostics.Process; $sp.StartInfo=$psi
+$script:SKStartedAt = (Get-Date).AddSeconds(-5)   # ownership boundary, with slack for a fast child
+[void]$sp.Start()
   $t0=Get-Date; $clicked=$false
   while(((Get-Date)-$t0).TotalSeconds -lt 28){
     Start-Sleep -Milliseconds 350
@@ -148,7 +150,19 @@ try {
       Press $udx $k[0] ([bool]$k[1]) 900
     }
     Start-Sleep -Seconds 4
-    Get-Process -Name 'SK-Main','SK-Startup' -ErrorAction SilentlyContinue | ForEach-Object { try{$_.Kill()}catch{} }
+    # Teardown: SAFE BY DEFAULT. Kills nothing unless $script:SKStartedAt was set when this
+# script launched the game. Never kill by process name alone - that destroys other
+# harnesses' runs (see tools/lib-teardown.ps1 for the incident that motivated this).
+$__skOwned = @()
+if($script:SKStartedAt){
+  $__skOwned = @(Get-Process -Name 'SK-Main','SK-Startup' -ErrorAction SilentlyContinue |
+                 Where-Object { $_.StartTime -ge $script:SKStartedAt })
+}
+if($__skOwned.Count -gt 0){
+  $__skOwned | ForEach-Object { Write-Output ("killing owned {0} {1}" -f $_.ProcessName,$_.Id); try{$_.Kill()}catch{} }
+} else {
+  Write-Output "teardown: nothing owned to kill (other instances, if any, left untouched)"
+}
     Start-Sleep -Seconds 2
     Write-Output "  replay files after recording:"
     Get-ChildItem (Join-Path $WorkDir 'replay') -Filter *.rep -ErrorAction SilentlyContinue | ForEach-Object {
@@ -190,7 +204,19 @@ try {
     if(Capture $udx $p){ Write-Output ("  captured {0} ({1} bytes)" -f $prof.name,(Get-Item $p).Length) }
     else { Write-Output "  capture failed" }
 
-    Get-Process -Name 'SK-Main','SK-Startup' -ErrorAction SilentlyContinue | ForEach-Object { try{$_.Kill()}catch{} }
+    # Teardown: SAFE BY DEFAULT. Kills nothing unless $script:SKStartedAt was set when this
+# script launched the game. Never kill by process name alone - that destroys other
+# harnesses' runs (see tools/lib-teardown.ps1 for the incident that motivated this).
+$__skOwned = @()
+if($script:SKStartedAt){
+  $__skOwned = @(Get-Process -Name 'SK-Main','SK-Startup' -ErrorAction SilentlyContinue |
+                 Where-Object { $_.StartTime -ge $script:SKStartedAt })
+}
+if($__skOwned.Count -gt 0){
+  $__skOwned | ForEach-Object { Write-Output ("killing owned {0} {1}" -f $_.ProcessName,$_.Id); try{$_.Kill()}catch{} }
+} else {
+  Write-Output "teardown: nothing owned to kill (other instances, if any, left untouched)"
+}
     Start-Sleep -Milliseconds 1500
   }
 } finally {
@@ -199,5 +225,17 @@ try {
   $restored = Get-Content $iniPath -Raw
   if($restored -eq $original){ Write-Output "`nRESTORED SilverKnights.ini, verified byte-identical" }
   else { Write-Output "`nWARN: INI restore differs - inspect manually" }
-  Get-Process -Name 'SK-Main','SK-Startup' -ErrorAction SilentlyContinue | ForEach-Object { try{$_.Kill()}catch{} }
+  # Teardown: SAFE BY DEFAULT. Kills nothing unless $script:SKStartedAt was set when this
+# script launched the game. Never kill by process name alone - that destroys other
+# harnesses' runs (see tools/lib-teardown.ps1 for the incident that motivated this).
+$__skOwned = @()
+if($script:SKStartedAt){
+  $__skOwned = @(Get-Process -Name 'SK-Main','SK-Startup' -ErrorAction SilentlyContinue |
+                 Where-Object { $_.StartTime -ge $script:SKStartedAt })
+}
+if($__skOwned.Count -gt 0){
+  $__skOwned | ForEach-Object { Write-Output ("killing owned {0} {1}" -f $_.ProcessName,$_.Id); try{$_.Kill()}catch{} }
+} else {
+  Write-Output "teardown: nothing owned to kill (other instances, if any, left untouched)"
+}
 }

@@ -86,4 +86,16 @@ Get-Process -Name 'SK-Main' -ErrorAction SilentlyContinue | ForEach-Object {
 }
 
 Write-Output "=== cleanup ==="
-Get-Process -Name 'SK-Main','SK-Startup' -ErrorAction SilentlyContinue | ForEach-Object { Write-Output "killing $($_.ProcessName) $($_.Id)"; try { $_.Kill() } catch {} }
+# Teardown: SAFE BY DEFAULT. Kills nothing unless $script:SKStartedAt was set when this
+# script launched the game. Never kill by process name alone - that destroys other
+# harnesses' runs (see tools/lib-teardown.ps1 for the incident that motivated this).
+$__skOwned = @()
+if($script:SKStartedAt){
+  $__skOwned = @(Get-Process -Name 'SK-Main','SK-Startup' -ErrorAction SilentlyContinue |
+                 Where-Object { $_.StartTime -ge $script:SKStartedAt })
+}
+if($__skOwned.Count -gt 0){
+  $__skOwned | ForEach-Object { Write-Output ("killing owned {0} {1}" -f $_.ProcessName,$_.Id); try{$_.Kill()}catch{} }
+} else {
+  Write-Output "teardown: nothing owned to kill (other instances, if any, left untouched)"
+}

@@ -43,7 +43,9 @@ function Snap($w,$path){
 
 $psi=New-Object System.Diagnostics.ProcessStartInfo
 $psi.FileName=Join-Path $WorkDir 'SK-Startup.exe'; $psi.WorkingDirectory=$WorkDir; $psi.UseShellExecute=$false
-$sp=New-Object System.Diagnostics.Process; $sp.StartInfo=$psi; [void]$sp.Start()
+$sp=New-Object System.Diagnostics.Process; $sp.StartInfo=$psi
+$script:SKStartedAt = (Get-Date).AddSeconds(-5)   # ownership boundary, with slack for a fast child
+[void]$sp.Start()
 $t0=Get-Date; Write-Output "T+0 LAUNCH pid=$($sp.Id)"
 $clicked=$false; $shots=0
 $deadline=$t0.AddSeconds($RunSeconds)

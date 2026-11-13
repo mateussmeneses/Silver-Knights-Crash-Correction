@@ -54,6 +54,7 @@ $psi.WorkingDirectory = $WorkDir
 $psi.UseShellExecute = $false
 $sp = New-Object System.Diagnostics.Process
 $sp.StartInfo = $psi
+$script:SKStartedAt = Get-Date   # teardown ownership boundary
 [void]$sp.Start()
 $t0 = Get-Date
 Write-Output "T+0 LAUNCH SK-Startup pid=$($sp.Id)"

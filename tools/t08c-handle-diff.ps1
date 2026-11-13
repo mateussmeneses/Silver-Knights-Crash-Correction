@@ -98,7 +98,8 @@ if($AttachToExisting){
     $psi.UseShellExecute = $false
     $sp = New-Object System.Diagnostics.Process
     $sp.StartInfo = $psi
-    [void]$sp.Start()
+    $script:SKStartedAt = Get-Date   # teardown ownership boundary
+[void]$sp.Start()
     Write-Host "launched launcher"
     Start-Sleep -Seconds 28
     $m = Get-Process -Name 'SK-Main' -ErrorAction SilentlyContinue | Select-Object -First 1

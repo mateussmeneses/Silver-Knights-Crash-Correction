@@ -57,7 +57,9 @@ function Kids($h){ $r=New-Object System.Collections.ArrayList
 
 $psi=New-Object System.Diagnostics.ProcessStartInfo
 $psi.FileName=Join-Path $WorkDir 'SK-Startup.exe'; $psi.WorkingDirectory=$WorkDir; $psi.UseShellExecute=$false
-$sp=New-Object System.Diagnostics.Process; $sp.StartInfo=$psi; [void]$sp.Start()
+$sp=New-Object System.Diagnostics.Process; $sp.StartInfo=$psi
+$script:SKStartedAt = (Get-Date).AddSeconds(-5)   # ownership boundary, with slack for a fast child
+[void]$sp.Start()
 $t0=Get-Date; Write-Output "T+0 LAUNCH pid=$($sp.Id)"
 $clicked=$false
 $plan=@(@{t=8;n='T08'},@{t=16;n='T16'},@{t=26;n='T26'},@{t=40;n='T40'})
