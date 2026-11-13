@@ -28,8 +28,11 @@
 | T-05d | Effects visibility | **PARTIAL** — 3.67 % matched first-frame diff; per-effect attribution open |
 | T-07 | Network Mode | **BLOCKED (UI verified)** — screen renders and is stable; DirectPlay never loads because the name field rejects automated input |
 | T-08 | Long-run stability | **PARTIAL** — memory flat; handles leak ~+20/min (hygiene, not a crash cause) |
+| T-08b | Handle-leak root cause | **DONE** — one mailslot (`\Device\Mailslot\SK-Startup.exe`), 27 → 119 in 4.5 min; all other 18 paths static |
+| T-08c | Patch the mailslot reopen | **TODO** — hoist the open out of the loop (peer channel already holds 1 handle) |
+| T-04b | MIDI path | **DONE** — isolated A/B: `MIDI=1` 30/30 non-zero, `MIDI=0` 0/30 on a silent baseline; `dmsynth.dll`/`midimap.dll` loaded, `quartz.dll` absent |
 | T-10a | Case-mismatch audit + renames | **DONE (audit) / NOT PROVEN (runtime)** — 12 → 0 mismatches; renames applied on `002-case-normalization`; Shaft map never loaded, so unverified at runtime |
-| T-11 | 30-minute termination | **VERIFIED mechanism** — clean `End` at exactly 1800.067 s; per-match vs per-process-age still open |
+| T-11 | 30-minute termination | **RESOLVED** — per-match only; menu idle survived 1885 s with no `End`. No restart workaround needed |
 
 ---
 
@@ -220,8 +223,8 @@ Anti-cheat integrity (neutralised by design — documented behavioural change).
 | B-6 | MIDI path unverified. | Medium | Codex (T-04b) |
 | B-7 | `SKGuard.dll` hook body not reversed. | Medium | Claude (R-03) |
 | B-8 | DirectPlay 8: binaries **confirmed present** in `SysWOW64`, but initialisation unproven because the network name field rejects all automated input (`SendInput` and `WM_CHAR`). Needs a human keystroke. | Medium | Codex (T-07b) |
-| B-9 | **30-min cap: per-match or per-process-age?** Decides whether the port needs a "restart every half hour" workaround or not. `run-51` is the deciding experiment. | Medium | Codex (T-11) |
-| B-10 | Handle leak type unidentified (leaks ~+20/min in **both** menu and match). Named as a hygiene defect, not a crash cause, but the call site is unknown. | Low | Codex (T-08b) |
+| B-9 | **30-min cap: per-match or per-process-age?** ✅ **RESOLVED — per-match only.** `run-53` survived 1885 s in the menu with no `End`. No restart workaround needed. | — | Closed |
+| B-10 | Handle leak — **root cause found**: one mailslot reopened every ~3 s. Fix not applied. | Low (hygiene) / Medium (Wine) | Codex (T-08c) |
 
 ---
 
