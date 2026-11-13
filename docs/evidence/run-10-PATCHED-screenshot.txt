@@ -1,0 +1,12 @@
+T+0 LAUNCH pid=17964
+T+0,5 [Startup] ERROR: RegQueryValueEx function failed.(REsult:2)
+T+1,4 [Startup] ERROR: Failed to acquire the user ID.
+T+2,1 CLICK 'Window'
+T+12,5 SCREENSHOT -> C:\projetos\Silver-Knights-Crash-Correction\docs\evidence\sk-patched-running.png (646x509)
+ALIVE_AT_END=True
+--- teardown ---
+killing SK-Main 34464
+killing SK-Startup 17964
+--- log ---
+2026/11/13 11:35:10.808, SK-Main.exe Start ------------------------>
+2026/11/13 11:37:28.001, SK-Main.exe Start ------------------------>

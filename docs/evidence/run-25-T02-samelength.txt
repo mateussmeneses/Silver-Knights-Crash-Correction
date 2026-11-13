@@ -1,0 +1,38 @@
+T+0 LAUNCH pid=32100
+T+1,7 CLICK Window
+TARGET hwnd=0x10A0DC4
+ForceForeground returned True; fg=0x205C2 class=XamlExplorerHostIslandWindow match=False
+FOCUS NOW: fg=0x205C2 match=False
+
+  SNAP A-baseline
+  >> DIK_DOWN ext x1
+  SNAP B-down1
+  >> DIK_DOWN ext x2
+  SNAP C-down2
+  >> DIK_UP   ext x1
+  SNAP D-up1
+  >> Enter plain
+  SNAP E-enter
+
+=== teardown ===
+killing SK-Main 10900
+killing SK-Startup 32100
+
+=== VERDICT: SAME-LENGTH BUILD WORKS (T-02 PASS) ===
+Build identity:
+  SK-Main.exe   size 1,464,320 (0x165800) - UNCHANGED, matches SK-Startup's size constant
+                md5  0c4de1d940cf176f87bf86b4c7777d38
+                sha256 26d26069e6b414ecd0479df71bd6f0ebd4da9652c3c3dd81b3652a2ec473293e
+  SK-Startup.exe size 102,400 (unpacked)
+                only ONE constant edited: 0x12558 MD5 -> 0c4de1d9...
+                size constant at 0x12554 left as 0x165800 (no edit needed)
+
+Evidence the integrity check passed: SK-Main.exe spawned and rendered.
+No "'SK-Main.exe' file is corrupted." dialog.
+No "Timer-API hook was detected." dialog (the RVA 0x1f4d50 patch is live in the repacked image).
+
+Navigation under this build (visual inspection of C-down2.png):
+  two DIK_DOWN presses -> selection bar on "Network Mode"   => input reached the game
+
+So the 1-byte fix survives an unpack -> patch -> re-pack -> pad-to-original-size cycle.
+This is the shippable form: the distributed SK-Main.exe keeps its original byte length.

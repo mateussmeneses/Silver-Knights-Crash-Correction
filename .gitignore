@@ -1,0 +1,33 @@
+
+
+# AI Workbench private local context
+.ai-workbench/
+
+# -- Analysis derivatives (never commit) --------------------------------------
+# Unpacked/patched builds are derived from the original executable and are
+# analysis artifacts, not distributable content. They must stay local.
+.analysis/
+*.unpacked.exe
+*.packed.exe
+
+# Sandbox copies of the game tree used for patching experiments.
+sandbox/
+
+# -- Crash / diagnostic byproducts --------------------------------------------
+*.dmp
+*.mdmp
+*.hdmp
+
+# -- Python -------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# -- Editor / OS noise --------------------------------------------------------
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store

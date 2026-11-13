@@ -1,0 +1,252 @@
+{
+  "file": "SK-Main.exe",
+  "path_relative": "SK-Main.exe",
+  "size_bytes": 1464320,
+  "sha256": "cd54b002cf465a5fa63c57b9e1d7f5e348dc86ba55304d90ddc88ef03a009bab",
+  "machine": "i386",
+  "machine_raw": "0x14c",
+  "is_64bit": false,
+  "characteristics": "0x10f",
+  "is_dll": false,
+  "timestamp": 1343570419,
+  "subsystem": "WINDOWS_GUI",
+  "subsystem_raw": 2,
+  "os_version": "4.0",
+  "subsystem_version": "4.0",
+  "image_version": "0.0",
+  "linker_version": "6.0",
+  "dll_characteristics": "0x0",
+  "checksum_stored": "0x0",
+  "checksum_computed": "0x17343e",
+  "image_base": "0x400000",
+  "entry_point_rva": "0x1d7e010",
+  "size_of_image": 30945280,
+  "size_of_headers": 4096,
+  "size_of_code": 1454080,
+  "size_of_initialized_data": 16384,
+  "size_of_uninitialized_data": 29470720,
+  "section_alignment": 4096,
+  "file_alignment": 512,
+  "dll_characteristics_flags": [],
+  "sections": [
+    {
+      "name": "UPX0",
+      "virtual_address": "0x1000",
+      "virtual_size": 29470720,
+      "raw_pointer": "0x400",
+      "raw_size": 0,
+      "characteristics": "0xe0000080",
+      "entropy": 0.0,
+      "md5": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    {
+      "name": "UPX1",
+      "virtual_address": "0x1c1c000",
+      "virtual_size": 1454080,
+      "raw_pointer": "0x400",
+      "raw_size": 1450496,
+      "characteristics": "0xe0000040",
+      "entropy": 7.9378,
+      "md5": "26d92488fa73f3f356335cbd0214f0f3"
+    },
+    {
+      "name": ".rsrc",
+      "virtual_address": "0x1d7f000",
+      "virtual_size": 16384,
+      "raw_pointer": "0x162600",
+      "raw_size": 12800,
+      "characteristics": "0xc0000040",
+      "entropy": 4.4685,
+      "md5": "6f65a8ee7292e681faf0d11cdf97a468"
+    }
+  ],
+  "imports": {
+    "KERNEL32.DLL": [
+      "ExitProcess",
+      "GetProcAddress",
+      "LoadLibraryA"
+    ],
+    "ADVAPI32.dll": [
+      "RegOpenKeyA"
+    ],
+    "comdlg32.dll": [
+      "GetOpenFileNameA"
+    ],
+    "d3d9.dll": [
+      "Direct3DCreate9"
+    ],
+    "DINPUT8.dll": [
+      "DirectInput8Create"
+    ],
+    "DSOUND.dll": [
+      "ordinal_11"
+    ],
+    "GDI32.dll": [
+      "LineTo"
+    ],
+    "IMM32.dll": [
+      "ImmGetContext"
+    ],
+    "LIBEAY32.dll": [
+      "ordinal_477"
+    ],
+    "ole32.dll": [
+      "CoInitialize"
+    ],
+    "SKGuard.dll": [
+      "_API_Hook_AllApps_Stop@0"
+    ],
+    "USER32.dll": [
+      "GetMenu"
+    ],
+    "WININET.dll": [
+      "InternetOpenA"
+    ],
+    "WINMM.dll": [
+      "mmioRead"
+    ]
+  },
+  "delay_imports": {},
+  "exports": [],
+  "resources": [
+    {
+      "path": "/1/4/1041",
+      "size": 308,
+      "rva": "0x1d67390"
+    },
+    {
+      "path": "/2/104/1041",
+      "size": 3112,
+      "rva": "0x1d636c8"
+    },
+    {
+      "path": "/2/105/1041",
+      "size": 3112,
+      "rva": "0x1d642f0"
+    },
+    {
+      "path": "/2/106/1041",
+      "size": 3112,
+      "rva": "0x1d64f18"
+    },
+    {
+      "path": "/2/107/1041",
+      "size": 3112,
+      "rva": "0x1d65b40"
+    },
+    {
+      "path": "/2/108/1041",
+      "size": 3112,
+      "rva": "0x1d66768"
+    },
+    {
+      "path": "/3/1/1041",
+      "size": 744,
+      "rva": "0x1d7f584"
+    },
+    {
+      "path": "/3/2/1041",
+      "size": 3752,
+      "rva": "0x1d7f870"
+    },
+    {
+      "path": "/3/3/1041",
+      "size": 5672,
+      "rva": "0x1d8071c"
+    },
+    {
+      "path": "/4/103/1041",
+      "size": 366,
+      "rva": "0x1d63558"
+    },
+    {
+      "path": "/5/101/1041",
+      "size": 960,
+      "rva": "0x1d62d68"
+    },
+    {
+      "path": "/5/103/1041",
+      "size": 348,
+      "rva": "0x1d63128"
+    },
+    {
+      "path": "/5/104/1041",
+      "size": 394,
+      "rva": "0x1d63288"
+    },
+    {
+      "path": "/5/105/1041",
+      "size": 242,
+      "rva": "0x1d63418"
+    },
+    {
+      "path": "/5/106/1041",
+      "size": 70,
+      "rva": "0x1d63510"
+    },
+    {
+      "path": "/10/111/1041",
+      "size": 13147,
+      "rva": "0x1d674e0"
+    },
+    {
+      "path": "/10/112/1041",
+      "size": 27434,
+      "rva": "0x1d6a840"
+    },
+    {
+      "path": "/10/113/1041",
+      "size": 14910,
+      "rva": "0x1d71370"
+    },
+    {
+      "path": "/10/114/1041",
+      "size": 3950,
+      "rva": "0x1d74db0"
+    },
+    {
+      "path": "/10/115/1041",
+      "size": 5187,
+      "rva": "0x1d75d20"
+    },
+    {
+      "path": "/10/116/1041",
+      "size": 10434,
+      "rva": "0x1d77168"
+    },
+    {
+      "path": "/10/117/1041",
+      "size": 5652,
+      "rva": "0x1d79a30"
+    },
+    {
+      "path": "/10/127/1041",
+      "size": 2188,
+      "rva": "0x1d7b048"
+    },
+    {
+      "path": "/12/110/1041",
+      "size": 20,
+      "rva": "0x1d674c8"
+    },
+    {
+      "path": "/14/101/1041",
+      "size": 48,
+      "rva": "0x1d81d48"
+    }
+  ],
+  "version_info": {},
+  "load_config": {},
+  "tls": null,
+  "relocations_present": false,
+  "has_manifest": false,
+  "manifest_text": null,
+  "security_directory": {},
+  "debug_directory": {},
+  "packer_hints": [
+    "UPX section names present: UPX0, UPX1",
+    "marker UPX! at offset 992",
+    "marker UPX0 at offset 576",
+    "marker UPX1 at offset 616"
+  ]
+}

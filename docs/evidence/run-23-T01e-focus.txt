@@ -1,0 +1,33 @@
+T+0 LAUNCH pid=37600
+T+1,6 CLICK Window
+
+=== ALL SK-Main windows (pid 36856) ===
+  hwnd=0x00024D0112  cls=FilterGraphWindow      vis=False text='ActiveMovie Window'
+  hwnd=0x00001C0DB8  cls=DIEmWin                vis=False text='DIEmWin'
+  hwnd=0x0000110DD4  cls=UDX_CLASS              vis=True  text='Silver Knights - Version 0.13'
+  hwnd=0x00002A0686  cls=IME                    vis=False text='Default IME'
+  hwnd=0x0000490D6C  cls=IME                    vis=False text='Default IME'
+  hwnd=0x00003B0E4C  cls=IME                    vis=False text='Default IME'
+  hwnd=0x0000550920  cls=MSCTFIME UI            vis=False text='MSCTFIME UI'
+
+FOREGROUND hwnd=0x950D70  class=CASCADIA_HOSTING_WINDOW_CLASS  text='PowerShell'
+UDX_CLASS windows found: 1
+TARGET hwnd=0x110DD4 vis=True text='Silver Knights - Version 0.13'
+re-focus attempt: fg=0x950D70 target=0x110DD4
+FOCUS FINAL: fg=0x950D70 target=0x110DD4 match=False
+
+  SNAP A-baseline
+  >> DIK_DOWN ext (scan=0x0x50 ext=True)
+  SNAP B-down1
+  >> DIK_DOWN ext (scan=0x0x50 ext=True)
+  SNAP C-down2
+  >> DIK_DOWN ext (scan=0x0x50 ext=True)
+  SNAP D-down3
+  >> DIK_UP   ext (scan=0x0x48 ext=True)
+  SNAP E-up1
+  >> Enter plain (scan=0x0x1C ext=False)
+  SNAP F-enter
+
+=== teardown ===
+killing SK-Main 36856
+killing SK-Startup 37600

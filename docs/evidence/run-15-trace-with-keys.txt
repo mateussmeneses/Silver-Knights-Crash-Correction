@@ -1,0 +1,28 @@
+T+0 LAUNCH SK-Startup pid=27220 cwd=C:\Users\Mateus\AppData\Local\hermes\cache\scratch\sk-sandbox
+T+0,5 SK-Startup cls='#32770' vis=True rect=638,418,904,548 text='Error Massage'  kids: [Button]OK ; [Static]RegQueryValueEx function failed.(REsult:2)
+T+0,5   -> dismiss OK
+T+0,5 SK-Startup cls='MSCTFIME UI' vis=False rect=0,0,0,0 text='MSCTFIME UI'
+T+0,5 SK-Startup cls='IME' vis=False rect=0,0,0,0 text='Default IME'
+T+1,4   -> dismiss OK
+T+2,2 SK-Startup cls='#32770' vis=True rect=605,332,931,579 text='SK Startup - Version 0.13'  kids: [Button]Full Screen ; [Button]Window ; [Button]Scene Editor ; [Static]UserID ; [Button]Resolution1/4
+T+2,2   -> CLICK Window
+T+2,2 SK-Startup cls='ComboLBox' vis=False rect=0,20,93,142 text=''
+T+3,2 SK-Startup cls='#32770' vis=False rect=605,332,931,579 text='SK Startup - Version 0.13'  kids: [Button]Full Screen ; [Button]Window ; [Button]Scene Editor ; [Static]UserID ; [Button]Resolution1/4
+T+3,8 SK-Main cls='DIEmWin' vis=False rect=-1,-1,135,38 text='DIEmWin'
+T+3,8 SK-Main cls='UDX_CLASS' vis=True rect=0,0,646,509 text='Silver Knights - Version 0.13'
+T+3,8 SK-Main cls='IME' vis=False rect=0,0,0,0 text='Default IME'
+T+3,8 SK-Main cls='MSCTFIME UI' vis=False rect=0,0,0,0 text='MSCTFIME UI'
+T+7,8 SK-Main cls='FilterGraphWindow' vis=False rect=130,130,450,370 text='ActiveMovie Window'
+T+15,4   -> SENT Enter+Space to UDX hwnd=0x57064A
+--- end state ---
+SK-Startup still running
+SK-Main pid=20988 alive=53,2s ws=70,1MB threads=34
+--- log tail ---
+2026/11/13 11:39:38.759, SK-Main.exe Start ------------------------>
+2026/11/13 11:41:32.305, SK-Main.exe Start ------------------------>
+2026/11/13 11:45:35.515, SK-Main.exe Start ------------------------>
+2026/11/13 11:55:40.599, SK-Main.exe Start ------------------------>
+--- WER/AppError last 10 min ---
+--- teardown ---
+killing SK-Main 20988
+killing SK-Startup 27220

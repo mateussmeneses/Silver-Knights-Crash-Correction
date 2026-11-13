@@ -1,0 +1,32 @@
+=== log lines BEFORE (6) ===
+T+0 LAUNCH pid=32148
+T+2,1 CLICK Window
+
+=== W-5: LOADED MODULES of SK-Main pid=24212 ===
+total modules: 7
+
+=== ALL modules (name + version) ===
+  ntdll.dll                10.0.26100.9949 (WinBuild.160101.0800)
+  SK-Main.exe              
+  wow64.dll                10.0.26100.9711 (WinBuild.160101.0800)
+  wow64base.dll            10.0.26100.9711 (WinBuild.160101.0800)
+  wow64con.dll             10.0.26100.9818 (WinBuild.160101.0800)
+  wow64cpu.dll             10.0.26100.9711 (WinBuild.160101.0800)
+  wow64win.dll             10.0.26100.9818 (WinBuild.160101.0800)
+
+=== W-2: clean shutdown via WM_CLOSE ===
+sending WM_CLOSE to UDX hwnd=0xE07F8
+SK-Main exited after WM_CLOSE
+
+=== log AFTER ===
+  2026/11/13 11:39:38.759, SK-Main.exe Start ------------------------>
+  2026/11/13 11:41:32.305, SK-Main.exe Start ------------------------>
+  2026/11/13 11:45:35.515, SK-Main.exe Start ------------------------>
+  2026/11/13 11:55:40.599, SK-Main.exe Start ------------------------>
+  2026/11/13 12:00:33.634, SK-Main.exe Start ------------------------>
+  2026/11/13 12:00:48.886, SK-Main.exe End   <------------------------
+
+lines added: 2
+RESULT: PASS - a new 'SK-Main.exe End' line was written (clean shutdown path ran)
+
+=== teardown ===

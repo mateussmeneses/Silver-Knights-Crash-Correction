@@ -1,0 +1,18 @@
+T+0 LAUNCH SK-Startup pid=18808
+T+0,7 DISMISS error dialog: 'RegQueryValueEx function failed.(REsult:2)'
+T+1,8 DISMISS error dialog: 'Failed to acquire the user ID.'
+T+2,8 CLICK launch button 'Window' (hwnd=0x930B56)
+T+2,8 SK-Main STARTED pid=41000 threads=6 ws=41,9MB
+T+5,0 SK-Main WINDOW hwnd=0xC2089A title='Silver Knights - Version 0.13'
+T+10,2 SK-Main WINDOW hwnd=0x520D5A title='Error Massage'
+--- teardown ---
+killing SK-Main pid=41000 ws=100.3MB
+killing SK-Startup pid=18808 ws=13.5MB
+--- log tail ---
+2012/07/29 22:11:02.558, SK-Main.exe End   <------------------------
+2026/11/13 10:19:58.532, SK-Main.exe Start ------------------------>
+2026/11/13 10:20:06.917, SK-Main.exe End   <------------------------
+2026/11/13 11:11:08.233, SK-Main.exe Start ------------------------>
+2026/11/13 11:11:16.089, SK-Main.exe End   <------------------------
+2026/11/13 11:14:44.526, SK-Main.exe Start ------------------------>
+--- WER events last 15 min ---

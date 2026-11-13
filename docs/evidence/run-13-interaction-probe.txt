@@ -1,0 +1,15 @@
+T+0 LAUNCH pid=24032
+T+0,5 [Startup] ERROR: RegQueryValueEx function failed.(REsult:2)
+T+1,3 [Startup] ERROR: Failed to acquire the user ID.
+T+2,1 CLICK 'Window'
+T+8,5 SNAP title
+T+14,2 SEND WM_KEYDOWN/UP VK_RETURN(0x0D) + VK_SPACE(0x20) to hwnd=0x2E00D0C
+T+22,1 SNAP after keys
+T+30,3 SNAP late
+ALIVE_AT_END=True
+--- teardown ---
+killing SK-Main 42572
+killing SK-Startup 24032
+SHOT probe-T08-title.png 44381 bytes
+SHOT probe-T22-afterkeys.png 53852 bytes
+SHOT probe-T30-late.png 52802 bytes

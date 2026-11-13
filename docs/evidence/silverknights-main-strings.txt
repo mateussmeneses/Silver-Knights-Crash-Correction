@@ -1,0 +1,400 @@
+0x328000	zeph-body.x
+0x328014	zeph-head.x
+0x328028	zeph-engine.x
+0x32803c	zeph-hone.x
+0x328050	zeph-wing-r.x
+0x328064	zeph-wing-l.x
+0x328078	zeph-arm-r.x
+0x32808c	zeph-hand-r.x
+0x3280a0	zeph-gun.x
+0x3280b4	zeph-sword.x
+0x3280c8	zeph-shoulder-r.x
+0x3280dc	zeph-arm-l.x
+0x3280f0	zeph-hand-l.x
+0x328104	zeph-shield.x
+0x328118	zeph-shoulder-l.x
+0x32812c	zeph-leg.x
+0x328140	zeph-boots.x
+0x328154	zeph-toe.x
+0x328168	zeph-leg.x
+0x32817c	zeph-boots.x
+0x328190	zeph-toe.x
+0x328284	Mesh file is corrupted.(zeph-missile.x)
+0x3282ac	zeph-missile.x
+0x3282bc	zeph-engine-emb.x
+0x3282d0	zeph-shield-emb.x
+0x3282e4	mesh\zeph
+0x328308	temp/user%d.bmp
+0x328318	Philo-Custom
+0x328328	%02d:%02d.%03d
+0x328338	close %s
+0x328344	stop %s
+0x32834c	Silver Knights - Replay File
+0x328370	replay
+0x328378	SK %s
+0x328380	0.13K
+0x32838c	replay\sk-%02d.rep
+0x3283a0	%10d %%
+0x3283a8	%12d
+0x328434	ENV_DIALOG
+0x328440	Scene.ini
+0x32844c	HANDING_DIALOG
+0x3284d0	SK Scene Data File
+0x3284e8	SCENE_DIALOG
+0x328514	MAIN_WINDOW
+0x328520	SK-SceneEditor Version 0.01
+0x32853c	g_TargetEdge
+0x32854c	g_TargetTemporaryB
+0x328560	g_TargetTemporaryA
+0x328574	g_TargetBloomB
+0x328584	g_TargetBloomA
+0x328594	g_TargetSpeedMap
+0x3285a8	g_TargetBlurBloom
+0x3285bc	g_TargetDepthOfField
+0x3285d4	Technique_OnlySpeed
+0x3285e8	Technique_OnlyHDR
+0x3285fc	Technique_HDRAndSpeed
+0x328614	Technique_OnlyEdge
+0x328628	Technique_OnlyBlur
+0x32863c	Technique_Only2_5D
+0x328650	Technique_2_5DAndSpeed
+0x328668	Technique_2_5DAndHDR
+0x328680	Technique_2_5DAndHDRAndSpeed
+0x3286a0	Technique_DownSample
+0x3286b8	g_TargetGaus
+0x3286c8	Technique_Gaus
+0x3286d8	Technique_DownSampleAndHDR2
+0x3286f4	Technique_DownSampleAndHDR1
+0x328710	g_TargetSpeed
+0x328720	g_DispTarget
+0x328730	g_TargetBlurTemp
+0x328744	Technique_GausForBlur4x4
+0x328760	g_OffsetTable
+0x328770	g_TargetTemporary
+0x328784	Technique_DownSampleForBlur
+0x3287a0	VIEW_DIALOG
+0x3287c3	4DnNE
+0x32887c	TCP/IP
+0x3288a4	TCP/IP
+0x3288d8	TCP/IP
+0x328924	TCP/IP
+0x32893d	_ : %s
+0x328963	n -------
+0x32899c	IDirectPlay8Peer/Server/Client
+0x3289d4	IDirectPlay8Peer/Server/Client
+0x328be4	SUCCESS
+0x328bec	FAILURE
+0x328bf4	</SK>
+0x328bfc	<SK>
+0x328c04	Agent
+0x328c0c	/nop/
+0x328c14	%s (%d/%d)
+0x328c24	SilverKnights-%s [%02d:%02d:%02d]
+0x328c48	%sIpManage2.cgi?2
+0x328c5c	%sIpManage2.cgi?1&%s&%d&%d&%d&%d&%s&/nop/&/nop/&/nop/&/nop/&/nop/&%s
+0x328ca4	%02d %s %-5s %-5s %-12s %-8s  %d/%d   %s
+0x328cd8	England
+0x328ce0	Hong Kong
+0x328cec	China
+0x328cf4	Korea
+0x328cfc	Sweden
+0x328d04	Japan
+0x328d0c	Italy
+0x328d14	France
+0x328d1c	U.S.
+0x328d24	Germany
+0x328d2c	Taiwan
+0x328d34	%-2s %-12s %-5s %-5s %-12s %-8s %-6s %-20s
+0x328d60	%12s %s
+0x328d68	Message
+0x328d70	Military Potential
+0x328d88	--------------
+0x328d9c	lose02
+0x328da4	lose
+0x328dac	win02
+0x328db4	.mid
+0x328dbc	midi\
+0x328dc4	play %s
+0x328dcc	seek %s to %d
+0x328ddc	setaudio %s volume to %d
+0x328df8	open %s type MPEGVideo
+0x328e10	"%s"
+0x328e18	.mp3
+0x328e24	mp3\
+0x328e2c	%sIpManage2.cgi?3&%s&%d&%d&%d&%d&%s&%s&%s&%s&%s&%s&%s
+0x328e64	%s&%s&%d&%d&%d&%d&%d&
+0x328e7c	%sUpdateScore2.cgi?
+0x328e94	wng.wav
+0x328e9c	misi.wav
+0x328ea8	mscp.wav
+0x328eb4	mifl.wav
+0x328ec0	mist.wav
+0x328ecc	enlk.wav
+0x328ed8	ends.wav
+0x328ee4	d75.wav
+0x328eec	d50.wav
+0x328ef4	d25.wav
+0x328efc	btst.wav
+0x328f08	auok.wav
+0x328f14	other01.wav
+0x328f20	other00.wav
+0x328f2c	warning.wav
+0x328f38	select01.wav
+0x328f48	select00.wav
+0x328f58	lock.wav
+0x328f64	call02.wav
+0x328f70	call01.wav
+0x328f7c	call00.wav
+0x328f88	cancel01.wav
+0x328f98	cancel00.wav
+0x328fa8	beep01.wav
+0x328fb4	beep00.wav
+0x328fc0	arret01.wav
+0x328fcc	arret00.wav
+0x328fd8	touch01.wav
+0x328fe4	touch00.wav
+0x328ff0	sword03.wav
+0x328ffc	sword02.wav
+0x329008	sword01.wav
+0x329014	sword00.wav
+0x329020	option00.wav
+0x329030	missile02.wav
+0x329040	missile01.wav
+0x329050	missile00.wav
+0x329060	sub02.wav
+0x32906c	sub01.wav
+0x329078	sub00.wav
+0x329084	spark00.wav
+0x329090	shd-break00.wav
+0x3290a0	main05.wav
+0x3290ac	main04.wav
+0x3290b8	main03.wav
+0x3290c4	main02.wav
+0x3290d0	main01.wav
+0x3290dc	main00.wav
+0x3290e8	guard03.wav
+0x3290f4	guard02.wav
+0x329100	guard01.wav
+0x32910c	guard00.wav
+0x329118	footstep00.wav
+0x329128	damage02.wav
+0x329138	damage01.wav
+0x329148	damage00.wav
+0x329158	charge01.wav
+0x329168	charge00.wav
+0x329178	change02.wav
+0x329188	change01.wav
+0x329198	change00.wav
+0x3291a8	burst00.wav
+0x3291b4	boost02.wav
+0x3291c0	boost01.wav
+0x3291cc	boost00.wav
+0x3291dc	im02
+0x3291e4	play %s NOTIFY
+0x3291f4	im01
+0x329244	LEFT
+0x329250	Failed to link with 'SK-Startup.exe' process.
+0x329280	\\%s\mailslot\%s
+0x329298	SK-Startup.exe
+0x3292a8	GetCurrentProcessId
+0x3292bc	kernel32.dll
+0x3292cc	%04d/%02d/%02d %02d:%02d:%02d
+0x3292f4	%s-bak.%s
+0x329300	%04d/%02d/%02d %02d:%02d:%02d.%03d, %s
+0x329328	SilverKnights.log
+0x329340	rush
+0x329348	battle06
+0x329354	battle05
+0x329360	battle04
+0x32936c	touyou
+0x329374	battle03
+0x329380	battle02
+0x32938c	battle01
+0x329398	kumo_short01
+0x3293a8	%12s : %s
+0x3293b4	OverBoost : %d
+0x3293c4	SumDamage : %f
+0x3293d4	RateSpeed : %f
+0x3293e4	RateDiffence : %f
+0x3293f8	RateAttack : %f
+0x329408	DashAttack : %d
+0x329418	AttackCount : %d
+0x32942c	AttackStop : %d
+0x32943c	AttackNext : %d
+0x32944c	ClingIndex : %d
+0x32945c	ClingMainOrSub : %d
+0x329470	ClingHeavy : %d
+0x329480	ClingBody : %d
+0x329490	DashScan : %d
+0x3294a0	DashSpeed : %f
+0x3294b0	DashMode : %d
+0x3294c0	FlyDashScan : %d
+0x3294d4	FlyUpDown : %f
+0x3294e4	FlyMode : %d
+0x3294f4	LockWeapon : %d
+0x329504	Lock : %d
+0x329510	OnOther : %d
+0x329520	DirLock : %d
+0x329530	FireLock : %d
+0x329540	AttackFlag : %d
+0x329550	GunFlag : %d
+0x329560	WalkLock : %d
+0x329570	MoveLock : %d
+0x329580	KeyLock : %d
+0x329590	GuardFlag : %d
+0x3295a0	AnimCnt : %d/%d, %d/%d, %d/%d, %d/%d
+0x3295c8	AnimIndex : %d, %d, %d, %d
+0x3295e4	AnimCode : %d, %d, %d, %d
+0x32968c	(mm/sec)
+0x3296b0	DIR : %6.1f, %6.1f, %6.1f
+0x3296cc	POS : %6.1f, %6.1f, %6.1f
+0x3296e8	MEM : %d / %d MB
+0x3296fc	FPS : %d
+0x329708	Technique_Specular
+0x32971c	Technique_2Render
+0x329730	Technique_CreateVMap
+0x329748	150 x 150
+0x329754	100 x 100
+0x329760	50 x 50
+0x329768	30 x 30
+0x329770	1 x 1
+0x329778	 %4d
+0x329780	  %2.1f
+0x329788	S  %3d
+0x329790	B  %3d
+0x329798	G  %3d
+0x3297a0	R  %3d
+0x3297a8	%-8s %s
+0x3297b0	WarpMap1.bmp
+0x3297c0	WarpMap0.bmp
+0x3297d0	CoolMap.bmp
+0x3297e4	g_ColorPower
+0x3297f4	g_ColorBase
+0x329844	g_1Pixel
+0x329850	g_EdgeColorDiff
+0x329860	g_EdgeThickness
+0x329870	g_Edge
+0x329878	g_BlurPower
+0x3298ad	i2.5D
+0x329a68	Technique_TexAndDiffuse
+0x329a80	g_DepthOfField
+0x329abc	EnvMap.png
+0x329ac8	g_2Render
+0x329ad4	title
+0x329adc	Shader Model:%d.%d
+0x329af0	Memory Size:%d/%d MB
+0x329b08	Mechanic Design and Modeling by Moongate.
+0x329b32	Sound Effects and Music Composed by Kei Tokusa.
+0x329b62	Key Frame Animation by EOS.
+0x329b7e	Map Design by Sephylla, Koinu, Tokuboukimei, 
+0x329bac	Mr.Yuk, Shoukakukai.
+0x329bc4	Language Code:%d
+0x329bd8	Copyright (C) 2003-2012 Haruo Teshima,
+0x329bff	                  All rights reserved.
+0x329c28	lose01
+0x329c30	win01
+0x329c38	temp\user%d.bmp
+0x329c48	png\black.bmp
+0x329c58	emblem.bmp
+0x329c64	RECT_BLUE
+0x329c70	RECT_GREEN
+0x329c7c	RECT_RED
+0x329c88	BACK_BLUE
+0x329c94	BACK_GREEN
+0x329ca0	COLOR
+0x329ca8	BACK_RED
+0x329cb4	JOYSTICK
+0x329cc0	CALLSPEAR
+0x329ccc	CALLSUPP
+0x329cd8	LOCK
+0x329ce0	BOOST
+0x329ce8	GUARD
+0x329cf0	ATTACK2
+0x329cf8	ATTACK1
+0x329d00	RIGHT
+0x329d08	DOWN
+0x329d10	KEYBOARD
+0x329d20	%d %d %d %d
+0x329d2c	C%d_COLOR
+0x329d38	CHANGE
+0x329d40	JOKER
+0x329d48	KAGEROU
+0x329d50	SHIRANUI
+0x329d5c	KAEDE
+0x329d64	TARTAROS
+0x329d70	SIEGFRIED
+0x329d7c	MAIKAZE1
+0x329d88	BACCHUS
+0x329d90	MISTLER
+0x329d98	GYGES
+0x329da0	THOR
+0x329da8	GIGANTES
+0x329db4	IRIS
+0x329dbc	ARJUNA
+0x329dc4	MASAMUNE
+0x329dd0	CERBERUS
+0x329ddc	ZEPHYRUS
+0x329de8	ICARUS
+0x329df0	PHILOTES
+0x329dfc	SPARE
+0x329e04	MISS
+0x329e0c	VANQUISH
+0x329e18	BREAKDOWN
+0x329e24	DAMAGE75
+0x329e30	DAMAGE50
+0x329e3c	DAMAGE25
+0x329e48	START
+0x329e50	MESSAGE
+0x329e58	SUPPORT
+0x329e60	CAMERA_VIBRATION
+0x329e74	SCOPE_FAR
+0x329e80	SCOPE_NEAR
+0x329e90	COLOR_DIFF
+0x329e9c	THICKNESS
+0x329ea8	OUTLINE
+0x329eb0	MOTION_BLUR
+0x329ebc	PICTURE_COLOR_RATE
+0x329ed0	PICTURE_COLOR_BASE
+0x329ee4	MAP_SHADER
+0x329ef0	BLUR_2_5D
+0x329efc	DEPTH_OF_FIELD
+0x329f0c	VERTTEX_TEXTURE
+0x329f1c	BGM_VOLUME
+0x329f28	WATER_RATE
+0x329f34	WATER_BASE
+0x329f40	WATER_SURFACE
+0x329f50	HDR_LIGHTING
+0x329f60	BODY_EFFECT
+0x329f6c	FIRE_REVERSE
+0x329f7c	YAW_REVERSE
+0x329f88	KEY_REVERSE
+0x329f94	GAME_LEVEL
+0x329fa0	EFFECT_LEVEL
+0x329fb0	RADAR
+0x329fb8	RENDER_HALF
+0x329fc4	MIDI
+0x329fcc	WAVE
+0x329fdc	ENVIRONMENT
+0x329fe8	NAME
+0x329ff0	SilverKnights.ini
+0x32a010	1 1 1 25
+0x32a01c	0.001
+0x32a024	0.03
+0x32a040	REPLAY
+0x32a048	COUNTER
+0x32a054	GUID_MESSAGE
+0x32a064	COMMENT
+0x32a06c	Comment
+0x32a074	NUMBER
+0x32a07c	Number
+0x32a084	OVERSEAS
+0x32a090	Overseas
+0x32a09c	LANGUAGE
+0x32a0a8	Language
+0x32a0b4	MODEL
+0x32a0bc	Model
+0x32a0c4	VERSION
+0x32a0cc	Ver.
+0x32a0d4	HOST_NAME
+0x32a0e0	Host Name
+0x32a0ec	CHOSE_HOST

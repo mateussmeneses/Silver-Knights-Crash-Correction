@@ -1,0 +1,29 @@
+launched pid=41080
+=== all windows for pid (polling every 1s, 25 s) ===
+
+--- T+1s ---
+WINDOW hwnd=0x90B8E class='#32770' visible=True rect=638,418,904,548 text='Error Massage'
+   CHILD[0] hwnd=0x90B5E class='Button' visible=True rect=811,512,886,535 text='OK'
+   CHILD[1] hwnd=0x240E10 class='Static' visible=True rect=652,467,871,482 text='RegQueryValueEx function failed.(REsult:2)'
+WINDOW hwnd=0x760952 class='MSCTFIME UI' visible=False rect=0,0,0,0 text='MSCTFIME UI'
+WINDOW hwnd=0x110E16 class='IME' visible=False rect=0,0,0,0 text='Default IME'
+
+--- T+13s ---
+WINDOW hwnd=0xA0B8E class='#32770' visible=True rect=674,418,871,548 text='Error Massage'
+   CHILD[0] hwnd=0xA0B5E class='Button' visible=True rect=778,512,853,535 text='OK'
+   CHILD[1] hwnd=0x120E16 class='Static' visible=True rect=688,467,838,482 text='Failed to acquire the user ID.'
+WINDOW hwnd=0x770952 class='MSCTFIME UI' visible=False rect=0,0,0,0 text='MSCTFIME UI'
+WINDOW hwnd=0x250E10 class='IME' visible=False rect=0,0,0,0 text='Default IME'
+
+--- T+14s ---
+WINDOW hwnd=0xB0B8E class='#32770' visible=True rect=605,332,931,579 text='SK Startup - Version 0.13'
+   CHILD[0] hwnd=0xB0B5E class='Button' visible=True rect=827,402,920,423 text='Full Screen'
+   CHILD[1] hwnd=0x260E10 class='Button' visible=True rect=827,427,920,448 text='Window'
+   CHILD[2] hwnd=0x360D94 class='Button' visible=True rect=827,453,920,474 text='Scene Editor'
+   CHILD[4] hwnd=0x780952 class='Static' visible=True rect=617,553,661,568 text='UserID'
+   CHILD[6] hwnd=0x1707A8 class='Button' visible=True rect=827,361,920,376 text='Resolution1/4'
+WINDOW hwnd=0x5E0700 class='ComboLBox' visible=False rect=0,20,93,142 text=''
+WINDOW hwnd=0x1E0584 class='MSCTFIME UI' visible=False rect=0,0,0,0 text='MSCTFIME UI'
+WINDOW hwnd=0x130E16 class='IME' visible=False rect=0,0,0,0 text='Default IME'
+=== cleanup ===
+killing SK-Startup 41080

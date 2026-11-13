@@ -1,0 +1,12 @@
+T+0 LAUNCH SK-Startup pid=35324
+
+=== FRAME ANALYSIS ===
+frames captured : 0
+distinct hashes : 0
+
+RESULT: NO CHANGE - the rendered frame is static across all captures and all input.
+        The game is NOT interactive at this point, or input is not reaching it.
+
+=== teardown ===
+killing SK-Startup 35324
+images: C:\projetos\Silver-Knights-Crash-Correction\docs\evidence\t01
