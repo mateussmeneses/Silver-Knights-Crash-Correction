@@ -48,7 +48,7 @@ Patched build = `.analysis` sandbox with `SK-Main.exe` `RVA 0x1f4d50` `7E`→`EB
 | Lobby / CGI scoreboard | **NOT TESTED** | `WININET.dll` loaded; no request captured |
 | **Clean shutdown** | **PASS** | `run-16` — `WM_CLOSE` → process exits, `SK-Main.exe End` log line written |
 | **Long-run stability (29.7 min)** | **PARTIAL** | `run-48` — memory **dead flat** (106.8 → 104.9 MB WS, 93.3 → 91.8 MB private), 0 dialogs, 0 WER events. **But handles leak linearly: +20/min (697 → 1284).** Real defect, invisible in a short session. Task T-08b |
-| **30-minute session cap** | **VERIFIED (gameplay, not a defect)** | `run-48` — clean `SK-Main.exe End` at **1800.067 s** after `Start`, exactly 1800 s, no dialog, no WER event. Explains "quits after ~30 min" reports. Per-match vs per-process-age discrimination: `run-49` pending |
+| **30-minute session cap** | **VERIFIED (gameplay, not a defect)** | `run-48` (match) + `run-53` (menu). In a match: clean `SK-Main.exe End` at **1800.067 s**. In the menu: alive at **1885 s** with **no `End`**. So the cap is **PER-MATCH only** — menu sessions are uncapped, and the port needs **no restart workaround**. Explains "quits after ~30 min" reports with no crash involved. |
 | Anti-cheat integrity preserved | **FAIL (by design)** | The patch neutralises the timer check. Documented as an accepted behavioural change. |
 
 ### Windows 11 summary

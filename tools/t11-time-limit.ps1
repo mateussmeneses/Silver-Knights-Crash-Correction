@@ -118,19 +118,28 @@ if(Test-Path $log){
     if($l -match 'SK-Main\.exe End'){ $sawEnd = $true }
   }
   Write-Output ""
-  if($sawStart -and $sawEnd){
-    Write-Output "VERDICT: self-termination - the game wrote a matching 'End' line."
-    Write-Output "         Process ended during MENU IDLE, so the 1800 s cap is PER-PROCESS-AGE"
-    Write-Output "         (hypothesis B): it fires even with no match running."
+  # ORDER MATTERS. A run that SURVIVED the full schedule legitimately has a Start and no End -
+  # that is the expected evidence for the per-match hypothesis, not a kill. Checking
+  # "Start without End" first would misreport a successful survival as an invalid run. That
+  # bug is why this ordering is stated explicitly.
+  if(-not $ended -and $sawStart -and -not $sawEnd){
+    Write-Output "VERDICT: process SURVIVED past 1800 s while idle in the main menu."
+    Write-Output "         One Start line, no End line, process still alive at the end of the"
+    Write-Output "         schedule, then killed by this harness's own teardown."
+    Write-Output "         Therefore the 1800 s cap is PER-MATCH (hypothesis A): it requires a"
+    Write-Output "         match to arm. A menu-idle session is not capped."
+  } elseif($sawStart -and $sawEnd){
+    Write-Output "VERDICT: self-termination - the game wrote a matching 'End' line during"
+    Write-Output "         MENU IDLE, so the 1800 s cap is PER-PROCESS-AGE (hypothesis B):"
+    Write-Output "         it fires even with no match running."
   } elseif($sawStart -and -not $sawEnd){
-    Write-Output "VERDICT: INVALID RUN - a 'Start' with no 'End' means the process was KILLED,"
-    Write-Output "         not that it self-terminated. Another harness almost certainly killed it."
-    Write-Output "         Re-run with no other game instance active. Do not draw a conclusion."
+    Write-Output "VERDICT: INVALID RUN - the process disappeared early with a 'Start' and no"
+    Write-Output "         'End', which means it was KILLED, not capped. Another harness almost"
+    Write-Output "         certainly killed it. Re-run with no other game instance active."
   } elseif($ended){
-    Write-Output "VERDICT: process vanished but no log line at all - inconclusive, investigate."
+    Write-Output "VERDICT: process vanished but wrote no log line - inconclusive, investigate."
   } else {
-    Write-Output "VERDICT: process SURVIVED past the 1800 s mark while idle in the menu."
-    Write-Output "         Therefore the cap is PER-MATCH (hypothesis A): it needs a match to arm."
+    Write-Output "VERDICT: inconclusive - no log lines and no clear termination."
   }
 } else { Write-Output "  (no log file - inconclusive)" }
 
