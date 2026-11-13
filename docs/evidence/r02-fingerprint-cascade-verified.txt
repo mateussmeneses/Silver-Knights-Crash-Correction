@@ -1,0 +1,112 @@
+R-02 ANSWERED FROM THE CODE, AND THE ROOT CAUSE RE-DERIVED INSTRUCTION BY INSTRUCTION
+=====================================================================================
+This resolves open review question R-02 ("does 0x1f4d50 gate anything besides the anti-hook
+verdict?") and independently re-derives the root cause by reading the actual instruction
+sequence rather than restating an earlier summary.
+
+1. THE CALLER - who decides to shut the game down
+-------------------------------------------------
+    0x005f4d43  mov   ecx, 0x1e19d88
+    0x005f4d48  call  0x5f4ee0            <-- the fingerprint checker
+    0x005f4d4d  cmp   eax, -1
+    0x005f4d50  jle   0x5f4da4            <-- PATCHED: 7E (jle) -> EB (jmp)
+    0x005f4d52  cmp   eax, ebp            (ebp == 0)
+    0x005f4d54  je    0x5f4da4
+    0x005f4d56  cmp   eax, 5              <-- dispatch on the verdict
+    0x005f4d59  mov   dword ptr [0x21428a4], 1
+    0x005f4d63  push  eax
+    0x005f4d64  jg    0x5f4d75            <-- verdict > 5 picks one format string
+    0x005f4d66..0x5f4d73   push 0x72b078 (or 0x72b054)  <-- message templates
+    0x005f4d82  call  0x604bb0            <-- builds the dialog text
+    0x005f4d97  call  0x5c94b0            <-- displays it
+    0x005f4d9f  call  0x5fd640            <-- requests shutdown
+    0x005f4da4  mov   eax, [0x21428a4]    <-- the "already shutting down" flag
+    0x005f4da9..0x5f4dae  pop edi / esi / ebp / test eax,eax / pop ebx
+    0x005f4daf  je    0x5f4db6
+    0x005f4db1  call  0x5fd640            <-- shutdown again if the flag was set
+    0x005f4db6  add   esp, 0x560 ; ret
+
+**R-02 answer: the site gates exactly one decision** - whether the verdict leads to
+"build message + show dialog + shut down", or falls through to normal continuation. It is a
+verdict dispatch, not a shared branch used for anything else. The 1-byte change is
+well-scoped and does not silently alter unrelated behaviour.
+
+2. THE CHECKER AT 0x5f4ee0 - a tiered fingerprint cascade
+----------------------------------------------------------
+    sub   esp, 0x14 ; push esi ; push edi
+    push  0x72b184 ; call [0x6fd190]      <-- GetModuleHandleA("winmm.dll")
+    push  0x72b178 ; push eax ; call [0x6fd168]
+                                          <-- GetProcAddress(...,"timeGetTime")
+    mov   ecx, 5
+    rep movsd                             <-- copy 5 DWORDs = 20 bytes of its code
+    mov   eax, [esp+8]                     <-- the first 4 copied bytes
+
+  The exact returns, read from the disassembly:
+
+      0x005f4f13  and eax,0xff ; add eax,0x100 ; add esp,0x14 ; ret   -> 0x100 + byte0
+      0x005f4f29  and eax,0xff ; add eax,0x200 ; add esp,0x14 ; ret   -> 0x200 + byte0
+      0x005f4f3f  and eax,0xff ; add eax,0x600 ; add esp,0x14 ; ret   -> 0x600 + byte0
+      0x005f4f55  and eax,0xff ; add eax,0x700 ; add esp,0x14 ; ret   -> 0x700 + byte0
+      0x005f4f6b  and eax,0xff ; add eax,0x800 ; add esp,0x14 ; ret   -> 0x800 + byte0
+      0x005f4f81  and eax,0xff ; add eax,0x1100 ; add esp,0x14 ; ret  -> 0x1100 + byte0
+      0x005f4f97  and eax,0xff ; add eax,0x1200 ; add esp,0x14 ; ret  -> 0x1200 + byte0
+      0x005f4fa5  or  eax,0xffffffff ; add esp,0x14 ; ret             -> -1
+
+  Byte comparisons, in order:
+      cmp al,0x83   (expects `cmp [abs32],imm8`)
+      cmp al,0x3D   (expects `cmp eax,imm32`)
+      cmp al,0x85   (expects `test`)
+      then byte1, byte2, byte3, byte4 gates, each with its own tier
+
+  So the return value is **a tier number shifted left 8 bits, plus the offending byte**. It is
+  a diagnostic telling the author which prologue variant failed and on which byte. `-1` is the
+  "recognised, no mismatch" sentinel, and the caller tests `cmp eax,-1` first.
+
+3. THE ARITHMETIC, CLOSED INDEPENDENTLY
+----------------------------------------
+`winmm!timeGetTime` on Windows 11 begins `FF 25 D8 72 02 10`
+(`jmp dword ptr [0x100272D8]`).
+
+    expected first byte : 0x83
+    actual   first byte : 0xFF
+    first comparison    : cmp al,0x83  -> not equal
+    code path           : 0x005f4f13  and eax,0xff ; add eax,0x100
+    return              : 0x100 + 0xFF = 0x1FF
+
+That is exactly the `(01ff)` in the observed dialog `Timer-API hook was detected.(01ff)`.
+Two independent derivations agree to the byte: the live bytes read out of the DLL, and this
+disassembly of the check. The loop is closed without reference to any earlier summary.
+
+4. THE NEIGHBOURS CONFIRM THE ANTI-CHEAT FRAMING
+-------------------------------------------------
+String references inside the same caller:
+
+    0x72b09c  SetThreadContext
+    0x72b0b0  GetThreadContext / GetCurrentThread / FindWindowA / OLLYDBG
+    0x72b0c4  GetCurrentThread / FindWindowA / user32.dll / OLLYDBG / CreateFileA / \\.\RE
+    0x7292bc  "%04d/%02d/%02d %02d:%02d:%02d"  (the log-line timestamp format)
+
+`FindWindowA` against an OLLYDBG window, thread-context get/set, and a `\\.\RE...` device open
+(a Ring-0 debugger probe) are all debugger detection. The timer fingerprint is one arm of the
+same anti-tamper gate, not an isolated quirk. That should shape how the fix is described: it
+disables one arm of an anti-debug/anti-cheat system, which this project already documents as a
+preservation trade-off rather than a clean improvement.
+
+5. WHAT THIS DOES NOT TELL US
+------------------------------
+Nothing here concerns the 1800-second cap. This function runs at STARTUP and resolves within
+milliseconds; the cap is a separate mechanism and remains unidentified statically. The two
+produce similar log output (a clean "End" line) and must not be conflated - see the
+side-by-side table in docs/CRASH-ANALYSIS.md section 1.1.
+
+6. STILL OPEN
+--------------
+- R-01 (independent refutation of the root cause) is now much better supported, because the
+  arithmetic is derivable from the disassembly above without trusting any prior summary. But
+  note this file was written by the same coordinator that produced the original claim; genuine
+  independence still requires another agent.
+- What `0x5fd640` (the actual shutdown routine) does is not reversed.
+- Whether the check is called periodically, not only at startup, is not established. If it is,
+  a mid-session re-check could interact with the patch. `run-48`'s 29.7-minute soak produced no
+  dialog and no unexpected exit, which is weak but real evidence against a periodic re-check
+  firing - a re-check would have to be rare enough not to have triggered in half an hour.

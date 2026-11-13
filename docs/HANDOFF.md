@@ -215,7 +215,7 @@ Anti-cheat integrity (neutralised by design — documented behavioural change).
 | B-1 | **No Linux or macOS host.** Runtime testing on those platforms cannot proceed here. Static Linux audit is done; runtime is blocked on hardware. | **Blocking** | — needs the user |
 | B-2 | Case-mismatched asset references: **audit resolved (12 → 0)**, renames applied on `002-case-normalization`, but the Shaft map was never loaded so runtime behaviour is unproven, and a control test showed a missing effect mesh fails **silently** rather than crashing. | Medium (was High) | Codex (T-10b) |
 | B-3 | Root cause has not been independently reviewed. | High | Claude (R-01) |
-| B-4 | Patch blast radius unknown — does `0x1f4d50` gate anything besides the anti-hook verdict? | High | Claude (R-02) |
+| B-4 | Patch blast radius: **ANSWERED statically** (R-02 — the site is a verdict dispatch and the whole function is debugger detection). Independent re-check still desirable. | Low (was High) | Claude (R-02 confirm) |
 | B-5 | Per-effect attribution missing; camera drift not excluded. | Medium | Codex (T-05d) |
 | B-6 | MIDI path unverified. | Medium | Codex (T-04b) |
 | B-7 | `SKGuard.dll` hook body not reversed. | Medium | Claude (R-03) |

@@ -304,6 +304,33 @@ verified bytes above.
 flag at `0x21428a4`, formats `Timer-API hook was detected.(%04x)` with `0x1FF`, and calls
 `0x5fd640` — the shutdown path. **VERIFIED** by disassembly.
 
+#### 3.3.1 The enclosing function is a debugger-detection routine (R-02)
+
+**VERIFIED** by scanning the string references of the same function. They are:
+
+```
+0x72b09c  SetThreadContext
+0x72b0b0  GetThreadContext / GetCurrentThread / FindWindowA / OLLYDBG
+0x72b0c4  GetCurrentThread / FindWindowA / user32.dll / OLLYDBG / CreateFileA / \\.\RE
+0x7292bc  "%04d/%02d/%02d %02d:%02d:%02d"   (the log-line timestamp format)
+```
+
+`FindWindowA` against an **OLLYDBG** window class, `Get`/`SetThreadContext`, and an attempted
+`\\.\RE...` device open (a Ring-0 debugger probe) are all debugger detection. Two
+consequences:
+
+1. **The timer fingerprint is one arm of an anti-cheat/anti-debug gate**, not an isolated
+   quirk. The fix disables one arm of that gate, which is the preservation trade-off the
+   project already documents — appropriate for archival use, unacceptable for any
+   competitive-integrity claim.
+2. **R-02 is answered:** the patched site gates exactly one decision — whether the verdict
+   leads to "build message + show dialog + shut down" or falls through to normal
+   continuation. The global at `0x21428a4` is a "shutting down" flag read at `0x5f4da4`, not
+   a general-purpose state variable. The 1-byte change is well-scoped and does not silently
+   alter unrelated behaviour.
+
+Full instruction-by-instruction walk: `docs/evidence/r02-fingerprint-cascade-verified.txt`.
+
 ### 3.4 Why this is a Windows 11 problem specifically
 
 The fingerprint targets an implementation that existed in consumer Windows up to roughly

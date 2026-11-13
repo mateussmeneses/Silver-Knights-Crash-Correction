@@ -1,0 +1,123 @@
+# Shutdown-path anchor search
+
+The orderly-shutdown log line is the most reliable anchor in this binary: it is
+written once per clean exit, and we can observe it happen (`run-48`).
+
+## End line
+
+- file offset `0x32b004` · section `.data` · RVA `0x32b004` · VA `0x72b004`
+- text: `SK-Main.exe End   <------------------------`
+
+### referenced by `push` at file `0x1f491c` · RVA `0x1f491c` · VA `0x5f491c`
+```
+  0x005f48dc  call    esi
+  0x005f48de  mov     eax, dword ptr [0x1df90b0]
+  0x005f48e3  push    ebx
+  0x005f48e4  push    ebx
+  0x005f48e5  push    0x10
+  0x005f48e7  push    eax
+  0x005f48e8  call    esi
+  0x005f48ea  mov     ecx, dword ptr [0x7a77e8]
+  0x005f48f0  push    ebx
+  0x005f48f1  push    ebx
+  0x005f48f2  push    0x10
+  0x005f48f4  push    ecx
+  0x005f48f5  call    esi
+  0x005f48f7  mov     edx, dword ptr [0x1df98dc]
+  0x005f48fd  push    ebx
+  0x005f48fe  push    ebx
+  0x005f48ff  push    0x10
+  0x005f4901  push    edx
+  0x005f4902  call    esi
+  0x005f4904  mov     eax, dword ptr [0x2156c80]
+  0x005f4909  push    0x728514
+  0x005f490e  push    eax
+  0x005f490f  call    0x5ccb20
+  0x005f4914  add     esp, 8
+  0x005f4917  call    0x5ee030
+  0x005f491c  push    0x72b004 <== string ref
+```
+  call targets in window: esi, esi, esi, esi, 0x5ccb20, 0x5ee030
+
+## Start line
+
+- file offset `0x32afd8` · section `.data` · RVA `0x32afd8` · VA `0x72afd8`
+- text: `SK-Main.exe Start ------------------------>`
+
+### referenced by `push` at file `0x1f2b2a` · RVA `0x1f2b2a` · VA `0x5f2b2a`
+```
+  0x005f2aea  cmp     dword ptr [esp + 0x10], 0xa
+  0x005f2aef  jl      0x5f2983
+  0x005f2af5  push    0x729250
+  0x005f2afa  push    0x724344
+  0x005f2aff  call    0x5c94b0
+  0x005f2b04  add     esp, 8
+  0x005f2b07  call    0x5fd640
+  0x005f2b0c  pop     edi
+  0x005f2b0d  pop     esi
+  0x005f2b0e  pop     ebp
+  0x005f2b0f  xor     eax, eax
+  0x005f2b11  pop     ebx
+  0x005f2b12  add     esp, 0x620
+  0x005f2b18  ret     
+  0x005f2b19  nop     
+  0x005f2b1a  nop     
+  0x005f2b1b  nop     
+  0x005f2b1c  nop     
+  0x005f2b1d  nop     
+  0x005f2b1e  nop     
+  0x005f2b1f  nop     
+  0x005f2b20  sub     esp, 0x314
+  0x005f2b26  push    ebx
+  0x005f2b27  push    ebp
+  0x005f2b28  push    esi
+  0x005f2b29  push    edi
+```
+  call targets in window: 0x5c94b0, 0x5fd640
+
+## mailslot
+
+- file offset `0x329280` · section `.data` · RVA `0x329280` · VA `0x729280`
+- text: `\\%s\mailslot\%s`
+
+### referenced by `push` at file `0x1d06a1` · RVA `0x1d06a1` · VA `0x5d06a1`
+```
+  0x005d0661  add     esp, 0x30
+  0x005d0664  ret     
+  0x005d0665  nop     
+  0x005d0666  nop     
+  0x005d0667  nop     
+  0x005d0668  nop     
+  0x005d0669  nop     
+  0x005d066a  nop     
+  0x005d066b  nop     
+  0x005d066c  nop     
+  0x005d066d  nop     
+  0x005d066e  nop     
+  0x005d066f  nop     
+  0x005d0670  sub     esp, 0x114
+  0x005d0676  push    esi
+  0x005d0677  push    0x7292bc
+  0x005d067c  call    dword ptr [0x6fd190]
+  0x005d0682  push    0x7292a8
+  0x005d0687  push    eax
+  0x005d0688  call    0x5fed30
+  0x005d068d  call    eax
+  0x005d068f  mov     dword ptr [esp + 8], eax
+  0x005d0693  push    0x729298
+  0x005d0698  push    0x729294
+  0x005d069d  lea     eax, [esp + 0x1c]
+  0x005d06a1  push    0x729280 <== string ref
+```
+  call targets in window: dword ptr [0x6fd190], 0x5fed30, eax
+
+## Next step (not done by this tool)
+
+1. Take the enclosing function's start address for the reference above.
+2. Find its CALLERS with `tools/disasm_exports.py`-style xref scanning, or in REA:
+     mcp__rea__procedure_callers at that address
+3. Walk up until a caller is guarded by a time comparison. That caller is the cap.
+
+This is the positive route. A byte search for 1800000 was already tried and found
+nothing, which is itself a useful negative - see
+docs/evidence/t11-time-cap-search-analysis.txt.

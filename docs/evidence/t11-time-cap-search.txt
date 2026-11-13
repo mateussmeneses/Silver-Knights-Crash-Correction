@@ -1,0 +1,244 @@
+# Static search for the 1800-second cap constant
+
+Runtime evidence (run-48) fixes the cap at **1800.067 s**. This search asks whether
+the constant is present in code, which would confirm it is compiled in rather than
+read from a file, and would name the comparison.
+
+## 1800000 (u32 ms) - 0 hit(s) inside sections
+
+_none_
+
+## 1800000 (i32) - 0 hit(s) inside sections
+
+_none_
+
+## 1800 (u32) - 40 hit(s) inside sections
+
+### file 0x1d7e2 · .text · RVA 0x1d7e2 · VA 0x41d7e2
+```
+  0x0041d7ba  add     byte ptr [edi], al
+  0x0041d7bc  add     byte ptr [eax], al
+  0x0041d7be  fadd    dword ptr [esp + 0x78]
+  0x0041d7c2  mov     eax, dword ptr [esp + 0x68]
+  0x0041d7c6  mov     dword ptr [ecx + 4], eax
+  0x0041d7c9  fstp    dword ptr [esp + 0x6c]
+  0x0041d7cd  fld     dword ptr [esp + 0x704]
+  0x0041d7d4  fmul    dword ptr [esp + 0x714]
+  0x0041d7db  mov     edx, dword ptr [esp + 0x6c]
+  0x0041d7df  fld     dword ptr [esp + 0x708] <== constant here
+  0x0041d7e6  fmul    dword ptr [esp + 0x714]
+  0x0041d7ed  mov     dword ptr [ecx + 8], edx
+  0x0041d7f0  fstp    dword ptr [esp + 0x38]
+  0x0041d7f4  fld     dword ptr [esp + 0x70c]
+```
+
+### file 0x3a57f · .text · RVA 0x3a57f · VA 0x43a57f
+```
+  0x0043a557  lds     esp, ptr [ecx - 0x50180000]
+  0x0043a55e  mov     ebp, 0x108b001b
+  0x0043a563  sub     esp, 0xc
+  0x0043a566  mov     ecx, esp
+  0x0043a568  mov     dword ptr [ecx], edx
+  0x0043a56a  mov     edx, dword ptr [eax + 4]
+  0x0043a56d  mov     eax, dword ptr [eax + 8]
+  0x0043a570  mov     dword ptr [ecx + 4], edx
+  0x0043a573  mov     dword ptr [ecx + 8], eax
+  0x0043a576  mov     cx, word ptr [ebp + 0x33b0c]
+  0x0043a57d  push    ecx
+  0x0043a57e  push    0x708 <== constant here
+  0x0043a583  call    0x5c64e0
+  0x0043a588  fld     dword ptr [ebp + 0x38908]
+```
+
+### file 0x3b118 · .text · RVA 0x3b118 · VA 0x43b118
+```
+  0x0043b0f0  aad     0xa4
+  0x0043b0f2  and     dword ptr [eax], eax
+  0x0043b0f4  add     al, ch
+  0x0043b0f6  push    ss
+  0x0043b0f7  mov     dl, 0x1b
+  0x0043b0f9  add     byte ptr [ebx + 0xcec8310], cl
+  0x0043b0ff  mov     ecx, esp
+  0x0043b101  mov     dword ptr [ecx], edx
+  0x0043b103  mov     edx, dword ptr [eax + 4]
+  0x0043b106  mov     eax, dword ptr [eax + 8]
+  0x0043b109  mov     dword ptr [ecx + 4], edx
+  0x0043b10c  mov     dword ptr [ecx + 8], eax
+  0x0043b10f  mov     cx, word ptr [ebp + 0x33b0c]
+  0x0043b116  push    ecx
+```
+
+### file 0x3b344 · .text · RVA 0x3b344 · VA 0x43b344
+```
+  0x0043b31c  popfd   
+  0x0043b31d  add     al, 0x4f
+  0x0043b31f  add     eax, dword ptr [eax]
+  0x0043b321  call    0x5f6310
+  0x0043b326  mov     edx, dword ptr [eax]
+  0x0043b328  sub     esp, 0xc
+  0x0043b32b  mov     ecx, esp
+  0x0043b32d  mov     dword ptr [ecx], edx
+  0x0043b32f  mov     edx, dword ptr [eax + 4]
+  0x0043b332  mov     eax, dword ptr [eax + 8]
+  0x0043b335  mov     dword ptr [ecx + 4], edx
+  0x0043b338  mov     dword ptr [ecx + 8], eax
+  0x0043b33b  mov     cx, word ptr [ebp + 0x33b0c]
+  0x0043b342  push    ecx
+```
+
+### file 0x3b59e · .text · RVA 0x3b59e · VA 0x43b59e
+```
+  0x0043b576  lds     esp, ptr [ecx - 0x6f180000]
+  0x0043b57d  lodsd   eax, dword ptr [esi]
+  0x0043b57e  sbb     eax, dword ptr [eax]
+  0x0043b580  mov     edx, dword ptr [eax]
+  0x0043b582  sub     esp, 0xc
+  0x0043b585  mov     ecx, esp
+  0x0043b587  mov     dword ptr [ecx], edx
+  0x0043b589  mov     edx, dword ptr [eax + 4]
+  0x0043b58c  mov     eax, dword ptr [eax + 8]
+  0x0043b58f  mov     dword ptr [ecx + 4], edx
+  0x0043b592  mov     dword ptr [ecx + 8], eax
+  0x0043b595  mov     cx, word ptr [ebp + 0x33b0c]
+  0x0043b59c  push    ecx
+  0x0043b59d  push    0x708 <== constant here
+```
+
+### file 0x5a4f8 · .text · RVA 0x5a4f8 · VA 0x45a4f8
+```
+  0x0045a4d0  aad     0xa4
+  0x0045a4d2  and     dword ptr [eax], eax
+  0x0045a4d4  add     al, ch
+  0x0045a4d6  mov     esi, 0x108b0019
+  0x0045a4dc  sub     esp, 0xc
+  0x0045a4df  mov     ecx, esp
+  0x0045a4e1  mov     dword ptr [ecx], edx
+  0x0045a4e3  mov     edx, dword ptr [eax + 4]
+  0x0045a4e6  mov     eax, dword ptr [eax + 8]
+  0x0045a4e9  mov     dword ptr [ecx + 4], edx
+  0x0045a4ec  mov     dword ptr [ecx + 8], eax
+  0x0045a4ef  mov     cx, word ptr [ebp + 0x33b0c]
+  0x0045a4f6  push    ecx
+  0x0045a4f7  push    0x708 <== constant here
+```
+
+### file 0x6b069 · .text · RVA 0x6b069 · VA 0x46b069
+```
+  0x0046b041  lds     esp, ptr [ecx - 0x3a180000]
+  0x0046b048  mov     dl, 0x18
+  0x0046b04a  add     byte ptr [ebx + 0xcec8310], cl
+  0x0046b050  mov     ecx, esp
+  0x0046b052  mov     dword ptr [ecx], edx
+  0x0046b054  mov     edx, dword ptr [eax + 4]
+  0x0046b057  mov     eax, dword ptr [eax + 8]
+  0x0046b05a  mov     dword ptr [ecx + 4], edx
+  0x0046b05d  mov     dword ptr [ecx + 8], eax
+  0x0046b060  mov     cx, word ptr [ebp + 0x33b0c]
+  0x0046b067  push    ecx
+  0x0046b068  push    0x708 <== constant here
+  0x0046b06d  call    0x5c64e0
+  0x0046b072  mov     eax, 0x10
+```
+
+### file 0x7b480 · .text · RVA 0x7b480 · VA 0x47b480
+```
+  0x0047b458  aad     0xa4
+  0x0047b45a  and     dword ptr [eax], eax
+  0x0047b45c  add     al, ch
+  0x0047b45e  scasb   al, byte ptr es:[edi]
+  0x0047b45f  scasb   al, byte ptr es:[edi]
+  0x0047b460  pop     ss
+  0x0047b461  add     byte ptr [ebx + 0xcec8310], cl
+  0x0047b467  mov     ecx, esp
+  0x0047b469  mov     dword ptr [ecx], edx
+  0x0047b46b  mov     edx, dword ptr [eax + 4]
+  0x0047b46e  mov     eax, dword ptr [eax + 8]
+  0x0047b471  mov     dword ptr [ecx + 4], edx
+  0x0047b474  mov     dword ptr [ecx + 8], eax
+  0x0047b477  mov     cx, word ptr [ebp + 0x33b0c]
+```
+
+### file 0x7c270 · .text · RVA 0x7c270 · VA 0x47c270
+```
+  0x0047c248  aad     0xa4
+  0x0047c24a  and     dword ptr [eax], eax
+  0x0047c24c  add     al, ch
+  0x0047c24e  mov     esi, 0x8b0017a0
+  0x0047c253  adc     byte ptr [ebx - 0x3374f314], al
+  0x0047c259  mov     dword ptr [ecx], edx
+  0x0047c25b  mov     edx, dword ptr [eax + 4]
+  0x0047c25e  mov     eax, dword ptr [eax + 8]
+  0x0047c261  mov     dword ptr [ecx + 4], edx
+  0x0047c264  mov     dword ptr [ecx + 8], eax
+  0x0047c267  mov     cx, word ptr [ebp + 0x33b0c]
+  0x0047c26e  push    ecx
+  0x0047c26f  push    0x708 <== constant here
+  0x0047c274  call    0x5c64e0
+```
+
+### file 0x9b951 · .text · RVA 0x9b951 · VA 0x49b951
+```
+  0x0049b929  aad     0xa4
+  0x0049b92b  and     dword ptr [eax], eax
+  0x0049b92d  add     al, ch
+```
+
+### file 0x9ba26 · .text · RVA 0x9ba26 · VA 0x49ba26
+```
+  0x0049b9fe  lds     esp, ptr [ecx + 0x8e80000]
+  0x0049ba05  test    eax, 0x108b0015
+  0x0049ba0a  sub     esp, 0xc
+  0x0049ba0d  mov     ecx, esp
+  0x0049ba0f  mov     dword ptr [ecx], edx
+  0x0049ba11  mov     edx, dword ptr [eax + 4]
+  0x0049ba14  mov     eax, dword ptr [eax + 8]
+  0x0049ba17  mov     dword ptr [ecx + 4], edx
+  0x0049ba1a  mov     dword ptr [ecx + 8], eax
+  0x0049ba1d  mov     cx, word ptr [ebp + 0x33b0c]
+  0x0049ba24  push    ecx
+  0x0049ba25  push    0x708 <== constant here
+  0x0049ba2a  call    0x5c64e0
+  0x0049ba2f  add     esp, 0x18
+```
+
+### file 0xa460c · .text · RVA 0xa460c · VA 0x4a460c
+```
+  0x004a45e4  aad     0xa4
+  0x004a45e6  and     dword ptr [eax], eax
+  0x004a45e8  add     al, ch
+  0x004a45ea  and     bl, byte ptr [0x108b0015]
+  0x004a45f0  sub     esp, 0xc
+  0x004a45f3  mov     ecx, esp
+  0x004a45f5  mov     dword ptr [ecx], edx
+  0x004a45f7  mov     edx, dword ptr [eax + 4]
+  0x004a45fa  mov     eax, dword ptr [eax + 8]
+  0x004a45fd  mov     dword ptr [ecx + 4], edx
+  0x004a4600  mov     dword ptr [ecx + 8], eax
+  0x004a4603  mov     cx, word ptr [ebp + 0x33b0c]
+  0x004a460a  push    ecx
+  0x004a460b  push    0x708 <== constant here
+```
+
+_... and 28 more_
+
+## 1800.0f - 0 hit(s) inside sections
+
+_none_
+
+## 1800.0d - 0 hit(s) inside sections
+
+_none_
+
+## Reading the result
+
+Total code sites disassembled: 12
+
+- A hit inside `cmp`/`sub` followed by `jae`/`jbe`/`jb`/`ja` is a plausible limit test.
+- A hit in `.rdata`/`.data` is a stored value, not a comparison - it would have to be
+  loaded first, so look for the `mov`/`fld` that references it.
+- **Absence is also informative**: if no immediate 1800000 or 1800 appears in code,
+  the cap is probably computed (start tick vs current tick against a stored limit) or
+  encoded as a float constant that this search did not guess correctly. That would
+  not weaken the runtime finding, only leave its mechanism unnamed.
+- This tool does NOT prove which site is the cap. `run-51` and a targeted breakpoint
+  experiment would. Treat any single hit as a candidate, not a conclusion.

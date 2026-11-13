@@ -1,3 +1,9 @@
 T+0 LAUNCH  (log had 41 lines)
 main menu is up - NO match started. Idling from here; no further input.
 
+  T+   85s  WS=  94,9MB  thr= 31  hnd=  677
+  T+  145s  WS=  94,8MB  thr= 27  hnd=  691
+  T+  205s  WS=  94,8MB  thr= 27  hnd=  714
+  T+  265s  WS=  94,8MB  thr= 27  hnd=  735
+  T+  325s  WS=  94,9MB  thr= 28  hnd=  755
+  T+  385s  WS=  94,9MB  thr= 28  hnd=  776
