@@ -1,0 +1,62 @@
+T+0 LAUNCH SK-Startup pid=43712 cwd=C:\Users\Mateus\AppData\Local\hermes\cache\scratch\sk-sandbox3
+T+0,5 SK-Startup cls='#32770' vis=True rect=605,332,931,579 text='SK Startup - Version 0.13'  kids: [Button]Full Screen ; [Button]Window ; [Button]Scene Editor ; [Static]UserID ; [Button]Resolution1/4
+T+0,5   -> CLICK Window
+T+0,5 SK-Startup cls='ComboLBox' vis=False rect=0,20,93,142 text=''
+T+0,5 SK-Startup cls='IME' vis=False rect=0,0,0,0 text='Default IME'
+T+0,5 SK-Startup cls='MSCTFIME UI' vis=False rect=0,0,0,0 text='MSCTFIME UI'
+T+1,6 SK-Startup cls='#32770' vis=False rect=605,332,931,579 text='SK Startup - Version 0.13'  kids: [Button]Full Screen ; [Button]Window ; [Button]Scene Editor ; [Static]UserID ; [Button]Resolution1/4
+T+3,1 SK-Main cls='DIEmWin' vis=False rect=-1,-1,135,38 text='DIEmWin'
+T+3,1 SK-Main cls='UDX_CLASS' vis=True rect=0,0,1286,989 text='Silver Knights - Version 0.13'
+T+3,1 SK-Main cls='IME' vis=False rect=0,0,0,0 text='Default IME'
+T+3,1 SK-Main cls='MSCTFIME UI' vis=False rect=0,0,0,0 text='MSCTFIME UI'
+T+6,7 SK-Main cls='FilterGraphWindow' vis=False rect=104,104,424,344 text='ActiveMovie Window'
+--- end state ---
+SK-Startup still running
+SK-Main pid=26132 alive=30,6s ws=101,1MB threads=35
+--- log tail ---
+2026/11/13 13:14:53.653, SK-Main.exe Start ------------------------>
+2026/11/13 13:15:41.839, SK-Main.exe Start ------------------------>
+2026/11/13 13:16:29.910, SK-Main.exe Start ------------------------>
+2026/11/13 13:39:07.466, SK-Main.exe Start ------------------------>
+--- WER/AppError last 10 min ---
+--- teardown ---
+
+=== VERDICT: T-03 PASS ===
+
+BEFORE (run-03, unpatched):
+  T+0.4s  "Error Massage" -> "RegQueryValueEx function failed.(REsult:2)"
+  T+1.3s  "Error Massage" -> "Failed to acquire the user ID."
+  T+14s   launcher window finally appears
+  => two modal dialogs the user must dismiss before they can play.
+
+AFTER (this run, patched):
+  T+0.5s  launcher window "SK Startup - Version 0.13" appears immediately
+          buttons: Full Screen / Window / Scene Editor / Resolution1/4
+          Static:  "UserID"  (field present and populated)
+  T+3.1s  SK-Main UDX_CLASS window created
+  T+6.7s  DirectShow FilterGraphWindow (audio graph built)
+  T+30.6s still alive, 101 MB, 35 threads
+  => ZERO dialogs.
+
+PATCH (2 edits, same length, SK-Startup.exe only)
+  RVA 0x1867  E8 34 FE FF FF  ->  90 90 90 90 90   (call MessageBox -> nop x5)
+               the RegQueryValueEx ProductId failure report
+  RVA 0x2643  E8 58 F0 FF FF  ->  90 90 90 90 90   (call MessageBox -> nop x5)
+               the "Failed to acquire the user ID." report
+
+  Both calls target the shared message helper at 0x4016a0, which has 9 call sites.
+  Only these two are neutralised, so every other diagnostic the launcher can emit is
+  preserved. The argument pushes are left in place because the existing `add esp` in
+  each path already cleans them - removing the call site alone keeps the stack balanced.
+  The 1234567890 UserID fallback at RVA 0x126f4 is untouched and still executes.
+
+  Also required: RVA 0x12558 MD5 constant updated to the patched SK-Main.exe
+  (0c4de1d940cf176f87bf86b4c7777d38) because this sandbox ships the same-length
+  patched SK-Main. The size constant at 0x12554 is unchanged (0x165800) and still
+  passes - which is exactly the benefit of the same-length build strategy.
+
+NOTE
+  The underlying registry defect is NOT fixed - ProductId still does not exist on
+  Windows 11. Only the two user-facing dialogs are suppressed; the launcher continues
+  on the documented fallback path exactly as before. A registry-key workaround was
+  deliberately not used because it would modify the host machine.

@@ -159,13 +159,48 @@ def main() -> int:
         print(f"  md5    : {new_md5}")
         print(f"  sha256 : {new_sha}")
 
-        print("\n== SK-Startup.exe patch requirement ==")
+        print("\n== SK-Startup.exe patch ==")
         print(f"  size constant at 0x{SK_STARTUP_SIZE_RVA:x} stays 0x{TARGET_SIZE:x}  (no edit needed)")
         print(f"  MD5 constant  at 0x{SK_STARTUP_MD5_RVA:x}: {ORIGINAL_SKMAIN_MD5} -> {new_md5}")
-        print(f"  command:")
-        print(f"    python tools/patch_bytes.py SK-Startup.exe --out {out_dir}/SK-Startup.exe \\")
-        print(f"        --edit 0x{SK_STARTUP_MD5_RVA:x}:{ORIGINAL_SKMAIN_MD5}:{new_md5} \\")
-        print(f"        --reason \"accept the patched SK-Main.exe\"")
+
+        # Build the matching launcher: MD5 constant + suppress the two Windows 11 dialogs.
+        # Both dialog paths call the shared message helper at 0x4016a0; only these two
+        # call sites are neutralised so every other launcher diagnostic survives.
+        out_start = os.path.join(out_dir, "SK-Startup.exe")
+        startun = os.path.join(work, "SK-Startup.unpacked.exe")
+        print("\n  unpacking SK-Startup.exe")
+        run([args.upx, "-d", "-o", startun, src_start])
+
+        sdata = bytearray(open(startun, "rb").read())
+        start_edits = [
+            (SK_STARTUP_MD5_RVA, bytes.fromhex(ORIGINAL_SKMAIN_MD5),
+             bytes.fromhex(new_md5), "accept the patched SK-Main.exe"),
+            (0x1867, bytes.fromhex("e834feffff"), b"\x90" * 5,
+             "suppress the RegQueryValueEx ProductId failure dialog"),
+            (0x2643, bytes.fromhex("e858f0ffff"), b"\x90" * 5,
+             "suppress the 'Failed to acquire the user ID.' dialog"),
+        ]
+        for off, old, new, why in start_edits:
+            actual = bytes(sdata[off:off + len(old)])
+            if actual != old:
+                raise SystemExit(
+                    f"SK-Startup precondition failed at 0x{off:x}: expected {old.hex()}, found {actual.hex()}"
+                )
+            sdata[off:off + len(new)] = new
+            print(f"    patched 0x{off:x}  {old.hex()} -> {new.hex()}   ({why})")
+
+        with open(out_start, "wb") as fh:
+            fh.write(sdata)
+        print(f"\nwrote {out_start}")
+        print(f"  size   : {os.path.getsize(out_start)}")
+        print(f"  md5    : {md5(out_start)}")
+        print(f"  sha256 : {sha256(out_start)}")
+
+        print("\n== summary ==")
+        print(f"  SK-Main.exe     {os.path.getsize(out_main):>9} bytes  (original length preserved)")
+        print(f"  SK-Startup.exe  {os.path.getsize(out_start):>9} bytes")
+        print("  Both files are needed together; mixing one patched file with one")
+        print("  original will fail the launcher's integrity check by design.")
         return 0
     finally:
         shutil.rmtree(work, ignore_errors=True)
