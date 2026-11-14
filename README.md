@@ -46,6 +46,25 @@ The fix is **one byte**: `7E` → `EB` at `SK-Main.exe` RVA `0x1f4d50`.
 
 ---
 
+## Download
+
+**[Silver Knights 0.13 — Windows 11 build](https://github.com/mateussmeneses/Silver-Knights-Crash-Correction/releases/tag/v0.13-win11)**
+
+A ready-to-run zip: the game already patched, `PLAY.bat` to start it, and the bilingual guides
+inside. No build step needed.
+
+```
+SilverKnights-0.13-Windows11.zip
+  sha256 11e40b9adfc627c63ed0a968d24b3c68f86f37a5181158f48c861ec2cc4acea8
+```
+
+Unzip somewhere writable (not `C:\Program Files`), run `PLAY.bat`, click **Window** in the small
+launcher, then **Battle Mode** and press **F3** to start a match.
+
+Verify what you downloaded against `MANIFEST.md5`, which lists every file with its MD5.
+
+---
+
 ## Start here
 
 | Document | What it covers |
@@ -150,6 +169,25 @@ calculado é `0x100 + 0xFF` = `0x1FF`, que é exatamente o `(01ff)` do diálogo
 `Timer-API hook was detected.(01ff)`.
 
 A correção é **um byte**: `7E` → `EB` em `SK-Main.exe` RVA `0x1f4d50`.
+
+---
+
+## Baixar
+
+**[Silver Knights 0.13 — build Windows 11](https://github.com/mateussmeneses/Silver-Knights-Crash-Correction/releases/tag/v0.13-win11)**
+
+Um zip pronto para usar: o jogo já corrigido, `PLAY.bat` para iniciar, e os guias bilíngues
+dentro. Sem etapa de build.
+
+```
+SilverKnights-0.13-Windows11.zip
+  sha256 11e40b9adfc627c63ed0a968d24b3c68f86f37a5181158f48c861ec2cc4acea8
+```
+
+Descompacte em local gravável (não em `C:\Program Files`), execute `PLAY.bat`, clique em
+**Window** na janelinha do launcher, depois **Battle Mode** e aperte **F3** para começar a partida.
+
+Confira o que baixou contra o `MANIFEST.md5`, que lista cada arquivo com seu MD5.
 
 ---
 
