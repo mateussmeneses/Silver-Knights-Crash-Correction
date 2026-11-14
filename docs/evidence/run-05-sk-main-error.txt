@@ -1,0 +1,10 @@
+T+0 LAUNCH SK-Startup pid=8204
+T+0,5 [SK-Startup] ERROR: RegQueryValueEx function failed.(REsult:2)
+T+0,5 SK-Main process gone
+--- teardown ---
+killing SK-Startup 8204
+--- log tail ---
+2026/11/13 10:20:06.917, SK-Main.exe End   <------------------------
+2026/11/13 11:11:08.233, SK-Main.exe Start ------------------------>
+2026/11/13 11:11:16.089, SK-Main.exe End   <------------------------
+2026/11/13 11:14:44.526, SK-Main.exe Start ------------------------>

@@ -1,0 +1,4 @@
+T+0 LAUNCH SK-Startup pid=19060
+T+0,5 [SK-Startup] ERROR: 'SK-Main.exe' file is corrupted.
+--- teardown ---
+--- log tail ---

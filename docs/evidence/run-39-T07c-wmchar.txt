@@ -1,0 +1,81 @@
+T+0 LAUNCH pid=33224
+posting WM_CHAR for 'TestPilot' to hwnd=0xA30C30
+advancing with ENTER
+=== modules ===
+    (none)
+alive ws=103,4MB threads=34
+
+=== teardown ===
+killing SK-Main 1100
+killing SK-Startup 33224
+
+========================================================================
+T-07 NETWORK MODE - CONSOLIDATED RESULT
+========================================================================
+
+STATUS: UI reachable = PASS. DirectPlay initialisation = BLOCKED (automation), not tested.
+
+WHAT IS PROVEN
+
+1. Network Mode IS reachable and DOES render (run-37, run-38, run-39).
+   Sequence: main menu -> DIK_DOWN x2 -> ENTER.
+   The screen renders the Network Mode title, the instruction
+   "Enter your name. (12 Letters Max)" and a white text entry field, over the same
+   wing-art background as the main menu. Pixels verified in t07/03-network-screen.png,
+   t07b/01-name-entry-before.png, t07c/01-before-chars.png.
+
+2. The game survives the whole Network Mode path: 34-35 threads, ~103 MB, no crash,
+   no error dialog, no WER event. Network Mode does not destabilise the process.
+
+3. DirectPlay binaries ARE PRESENT on this Windows 11 system in SysWOW64 (the 32-bit
+   view a WOW64 process receives):
+       dpnet.dll      SysWOW64=YES   (System32=YES)
+       dplayx.dll     SysWOW64=YES   (System32=no)
+       dpwsockx.dll   SysWOW64=YES   (System32=no)
+       dpnaddr.dll    SysWOW64=YES   (System32=YES)
+       dplaysvr.exe   SysWOW64=YES   (System32=no)
+       dpnsvr.exe     SysWOW64=YES   (System32=YES)
+   This contradicts a common assumption that DirectPlay is simply "missing on Windows 11".
+   On THIS install it is present in the 32-bit view. Whether the DirectPlay optional
+   feature is enabled could not be queried - Get-WindowsOptionalFeature requires
+   elevation, which this harness does not have.
+
+WHAT IS NOT PROVEN, AND WHY
+
+  DirectPlay was NEVER LOADED. The module list before, during and after entering
+  Network Mode shows no dpnet.dll / dplayx.dll / dpwsockx.dll, and no ws2_32.dll
+  either. So none of the following is known:
+    - whether IDirectPlay8Peer can be created
+    - whether a lobby/host list appears
+    - whether a session can be hosted or joined
+    - whether the deprecated CGI scoreboard path is still attempted
+
+  Reason: the name field could not be filled by automation, and the game will not
+  proceed past it without a name. Two methods were tried and BOTH produced no
+  characters:
+    (a) SendInput scancodes (letters, non-extended)  -> field stayed blank (run-38)
+    (b) PostMessage WM_CHAR to the game window        -> field stayed blank (run-39)
+  Enter afterwards did not advance, so the field is genuinely empty, not merely
+  un-rendered.
+
+  Likely explanation: the field is drawn by the game's own renderer and reads character
+  input from its own DirectInput keyboard poll plus its character table, rather than
+  accepting WM_CHAR into a text control. The binary contains no GetKeyboardState /
+  ToAscii / ToUnicode / MapVirtualKey / GetAsyncKeyState imports, which rules out the
+  classic message-based text path and supports the poll hypothesis. Recorded as
+  INFERRED, not proven.
+
+  Note also that the prompt string "Enter your name." was NOT found in SK-Main.exe's
+  literal strings, so it is almost certainly supplied by the language file (1041.ini),
+  consistent with the rest of the UI text.
+
+CONCLUSION FOR THE MISSION
+  The network question cannot be closed by automation alone. It needs either:
+    * a human to type a name once at the keyboard, then observe whether DirectPlay
+      initialises, or
+    * a deeper reversal of the name-entry routine to find where it stores characters,
+      then inject at that data structure.
+
+  Claiming FAIL would be wrong - nothing failed; the harness could not get there.
+  Claiming PASS would be worse. The honest status is BLOCKED, with the UI layer
+  verified and the transport layer untouched.

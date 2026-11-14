@@ -1,0 +1,42 @@
+T+0 LAUNCH pid=9404
+game window hwnd=0x330696
+
+=== modules BEFORE entering Network Mode (baseline) ===
+    (no DirectPlay / winsock modules loaded)
+  >> DIK_DOWN -> Battle Mode
+  >> DIK_DOWN -> Network Mode
+  >> ENTER -> open Network Mode
+
+=== any new dialogs after entering Network Mode ===
+=== modules AFTER entering Network Mode ===
+    (no DirectPlay / winsock modules loaded)
+
+SK-Main alive ws=103,3MB threads=34
+
+=== +6s recheck ===
+  alive, threads=34
+  modules:
+    (no DirectPlay / winsock modules loaded)
+
+=== DirectPlay availability on this system (filesystem check) ===
+  dpnet.dll      System32=YES     SysWOW64=YES
+  dplayx.dll     System32=no      SysWOW64=YES
+  dpwsockx.dll   System32=no      SysWOW64=YES
+  dpnaddr.dll    System32=YES     SysWOW64=YES
+  dvapi32.dll    System32=no      SysWOW64=no
+  dplaysvr.exe   System32=no      SysWOW64=YES
+  dpnsvr.exe     System32=YES     SysWOW64=YES
+
+=== DirectPlay optional-feature state ===
+powershell.exe : Get-WindowsOptionalFeature : A opera??o solicitada requer eleva??o.
+No C:\projetos\Silver-Knights-Crash-Correction\tools\t07-network.ps1:186 caractere:1
++ powershell.exe -NoProfile -Command "Get-WindowsOptionalFeature -Onlin ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Get-WindowsOpti...equer eleva??o.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+No linha:1 caractere:1
+
+=== teardown ===
+killing SK-Main 40596
+killing SK-Startup 9404

@@ -1,0 +1,56 @@
+HandleDiff compiled OK
+launched launcher - dismissing dialogs and pressing Window
+game pid=29492
+
+=== SNAPSHOT 1: total=671 distinctTypes=18 ===
+    typeIndex  56   count    198
+    typeIndex  21   count    158
+    typeIndex  50   count     77
+    typeIndex  41   count     48
+    typeIndex  42   count     42
+    typeIndex   9   count     35
+    typeIndex  22   count     23
+    typeIndex  24   count     18
+    typeIndex  49   count     15
+    typeIndex  26   count     14
+    typeIndex  40   count     14
+    typeIndex  48   count     13
+    typeIndex  35   count      7
+    typeIndex   3   count      4
+    typeIndex  29   count      2
+    typeIndex  17   count      1
+    typeIndex  12   count      1
+    typeIndex  30   count      1
+
+
+=== SNAPSHOT 2: total=754 distinctTypes=18 ===
+    typeIndex  56   count    198
+    typeIndex  21   count    157
+    typeIndex  42   count    131
+    typeIndex  50   count     77
+    typeIndex  41   count     48
+    typeIndex   9   count     31
+    typeIndex  22   count     23
+    typeIndex  24   count     18
+    typeIndex  40   count     16
+    typeIndex  49   count     15
+    typeIndex  26   count     14
+    typeIndex  48   count     10
+    typeIndex  35   count      7
+    typeIndex   3   count      4
+    typeIndex  29   count      2
+    typeIndex  17   count      1
+    typeIndex  12   count      1
+    typeIndex  30   count      1
+
+
+=== DELTA by object type index ===
+total handles: 671 -> 754   delta +83
+Erro ao formatar uma cadeia de caracteres: A cadeia de caracteres de entrada nÆo estava em um formato correto..
+No C:\projetos\Silver-Knights-Crash-Correction\tools\t08c-handle-diff.ps1:195 caractere:9
++         Write-Host ("  typeIndex {0,3}: {1,6} -> {2,6}   delta {3,+#; ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (  typeIndex {0,...lta {3,+#;-#;0}:String) [], ParentContainsErrorReco 
+   rdException
+    + FullyQualifiedErrorId : FormatError
+ 

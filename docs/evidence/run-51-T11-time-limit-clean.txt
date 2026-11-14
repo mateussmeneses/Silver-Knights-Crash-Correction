@@ -1,0 +1,22 @@
+T+0 LAUNCH  (log had 41 lines)
+main menu is up - NO match started. Idling from here; no further input.
+
+  T+   85s  WS=  94,9MB  thr= 31  hnd=  677
+  T+  145s  WS=  94,8MB  thr= 27  hnd=  691
+  T+  205s  WS=  94,8MB  thr= 27  hnd=  714
+  T+  265s  WS=  94,8MB  thr= 27  hnd=  735
+  T+  325s  WS=  94,9MB  thr= 28  hnd=  755
+  T+  385s  WS=  94,9MB  thr= 28  hnd=  776
+  T+  445s  WS=  94,9MB  thr= 27  hnd=  797
+  T+  505s  WS=  94,9MB  thr= 27  hnd=  817
+  T+  565s  PROCESS GONE
+
+=== log lines added by this run ===
+  2026/11/13 17:34:22.433, SK-Main.exe Start ------------------------>
+elapsed this run: 565,5s (9,42 min)
+
+VERDICT: INVALID RUN - a 'Start' with no 'End' means the process was KILLED,
+         not that it self-terminated. Another harness almost certainly killed it.
+         Re-run with no other game instance active. Do not draw a conclusion.
+
+=== teardown ===

@@ -1,0 +1,89 @@
+T-04b: THE MIDI / DIRECTMUSIC PATH WORKS - FULL PROOF CHAIN
+===========================================================
+Status change: **MIDI row moves from NOT PROVEN to PASS.**
+
+This question stayed open for a long time because the earlier audio measurement (run-33) could
+only prove that *something* reached the output device, and the music it caught was the
+MP3/DirectShow path. `dmusic.dll` loading was never evidence of MIDI *playing*. Three runs
+close it.
+
+1. THE MEASUREMENT (run-52)
+---------------------------
+Sandbox copy, all 16 `mp3\*.mp3` files DELETED so DirectShow had nothing to play, then
+`MIDI=1  WAVE=0` in `SilverKnights.ini`. WASAPI endpoint peak metre, 30 samples at 300 ms:
+
+    non-zero : 30 / 30
+    max      : 0.11123
+    average  : 0.04496
+
+Signal was unambiguously present. But on its own this proves nothing, for two reasons that
+were recorded at the time rather than glossed over:
+  - the pre-launch baseline was 0.00342, not zero, so something else on the machine was
+    already making sound;
+  - the module list came back EMPTY, because 64-bit PowerShell cannot enumerate a WOW64
+    process's modules. So there was no direct evidence that DirectMusic was even involved.
+
+2. THE CONTROL (run-54)
+-----------------------
+Same sandbox, same deleted mp3 files, only the flag changed to `MIDI=0  WAVE=0`. This run also
+took a proper quiet baseline - ten samples over five seconds BEFORE launch:
+
+    pre-launch baseline : 0.00000, 0.00000, ... (10 x 0.0000)   <- genuinely silent
+    in-game samples     : 0 / 30 non-zero
+    max                 : 0.00000
+
+Pure silence. So the two runs differ ONLY in the `MIDI` flag, and the output differs from
+"strong continuous signal" to "digital silence". That is a clean A/B and it attributes the
+signal to the MIDI path.
+
+3. THE MECHANISM (run-55)
+-------------------------
+Still not satisfied, because an A/B on a flag infers the cause rather than showing it. This run
+launched with `MIDI=1`, mp3 deleted, and enumerated the REAL 32-bit module list via the
+SysWOW64 PowerShell (a 64-bit walk only ever sees `ntdll` + `wow64*` stubs - a pitfall already
+documented in this project). Result, 96 modules:
+
+    dmusic.dll      LOADED     <- DirectMusic core
+    dmloader.dll    LOADED     <- DirectMusic loader
+    dmsynth.dll     LOADED     <- the software synthesiser
+    midimap.dll     LOADED     <- MIDI mapper
+    dsound.dll      LOADED
+    winmm.dll       LOADED
+    wdmaud.drv      LOADED
+    msacm32.drv     LOADED
+    quartz.dll      absent     <- DirectShow NOT loaded, because there was no MP3 to play
+    l3codeca.acm    absent     <- MP3 codec absent, consistent
+    msmpeg2adec.dll absent     <- MPEG audio decoder absent, consistent
+
+The presence of `dmsynth.dll` and `midimap.dll` is the decisive detail. Those are not loaded
+speculatively - they are the synthesiser and the device mapper, and they only appear when a
+MIDI stream is actually being rendered. `quartz.dll` being ABSENT at the same time proves the
+MP3 path was not the source, which is exactly the confound that made run-33 inconclusive.
+
+CONCLUSION
+----------
+The DirectMusic path is functional on this Windows 11 system under the shipped patch. Music
+plays from `midi\*.mid` when `MIDI=1`, and the MP3 path is independent of it.
+
+Consequences worth recording:
+  - **LINUX:** this WEAKENS one risk. Wine's DirectMusic support is partial, but the game has
+    a working non-MP3 music path, so a Wine configuration that fails on DirectShow/MP3 may
+    still have music via MIDI - and vice versa. Worth testing both explicitly rather than
+    assuming one.
+  - **Fidelity:** MIDI playback on modern Windows goes through the GS Wavetable synth, so the
+    music will NOT sound like a period-correct hardware MIDI module. That is a fidelity note
+    for the preservation goal, not a defect. The MP3 path is the accurate one for the shipped
+    soundtrack; MIDI is the fallback.
+  - `WAVE=0` was set in these runs, so the SFX path was not exercised simultaneously. The
+    earlier run-33 measurement established SFX independently, so both paths are covered, but
+    not both at once.
+
+WHAT IS STILL NOT PROVEN
+------------------------
+- Whether `MIDI=0  WAVE=1` with the mp3 files PRESENT still produces music (the normal shipped
+  configuration). Everything above was measured with mp3 removed to isolate the paths. run-33
+  measured the shipped configuration and found signal, so this is a gap in attribution rather
+  than a suspicion, but it was not tested as an A/B.
+- Audible quality, pitch, and whether the synthesiser produces the intended instruments. A
+  peak metre proves signal, not music. This needs a human listening test or a capture-and-
+  resample comparison.

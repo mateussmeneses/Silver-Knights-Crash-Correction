@@ -1,0 +1,178 @@
+{
+  "exe": ".analysis/unpacked/SK-Main.unpacked.exe",
+  "root": ".",
+  "references_total": 645,
+  "exact_matches": 553,
+  "case_mismatches": 12,
+  "missing": 80,
+  "mismatch_detail": [
+    {
+      "reference": "blast.x",
+      "on_disk": [
+        "mesh/blast.X"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    },
+    {
+      "reference": "blast2.x",
+      "on_disk": [
+        "mesh/blast2.X"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    },
+    {
+      "reference": "bullet.x",
+      "on_disk": [
+        "mesh/icarus/bullet.X",
+        "mesh/thor/bullet.X"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    },
+    {
+      "reference": "force.x",
+      "on_disk": [
+        "mesh/force.X"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    },
+    {
+      "reference": "giga-bazooka.X",
+      "on_disk": [
+        "mesh/giga/giga-bazooka.x"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    },
+    {
+      "reference": "mist.png",
+      "on_disk": [
+        "png/mist.PNG"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    },
+    {
+      "reference": "philo-gun-emb.X",
+      "on_disk": [
+        "mesh/philo/philo-gun-emb.x"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    },
+    {
+      "reference": "philo-option.x",
+      "on_disk": [
+        "mesh/philo/philo-option.X"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    },
+    {
+      "reference": "shaft.bsp",
+      "on_disk": [
+        "bsp/Shaft.bsp"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    },
+    {
+      "reference": "shaft.wad",
+      "on_disk": [
+        "bsp/Shaft.wad"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    },
+    {
+      "reference": "smoke.x",
+      "on_disk": [
+        "mesh/smoke.X"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    },
+    {
+      "reference": "smoke2.x",
+      "on_disk": [
+        "mesh/smoke2.X"
+      ],
+      "note": "basename matches but casing differs (different directory)"
+    }
+  ],
+  "missing_detail": [
+    "./original.ini",
+    "Scene.ini",
+    "debug.txt",
+    "joker-arm-l.X",
+    "joker-arm-r.X",
+    "joker-body.X",
+    "joker-boots-l.X",
+    "joker-boots-r.X",
+    "joker-dagger.X",
+    "joker-emblem.X",
+    "joker-hand-l.X",
+    "joker-hand-r.X",
+    "joker-head.X",
+    "joker-laser-f.x",
+    "joker-laser.x",
+    "joker-leg-l.X",
+    "joker-leg-r.X",
+    "joker-lumbar.X",
+    "joker-sword.X",
+    "kaede-arm-l.X",
+    "kaede-arm-r.X",
+    "kaede-body.X",
+    "kaede-boots-l.X",
+    "kaede-boots-r.X",
+    "kaede-calf-l.X",
+    "kaede-calf-r.X",
+    "kaede-ear.X",
+    "kaede-emblem.X",
+    "kaede-fire.X",
+    "kaede-hand-l.X",
+    "kaede-hand-r.X",
+    "kaede-head.X",
+    "kaede-leg-l.X",
+    "kaede-leg-r.X",
+    "kaede-lumbar.X",
+    "kaede-sub.x",
+    "kaede-sword.X",
+    "mai1-body.x",
+    "mai1-bomb.x",
+    "mai1-emb.x",
+    "mai1-missile.x",
+    "mai1-vulcan.x",
+    "maika-chain-f.x",
+    "maika-chain.x",
+    "maika-fire.x",
+    "maika-missile.x",
+    "maika-option.x",
+    "maika-vulcan.X",
+    "ps.2.x",
+    "sieg-arm-low-l.x",
+    "sieg-arm-low-r.x",
+    "sieg-arm-up.x",
+    "sieg-b-skirt.x",
+    "sieg-belly.x",
+    "sieg-bj-base.x",
+    "sieg-bj.x",
+    "sieg-body.x",
+    "sieg-engine-emb.x",
+    "sieg-f-skirt.x",
+    "sieg-fire.x",
+    "sieg-gun-base.x",
+    "sieg-gun-high.x",
+    "sieg-gun-low.x",
+    "sieg-gun-middle.x",
+    "sieg-head.x",
+    "sieg-leg-low.x",
+    "sieg-leg-up.x",
+    "sieg-lumbar.x",
+    "sieg-missile.x",
+    "sieg-shield-emb.x",
+    "sieg-shoulder-l.x",
+    "sieg-shoulder-r.x",
+    "sieg-sword-grip.x",
+    "sieg-sword-l.x",
+    "sieg-sword-r.x",
+    "sieg-sword-wing.x",
+    "sieg-toe.x",
+    "sieg-wing-base.x",
+    "sieg-wing.x",
+    "vs.2.x"
+  ],
+  "disk_files": 1595
+}

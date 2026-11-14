@@ -1,0 +1,6 @@
+STARTED pid=32892 exe=C:\projetos\Silver-Knights-Crash-Correction\SK-Startup.exe at=2026-11-13 11:10:43.688
+RESULT=STILL_RUNNING after 25s (killing)
+EXITCODE=KILLED
+ELAPSED_SEC=25.02
+STILL_ALIVE pid=12776 name=SK-Main threads=14 ws=86.3MB
+--- new WER/AppError events (last 10 min) ---

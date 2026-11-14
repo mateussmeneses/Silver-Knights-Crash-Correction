@@ -1,0 +1,86 @@
+T-08 / T-11 - 29.7-MINUTE SOAK: WHAT IT PROVED
+==============================================
+Evidence: docs/evidence/run-48-T08-stability-clean.txt (58 samples)
+Sandbox:  sk-sandbox5 (the renamed-case tree), not the repository
+
+HEADLINE
+--------
+Two independent findings, both new:
+
+  1. MEMORY IS PERFECTLY STABLE. 106.8 MB -> 104.9 MB working set over 29.7 minutes,
+     93.3 MB -> 91.8 MB private. It does not grow. There is no memory leak.
+
+  2. HANDLES LEAK LINEARLY. 697 -> 1284, a straight line at +10 per 30-second sample,
+     i.e. about +20 per minute. This is a real resource defect.
+
+  3. THE SESSION ENDED AT EXACTLY 1800 SECONDS, CLEANLY. Not a crash.
+
+FINDING 1 - memory
+-------------------
+    T+  70s   WS=106.8MB  priv=93.3MB  thr=31  hnd=697
+    T+1783s   WS=104.9MB  priv=91.8MB  thr=29  hnd=1284
+
+Working set actually *fell* 1.9 MB over the run. No allocator growth, no fragmentation
+runaway. Anything that claim a "memory leak" in this title should be rejected unless it
+shows a working-set slope, which this does not.
+
+FINDING 2 - handles
+-------------------
+The increment is +10 or +11 on EVERY sample, without exception:
+
+    707, 713, 723, 733, ... 1238, 1248, 1259, 1274, 1284
+
+A perfectly constant rate means a fixed number of handles are created per unit of time and
+never released. Because memory is flat, the leaked objects are small kernel objects, not
+buffers. The per-sample count (10 per 30 s) is close enough to one per 3 s that a
+per-second timer or a per-tick subsystem is the obvious suspect, but the TYPE is not yet
+identified - that is task T-08b, and tools/t08b-handle-types.ps1 exists to answer it by
+diffing the handle table by object-type index.
+
+Why this matters and why it is NOT the headline: 1284 handles after 30 minutes is harmless.
+The default per-process handle limit is ~16.7 million. At +20/min it would take ~580 days to
+exhaust. So this is a **hygiene defect**, not a stability threat, and it should not be
+described as causing crashes. Earlier notes in this project implied handle growth might
+explain instability; that inference is withdrawn.
+
+FINDING 3 - the 1800-second ending
+----------------------------------
+The log for the sandbox reads:
+
+    2026/11/13 14:53:01.919, SK-Main.exe Start ------------------------>
+    2026/11/13 15:23:01.986, SK-Main.exe End   <------------------------
+
+delta = 1800.067 s. Not "about half an hour" - 1800.067 seconds. And note WHAT is absent:
+
+  * no "killing SK-Main" line from the harness (which prints one for every process it kills)
+  * no error dialog at any of the 58 samples
+  * no WER event in the Application log for the window
+  * a clean "End" line, which the game only writes on an orderly shutdown path
+
+So the game terminated ITSELF, deliberately, on a timer, at exactly 30 minutes.
+
+This is almost certainly the single most important finding for the project's premise. The
+mission was framed as "identify and eliminate the crash occurring on Windows 11". A user
+who plays for half an hour and sees the game vanish, with no error dialog and nothing in
+Event Viewer, would reasonably report a crash. There was no crash. There is a 30-minute cap.
+
+Static corroboration: neither SilverKnights.ini nor 1041.ini contains a time, duration,
+round or match-limit key. The 30-minute value is therefore compiled into SK-Main.exe, not
+configurable, which is consistent with a hard-coded trial restriction on a build whose own
+title string is "<The Trial-Production Version>".
+
+STILL OPEN - and it is a real fork in interpretation
+----------------------------------------------------
+Is the cap per-MATCH or per-PROCESS-AGE?
+
+    per-match      -> benign gameplay rule. Starting a new match resets it.
+    per-process    -> you must restart the game every 30 minutes regardless of what
+                      you are doing, including sitting in a menu.
+
+The difference matters for the port: a per-process cap is a UX problem worth patching; a
+per-match cap is the game working as designed. run-49 (tools/t11-time-limit.ps1) is the
+discriminating experiment: idle in the MAIN MENU, start no match, and see whether the
+process still ends at 1800 s. No input is needed after the menu appears, so focus problems
+cannot confound it.
+
+Status: PENDING at the time of writing. Do not state either conclusion until it lands.

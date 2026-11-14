@@ -1,0 +1,99 @@
+T-08c: THE MAILSLOT LEAK IS AN INVERTED BRANCH, FOUND IN CODE
+============================================================
+Runtime said: `\Device\Mailslot\SK-Startup.exe` 27 -> 119 handles in 4.5 min, everything else
+static (run-58). This file identifies the exact defect, and it is not a missing CloseHandle.
+
+THE FUNCTION, AND WHY IT IS SUBTLY WRONG
+-----------------------------------------
+At RVA 0x1d0670 there is a "send a message to the launcher" routine:
+
+    0x005d0677  push 0x7292bc ; call [GetModuleHandleA]      -> "kernel32.dll"
+    0x005d0682  push 0x7292a8 ; push eax ; call 0x5fed30     -> resolve a kernel32 export
+    0x005d068d  call eax                                     -> GetCurrentProcessId()
+    0x005d068f  mov  [esp+8], eax
+    0x005d0693  push 0x729298                                 -> "SK-Startup.exe"
+    0x005d0698  push 0x729294                                 -> ""
+    0x005d06a1  push 0x729280                                 -> "\\%s\mailslot\%s"
+    0x005d06a6  push eax ; call 0x604bb0                     -> sprintf into [esp+0x14]
+    0x005d06b3  push 0      ; lpSecurityAttributes
+    0x005d06b5  push 0x80   ; dwFlagsAndAttributes = NORMAL
+    0x005d06ba  push 3      ; dwShareMode  = FILE_SHARE_READ|WRITE
+    0x005d06bc  push 0      ; lpSecurityAttributes
+    0x005d06be  push 3      ; dwCreationDisposition = OPEN_EXISTING
+    0x005d06c0  push 0x40000000 ; dwDesiredAccess = GENERIC_WRITE
+    0x005d06c5  push ecx    ; lpFileName
+    0x005d06c6  call [CreateFileA]
+    0x005d06cc  mov  esi, eax
+    0x005d06ce  cmp  esi, -1                 ; INVALID_HANDLE_VALUE?
+    0x005d06d1  je   0x5d06f3                ; -> error path
+    0x005d06d3  ... build a 4-byte payload ...
+    0x005d06e2  call [WriteFile]
+    0x005d06e8  test eax, eax
+    0x005d06ea  jne  0x5d0721                ; <<<< SUCCESS EXITS *WITHOUT* CLOSING
+    0x005d06ec  push esi
+    0x005d06ed  call [CloseHandle]           ; <<<< ONLY THE FAILURE PATH CLOSES
+    0x005d06f3  call [GetLastError]
+    0x005d0721  xor  eax, eax ; ret
+
+Read the two branches:
+
+    WriteFile SUCCEEDED  -> jne 0x5d0721 -> return, handle NEVER closed   <-- the leak
+    WriteFile FAILED     -> falls through -> CloseHandle, then error path
+
+**The CloseHandle is on the wrong side of the test.** It runs only when the write failed.
+Every successful message to the launcher leaks one handle. At ~1 message every 3 seconds while
+the game polls the launcher mailslot, that is the observed +20/min exactly.
+
+This is a one-instruction-class defect: the `jne` at 0x5d06ea should not skip the close, i.e.
+the close belongs after the WriteFile regardless of result (or the branch targets should be
+re-arranged so both paths converge on CloseHandle before returning).
+
+WHY THIS IS NOT THE SAME AS "MISSING CloseHandle"
+--------------------------------------------------
+There IS a CloseHandle call - at 0x5d06ed, one instruction below the branch. That is exactly
+why a naive reading (and my first pass at this) concluded "the handle is closed, so the leak must
+be elsewhere". The call is present but unreachable on the success path. A grep for CloseHandle
+near CreateFileA would have declared this clean.
+
+CORROBORATION THAT SPLITS LAUNCHER FROM PEER
+---------------------------------------------
+There are two separate channel routines, and only one is buggy:
+
+    CreateMailslotA  -> exactly ONE call site, 0x1f294c
+                        result stored to a global [0x1e28c78] and reused
+                        builds path from "\\\\%s\\mailslot\\%s" @ 0x72a83c with "SK-Main.exe" @ 0x72a84c
+                        => this is the RECEIVING end, opened ONCE. Matches runtime: 1 handle.
+
+    CreateFileA      -> 7 call sites; the one at 0x1d06c6 opens the LAUNCHER channel
+                        path from "\\%s\mailslot\\%s" @ 0x729280 with "SK-Startup.exe" @ 0x729298
+                        => opened per message, closed only on failure. Matches runtime: 27 -> 119.
+
+So the runtime asymmetry and the code asymmetry agree: the receive path is open-once by design,
+the send path reopens per message by design (that is fine and cheap on Windows) but fails to
+release the handle on the success path (that is the defect).
+
+This also explains why the handle is a File and not a Mailslot in the handle table: CreateFileA
+on a mailslot path yields a file object. My earlier type-index hunt found "File" and could have
+misled someone into looking for a file leak.
+
+PRIORITY, HONESTLY
+------------------
+Gameplay impact is nil: ~580 days to exhaustion at this rate. It should NOT be patched for
+Windows usability, and it does not explain any crash.
+
+It matters for two reasons:
+  1. under Wine, this leaks a handle per message against an emulated mailslot for the entire
+     session - a plausible contributor to long-session degradation (HYPOTHESIS, untested);
+  2. it is a ~1-2 byte fix in a known location, so it is cheap to do correctly when the patch
+     set is next revised, and the patch must be same-length to keep SK-Startup's MD5/size
+     integrity check happy.
+
+DO NOT PATCH YET
+----------------
+The correct fix is not obvious at instruction level: making the success path fall into
+CloseHandle requires either re-targeting 0x5d06ea's jne (changing 2 bytes, but only if a
+suitable landing site exists that still returns 0) or a jump into the close-then-continue path.
+That needs the surrounding function's return-value contract read in full, and it needs a
+runtime check that closing the handle does not break the next message (it should not, since each
+message reopens). This is T-08c work for a Codex branch, with the acceptance test already
+written: tools/t08e-file-handle-names.ps1 must show the path flat at 1-or-few over 5 minutes.

@@ -1,0 +1,35 @@
+T+0 LAUNCH pid=33280
+T+0,9 CLICK Window
+T+22,1 game window hwnd=0x140792
+  SNAP 01-main-menu                 241567 bytes
+  >> DIK_DOWN -> Battle Mode
+  SNAP 02-battle-selected           766946 bytes
+  >> ENTER -> open Battle setup
+  SNAP 03-battle-setup              851350 bytes
+  >> F3 -> START match
+  SNAP 04-after-F3                  1427997 bytes
+  >> F3 -> again (may need Ready)
+  SNAP 05-after-F3b                 1325004 bytes
+  >> ENTER -> confirm any prompt
+  SNAP 06-after-enter               1545922 bytes
+
+ELAPSED 46,3s
+SK-Main alive ws=114,8MB threads=35
+=== teardown ===
+killing SK-Main 9408
+killing SK-Startup 33280
+
+=== VERDICT: single-command build produces a fully working pair (T-03 integrated) ===
+  tools/build_patched.py now emits BOTH files in one run:
+    SK-Main.exe      1,464,320 bytes  md5 0c4de1d940cf176f87bf86b4c7777d38
+    SK-Startup.exe     102,400 bytes  md5 721641895cc342df9607e55b63d426b7
+
+  Smoke test from that exact output directory:
+    T+0.9s  clicked "Window" with NO error dialog at any point   <- T-03 confirmed
+    T+22s   game window up
+    menu -> Battle -> setup -> F3 -> match all captured
+    SK-Main alive 46.3 s, 115 MB, 35 threads
+
+  No "'SK-Main.exe' file is corrupted." -> the MD5 constant matches.
+  No "RegQueryValueEx / UserID" dialog   -> T-03 edits are live.
+  No "Timer-API hook was detected."      -> the RVA 0x1f4d50 fix is live.

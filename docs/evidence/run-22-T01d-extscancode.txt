@@ -1,0 +1,13 @@
+T+0 LAUNCH pid=39124
+T+1,6 CLICK Window
+T+31,3 focus: fg=0x950D70 target=0x990D66 match=False
+  >> DIK_DOWN x1 (extended)  (scancode 0x0x50, extended=True)
+  >> DIK_DOWN x2 (extended)  (scancode 0x0x50, extended=True)
+  >> DIK_UP   x1 (extended)  (scancode 0x0x48, extended=True)
+  >> Enter 0x1C (plain)  (scancode 0x0x1C, extended=False)
+  >> DIK_B 0x30 (plain)  (scancode 0x0x30, extended=False)
+
+=== teardown ===
+killing SK-Main 3128
+killing SK-Startup 39124
+images: C:\projetos\Silver-Knights-Crash-Correction\docs\evidence\t01d

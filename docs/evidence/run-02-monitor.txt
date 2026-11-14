@@ -1,0 +1,13 @@
+T+0.000 LAUNCH C:\projetos\Silver-Knights-Crash-Correction\SK-Startup.exe pid=43124  logsize=420
+T+0,42 SPAWN 43124/SK-Startup hwnd=7081352 title='Error Massage' threads=4 ws=11,1MB
+T+0,85 WINDOW 43124/SK-Startup hwnd=7081352 title='Error Massage'
+T+13,95 WINDOW 43124/SK-Startup hwnd=7212424 title='SK Startup - Version 0.13'
+--- FINAL ---
+parent STILL RUNNING -> killing
+--- log tail ---
+2012/07/29 22:07:21.063, SK-Main.exe Start ------------------------>
+2012/07/29 22:11:02.558, SK-Main.exe End   <------------------------
+2026/11/13 10:19:58.532, SK-Main.exe Start ------------------------>
+2026/11/13 10:20:06.917, SK-Main.exe End   <------------------------
+2026/11/13 11:11:08.233, SK-Main.exe Start ------------------------>
+2026/11/13 11:11:16.089, SK-Main.exe End   <------------------------

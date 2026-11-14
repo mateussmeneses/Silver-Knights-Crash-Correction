@@ -1,0 +1,42 @@
+helper type loaded: True
+T+0 LAUNCH SK-Startup pid=18340
+T+1,6 CLICK Window
+0
+T+6,4 FRAME 01-title               sha=513167350d32e3f0 bytes=117592
+1
+T+12,3 FRAME 02-title-later         sha=fafc7170081627df bytes=211740
+2
+T+18,1 FRAME 03-before-input        sha=616b2c1c7826ac1d bytes=275059
+T+19,2 INPUT: Enter
+3
+T+26,2 FRAME 04-after-enter         sha=d9dbf6356e4159c2 bytes=269995
+T+28,2 INPUT: Space
+4
+T+35,3 FRAME 05-after-space         sha=9774761a4d275218 bytes=290627
+T+36,0 INPUT: Enter x3 rapid
+5
+T+45,4 FRAME 06-after-triple-enter  sha=65a12285973b97dd bytes=292909
+T+47,1 INPUT: Down,Down,Enter
+6
+T+58,0 FRAME 07-late                sha=293b2ea13cca605f bytes=245596
+7
+T+74,2 FRAME 08-final               sha=ff9682e1d90b7c1e bytes=251055
+
+=== FRAME ANALYSIS ===
+frames captured : 8
+distinct hashes : 8
+  01-title               T+  6,4s  513167350d32e3f09328f63f
+  02-title-later         T+ 12,3s  fafc7170081627dfdbbf5782
+  03-before-input        T+ 18,1s  616b2c1c7826ac1d79a1194e
+  04-after-enter         T+ 26,2s  d9dbf6356e4159c20574258c
+  05-after-space         T+ 35,3s  9774761a4d275218e7834780
+  06-after-triple-enter  T+ 45,4s  65a12285973b97ddebb25c24
+  07-late                T+   58s  293b2ea13cca605fbd9f376d
+  08-final               T+ 74,2s  ff9682e1d90b7c1e8e34d386
+
+RESULT: MULTIPLE CHANGES - rendered content changes over time/input. Inspect images.
+
+=== teardown ===
+killing SK-Main 23864
+killing SK-Startup 18340
+images: C:\projetos\Silver-Knights-Crash-Correction\docs\evidence\t01

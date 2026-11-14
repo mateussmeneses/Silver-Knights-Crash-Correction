@@ -1,0 +1,47 @@
+T+0 LAUNCH pid=23708
+T+1,5 CLICK Window
+T+22,2 game window hwnd=0x7D0892
+  SNAP 01-main-menu                 217486 bytes
+  >> DIK_DOWN -> Battle Mode
+  SNAP 02-battle-selected           859278 bytes
+  >> ENTER -> open Battle setup
+  SNAP 03-battle-setup              782321 bytes
+  >> F3 -> START match
+  SNAP 04-after-F3                  1480648 bytes
+  >> F3 -> again (may need Ready)
+  SNAP 05-after-F3b                 1332302 bytes
+  >> ENTER -> confirm any prompt
+  SNAP 06-after-enter               1841444 bytes
+
+ELAPSED 46,3s
+SK-Main alive ws=116MB threads=35
+=== teardown ===
+killing owned SK-Main 348
+killing owned SK-Startup 23708
+
+========================================================================
+PUBLISHED RELEASE — END-TO-END VERIFICATION
+========================================================================
+This run used the archive DOWNLOADED FROM THE GITHUB RELEASE, not the local build.
+
+  url      https://github.com/mateussmeneses/Silver-Knights-Crash-Correction/releases/download/v0.13-win11/SilverKnights-0.13-Windows11.zip
+  size     63,889,891 bytes
+  sha256   11e40b9adfc627c63ed0a968d24b3c68f86f37a5181158f48c861ec2cc4acea8
+
+Three independent checks agreed:
+  1. local build                  sha256 11e40b9a...ceae8
+  2. GitHub's own asset digest    sha256:11e40b9a...ceae8
+  3. the downloaded file          sha256 11e40b9a...ceae8
+
+Then extracted and launched: game window appeared at T+22.2s, live match reached,
+timer at 00:10.947, full HUD (Philotes 1580, Military Potential, Radar, Altimeter,
+Danger warning), zero error dialogs, process alive at 116MB / 35 threads.
+
+That closes the loop: the thing a user downloads is byte-identical to the thing that was
+tested, and it runs.
+
+PUBLICATION DETAILS (verified via API, not assumed)
+  tag          v0.13-win11      (not a draft, not a prerelease)
+  target       001-recovery-foundation @ dd8bfb5
+  published    2026-11-14T00:03:05Z
+  asset state  uploaded

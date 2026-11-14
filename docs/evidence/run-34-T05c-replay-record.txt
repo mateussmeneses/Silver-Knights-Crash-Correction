@@ -1,0 +1,8 @@
+=== OPTION A: attempt to record a replay ===
+  enabling replay with F2 before starting the match
+  playing for 20s with replay enabled (movement + attacks)
+  replay files after recording:
+  total .rep files: 0
+  RESULT: replay recording did NOT produce a file.
+
+RESTORED SilverKnights.ini, verified byte-identical

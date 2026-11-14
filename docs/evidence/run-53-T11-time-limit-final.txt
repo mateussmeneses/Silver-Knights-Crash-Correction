@@ -1,0 +1,96 @@
+T+0 LAUNCH  (log had 42 lines)
+main menu is up - NO match started. Idling from here; no further input.
+
+  T+   85s  WS=  94,9MB  thr= 30  hnd=  676
+  T+  145s  WS=  94,8MB  thr= 27  hnd=  693
+  T+  205s  WS=  94,8MB  thr= 27  hnd=  713
+  T+  265s  WS=  94,8MB  thr= 27  hnd=  734
+  T+  325s  WS=  94,9MB  thr= 28  hnd=  753
+  T+  385s  WS=  94,9MB  thr= 28  hnd=  773
+  T+  445s  WS=  94,9MB  thr= 27  hnd=  794
+  T+  505s  WS=  94,9MB  thr= 27  hnd=  815
+  T+  565s  WS=  94,9MB  thr= 27  hnd=  835
+  T+  625s  WS=  94,9MB  thr= 28  hnd=  856
+  T+  685s  WS=  94,9MB  thr= 27  hnd=  877
+  T+  745s  WS=  94,9MB  thr= 27  hnd=  897
+  T+  805s  WS=  94,9MB  thr= 26  hnd=  918
+  T+  865s  WS=  94,9MB  thr= 27  hnd=  938
+  T+  925s  WS=  94,9MB  thr= 27  hnd=  959
+  T+  985s  WS=  94,9MB  thr= 27  hnd=  980
+  T+1.045s  WS=  94,9MB  thr= 27  hnd= 1000
+  T+1.105s  WS=  94,9MB  thr= 27  hnd= 1021
+  T+1.165s  WS=  94,9MB  thr= 27  hnd= 1042
+  T+1.225s  WS=  94,9MB  thr= 27  hnd= 1062
+  T+1.285s  WS=  94,9MB  thr= 27  hnd= 1083
+  T+1.345s  WS=  94,9MB  thr= 26  hnd= 1104
+  T+1.405s  WS=  94,9MB  thr= 27  hnd= 1124
+  T+1.465s  WS=  94,9MB  thr= 27  hnd= 1145
+  T+1.525s  WS=  94,9MB  thr= 27  hnd= 1166
+  T+1.585s  WS=  94,9MB  thr= 27  hnd= 1186
+  T+1.645s  WS=  94,9MB  thr= 27  hnd= 1207
+  T+1.705s  WS=  94,9MB  thr= 27  hnd= 1228
+  T+1.765s  WS=  94,9MB  thr= 27  hnd= 1248
+  T+1.825s  WS=  94,9MB  thr= 27  hnd= 1269
+  T+1.885s  WS=  94,9MB  thr= 26  hnd= 1289
+  T+1.885s  SURVIVED past 30:00 - match-limit hypothesis supported
+
+=== log lines added by this run ===
+  2026/11/13 17:45:58.447, SK-Main.exe Start ------------------------>
+elapsed this run: 1.885,5s (31,42 min)
+
+VERDICT: INVALID RUN - a 'Start' with no 'End' means the process was KILLED,
+         not that it self-terminated. Another harness almost certainly killed it.
+         Re-run with no other game instance active. Do not draw a conclusion.
+
+=== teardown ===
+killing owned SK-Main 17624
+killing owned SK-Startup 11852
+
+========================================================================
+RESULT: THE CAP IS PER-MATCH. THE VERDICT LINE ABOVE IS A PRINTER BUG.
+========================================================================
+
+The "INVALID RUN" verdict printed above is WRONG. Read the sampler output instead:
+
+    T+1.825s  WS=94,9MB  thr=27  hnd=1269
+    T+1.885s  WS=94,9MB  thr=26  hnd=1289
+    T+1.885s  SURVIVED past 30:00 - match-limit hypothesis supported
+    elapsed this run: 1.885,5s (31,42 min)
+
+The process was ALIVE at T+1885 s, i.e. 85 seconds PAST the 1800 s mark, still idling in the
+main menu with no match running. It was then killed by this harness's own teardown, which is
+why the log shows a Start with no End.
+
+So the evidence is:
+    one Start line
+    NO End line
+    process alive at the end of the 34-minute schedule
+    killed by our own teardown after the schedule completed
+
+CONCLUSION: **the 1800 s cap is PER-MATCH.** A menu-idle session is not capped at all. The cap
+requires a match to arm, so it is a gameplay/trial rule on battle sessions, not a hard session
+limit on the process.
+
+WHY THE VERDICT LINE IS WRONG (and why it is left in place)
+The verdict block tested `sawStart -and -not sawEnd` BEFORE testing survival. A successful
+survival legitimately produces exactly that log signature - one Start, no End, because the
+process never exited on its own - so the "killed" branch swallowed the success case. Fixed in
+tools/t11-time-limit.ps1 by testing `-not $ended` first and documenting the ordering, because
+the same ambiguity will bite the next person.
+
+The line is deliberately left in the evidence file rather than edited, so the correction is
+auditable. This is the second verdict-printer bug in this task; the first (run-49) produced a
+false "per-process-age" conclusion. Both are recorded rather than quietly fixed, because a
+harness that confidently prints the wrong answer is more dangerous than one that crashes.
+
+WHAT THIS SETTLES
+Combined with run-48 (a live match ended itself at exactly 1800.067 s with a matched
+Start/End pair), the mechanism is now fully characterised:
+
+    in a match   -> ends at 1800 s, cleanly, self-terminated     run-48
+    in the menu  -> survives past 1800 s, no cap at all          run-53
+
+Implication for the port: there is NO "restart the game every half hour" requirement. A player
+can sit in menus indefinitely; only a battle session is capped. That is a materially better
+outcome than the worst case, and it means no patch to the cap is needed for usability - only a
+documentation note that battles are limited to 30 minutes.

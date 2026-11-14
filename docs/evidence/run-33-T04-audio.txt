@@ -1,0 +1,63 @@
+WASAPI peak meter attached. idle peak = 0,000000
+PHASE 0: idle baseline (game not running)
+
+PHASE 1: launch and observe the launcher / intro
+  T+0 LAUNCH pid=40860
+  T+0,7 CLICK Window
+  game window hwnd=0x1805DC
+PHASE 2: main menu (BGM expected)
+PHASE 3: in-match (SFX + BGM expected)
+PHASE 4: after attack input (SFX expected)
+
+=== RESULT ===
+  idle-baseline          nonzero=  0/ 10  peakMax=0,00000  -> SILENT
+  menu-bgm               nonzero= 24/ 24  peakMax=0,04986  -> SIGNAL PRESENT
+  match-audio            nonzero= 24/ 24  peakMax=1,00000  -> SIGNAL PRESENT
+  match-after-attack     nonzero= 16/ 16  peakMax=1,00000  -> SIGNAL PRESENT
+
+=== teardown ===
+killing SK-Main 22872
+killing SK-Startup 40860
+
+=== VERDICT: T-04 PASS - audio genuinely renders on all sampled paths ===
+
+METHOD
+  Attached to the Windows default render endpoint via WASAPI
+  (IAudioMeterInformation::GetPeakValue over IMMDeviceEnumerator), then sampled the
+  endpoint peak while the game ran. This measures signal actually arriving at the
+  output device, so it distinguishes "audible" from "a DLL was loaded".
+
+  The idle baseline is the control that validates the instrument: peak 0.00000 with
+  no game running. Without that control, a non-zero reading could be another app.
+
+MEASUREMENTS
+  idle-baseline         nonzero= 0/10   peakMax=0.00000   SILENT      <- control
+  menu-bgm              nonzero=24/24   peakMax=0.04986   SIGNAL      <- continuous
+  match-audio           nonzero=24/24   peakMax=1.00000   SIGNAL
+  match-after-attack    nonzero=16/16   peakMax=1.00000   SIGNAL
+
+INTERPRETATION
+  * Menu BGM is real and CONTINUOUS: every one of 24 samples was non-zero, peak ~0.05.
+    A steady low-level signal is exactly what looping background music looks like on a
+    peak meter. This is the MCI / DirectShow MP3 path (QUARTZ.dll + l3codeca.acm +
+    msmpeg2adec.dll + mciqtz32.dll were all confirmed loaded in run-17), consistent
+    with the DirectShow FilterGraphWindow observed at T+6.7 s.
+  * In-match audio saturates the meter (1.00000) with 24/24 non-zero samples. That is
+    the DirectSound8 path (se\*.wav) plus the continuing BGM. A sustained 1.0 peak is
+    not by itself proof of clean mixing - it can indicate clipping - so "audible" is
+    established while "correct gain staging" is NOT.
+  * Attacking did not change the meter from saturation, so this run does not isolate
+    individual sound effects from the music bed. It shows the output pipeline is live,
+    not that every effect plays.
+
+WHAT IS PROVEN vs NOT
+  PROVEN on Windows 11: the audio output pipeline produces real signal on both the
+  menu/music path and in-match. Silent failure - the single most common Wine/Proton
+  audio symptom - does not occur here.
+  NOT PROVEN: MIDI (dmusic.dll path) specifically. The music playing here is the MP3
+  path; a MIDI track was not isolated. Also not proven: per-effect attribution, gain
+  staging / clipping, and positional 3D audio.
+  NOT a substitute for: a human listening test. A peak meter cannot detect distortion,
+  channel swap, or wrong pitch/rate.
+
+  Resolution of the earlier "loaded but unheard" gap: audio is now MEASURED.

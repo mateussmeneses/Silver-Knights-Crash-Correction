@@ -1,0 +1,48 @@
+T+0 LAUNCH pid=5912
+T+1,6 CLICK Window
+TARGET hwnd=0x2B0686
+ForceForeground returned True; fg=0x2B0686 class=UDX_CLASS match=True
+FOCUS NOW: fg=0x2B0686 match=True
+
+  SNAP A-baseline
+  >> DIK_DOWN ext x1
+  SNAP B-down1
+  >> DIK_DOWN ext x2
+  SNAP C-down2
+  >> DIK_UP   ext x1
+  SNAP D-up1
+  >> Enter plain
+  SNAP E-enter
+
+=== teardown ===
+killing SK-Main 36720
+killing SK-Startup 5912
+
+=== INTERPRETATION (visual inspection of captured frames) ===
+FOCUS: ForceForeground (AttachThreadInput + ALT tap) SUCCEEDED where plain
+SetForegroundWindow was refused in runs 20/21/22/23. fg == target (UDX_CLASS).
+
+Rendered state per frame (all inspected visually):
+  A-baseline  : main menu, selection bar on "Story Mode"
+  B-down1     : main menu, selection bar on "Battle Mode"     <- moved down 1
+  C-down2     : main menu, selection bar on "Network Mode"    <- moved down 2
+  D-up1       : main menu, selection bar on "Battle Mode"     <- moved up 1
+  E-enter     : "Battle Mode" setup submenu:
+                  "Select your Mech, Team, and Stage!"
+                  Victory Conditions: Normal Battle (MP)
+                  Military Potential: 6 colour rows, value 3
+                  Player: Philotes   Team: RED (highlighted)
+                  "Training Room" stage preview thumbnail (rendered geometry)
+
+CONCLUSION:
+  * MENU NAVIGATION: PASS. Selection moves down and up exactly as directed.
+  * MODE ENTRY: PASS. Enter from the main menu opened the Battle Mode setup screen.
+  * A rendered stage preview thumbnail proves the map/texture path is live.
+
+ROOT CAUSE OF THE EARLIER INPUT FAILURE (all four prior attempts):
+  Plain SetForegroundWindow was REFUSED by the Windows foreground lock because the
+  harness runs as a background process. The PowerShell console (CASCADIA_HOSTING_
+  WINDOW_CLASS) kept focus, so DirectInput8 - which polls the keyboard attached to
+  the foreground thread - never saw the injected keys. PostMessage, keybd_event and
+  SendInput(scancode) were all correct in themselves; the focus was wrong.
+  Fix: AttachThreadInput(self, foreground) + synthetic ALT tap + SetForegroundWindow.

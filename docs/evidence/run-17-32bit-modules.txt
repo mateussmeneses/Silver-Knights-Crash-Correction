@@ -1,0 +1,151 @@
+T+0 LAUNCH pid=14832
+SK-Main pid=38472  (32-bit / WOW64)
+
+=== 32-bit module list (via SysWOW64 powershell) ===
+  ADVAPI32.dll	0x76810000	10.0.26100.9949 (WinBuild.160101.0800)
+  AUDIOSES.DLL	0x592a0000	10.0.26100.9949 (WinBuild.160101.0800)
+  avrt.dll	0x74bb0000	10.0.26100.9949 (WinBuild.160101.0800)
+  bcrypt.dll	0x73f10000	10.0.26100.9949 (WinBuild.160101.0800)
+  bcryptPrimitives.dll	0x76130000	10.0.26100.9818 (WinBuild.160101.0800)
+  cfgmgr32.dll	0x734b0000	10.0.26100.9818 (WinBuild.160101.0800)
+  clbcatq.dll	0x76fc0000	2001.12.10941.16384 (WinBuild.160101.0800)
+  combase.dll	0x76480000	10.0.26100.9949 (WinBuild.160101.0800)
+  COMCTL32.dll	0x72550000	5.82 (WinBuild.160101.0800)
+  comdlg32.dll	0x74ff0000	10.0.26100.9949 (WinBuild.160101.0800)
+  CoreMessaging.dll	0x5f650000	10.0.26100.9818 (WinBuild.160101.0800)
+  CRYPT32.dll	0x75c90000	10.0.26100.9949 (WinBuild.160101.0800)
+  CRYPTBASE.DLL	0x74270000	10.0.26100.9711 (WinBuild.160101.0800)
+  cryptnet.dll	0x73500000	10.0.26100.9818 (WinBuild.160101.0800)
+  CRYPTSP.dll	0x73f40000	10.0.26100.9818 (WinBuild.160101.0800)
+  d3d9.dll	0x68d40000	10.0.26100.9818 (WinBuild.160101.0800)
+  dbghelp.dll	0x59a90000	10.0.26100.9818 (WinBuild.160101.0800)
+  devenum.dll	0x5f470000	10.0.26100.9949 (WinBuild.160101.0800)
+  devobj.dll	0x73dc0000	10.0.26100.9818 (WinBuild.160101.0800)
+  DINPUT8.dll	0x62db0000	10.0.26100.9949 (WinBuild.160101.0800)
+  directxdatabasehelper.dll	0x5fae0000	10.0.26100.9818 (WinBuild.160101.0800)
+  dmloader.dll	0x62a90000	10.0.26100.9818 (WinBuild.160101.0800)
+  dmusic.dll	0x5f960000	10.0.26100.9949 (WinBuild.160101.0800)
+  drvstore.dll	0x68a80000	10.0.26100.9818 (WinBuild.160101.0800)
+  DSOUND.dll	0x5f5d0000	10.0.26100.9949 (WinBuild.160101.0800)
+  dwmapi.dll	0x68ec0000	10.0.26100.9949 (WinBuild.160101.0800)
+  dxcore.dll	0x68c90000	10.0.26100.9818 (WinBuild.160101.0800)
+  GDI32.dll	0x750b0000	10.0.26100.8521 (WinBuild.160101.0800)
+  gdi32full.dll	0x76720000	10.0.26100.9818 (WinBuild.160101.0800)
+  gpapi.dll	0x735f0000	10.0.26100.9949 (WinBuild.160101.0800)
+  HID.DLL	0x74050000	10.0.26100.9949 (WinBuild.160101.0800)
+  imagehlp.dll	0x74fd0000	10.0.26100.4202 (WinBuild.160101.0800)
+  IMM32.dll	0x758e0000	10.0.26100.9818 (WinBuild.160101.0800)
+  inputhost.dll	0x59910000	10.0.26100.9818 (WinBuild.160101.0800)
+  kernel.appcore.dll	0x749c0000	10.0.26100.9818 (WinBuild.160101.0800)
+  KERNEL32.DLL	0x761b0000	10.0.26100.9949 (WinBuild.160101.0800)
+  KERNELBASE.dll	0x75e40000	10.0.26100.9949 (WinBuild.160101.0800)
+  ksuser.dll	0x62a80000	10.0.26100.1 (WinBuild.160101.0800)
+  l3codeca.acm	0x50330000	1, 9, 0, 0401
+  LIBEAY32.dll	0x10000000	0.9.8a
+  mciqtz32.dll	0x5f4a0000	10.0.26100.9949 (WinBuild.160101.0800)
+  mfperfhelper.dll	0x50190000	10.0.26100.1 (WinBuild.160101.0800)
+  mfplat.DLL	0x5d720000	10.0.26100.9949 (WinBuild.160101.0800)
+  midimap.dll	0x5f950000	10.0.26100.1882 (WinBuild.160101.0800)
+  MMDevApi.dll	0x5db10000	10.0.26100.9949 (WinBuild.160101.0800)
+  mp3dmod.dll	0x590c0000	10.0.26100.9818 (WinBuild.160101.0800)
+  MSACM32.dll	0x5f4e0000	10.0.26100.9949 (WinBuild.160101.0800)
+  msacm32.drv	0x629f0000	10.0.26100.9949 (WinBuild.160101.0800)
+  msasn1.dll	0x749e0000	10.0.26100.9711 (WinBuild.160101.0800)
+  MSCTF.dll	0x762b0000	10.0.26100.9949 (WinBuild.160101.0800)
+  msdmo.dll	0x72490000	10.0.26100.1 (WinBuild.160101.0800)
+  msmpeg2adec.dll	0x502a0000	10.0.26100.9818 (WinBuild.160101.0800)
+  msvcp_win.dll	0x768a0000	10.0.26100.9711 (WinBuild.160101.0800)
+  MSVCR71.dll	0x7c340000	7.10.3052.4
+  msvcrt.dll	0x77050000	7.0.26100.9711 (WinBuild.160101.0800)
+  ntdll.dll	0x77130000	10.0.26100.9949 (WinBuild.160101.0800)
+  ntmarta.dll	0x73f60000	10.0.26100.9949 (WinBuild.160101.0800)
+  nvd3dum.dll	0x50580000	32.0.16.2124
+  nvgpucomp32.dll	0x53230000	32.0.16.2124
+  nvldumd.dll	0x5f350000	32.0.16.2124
+  NvMemMapStorage.dll	0x597f0000	
+  nvppe.dll	0x59560000	32.0.16.2124
+  nvspcap.dll	0x596b0000	11.0.9.585
+  ole32.dll	0x75910000	10.0.26100.9949 (WinBuild.160101.0800)
+  Oleacc.dll	0x62df0000	7.2.26100.9818 (WinBuild.160101.0800)
+  OLEAUT32.dll	0x763d0000	10.0.26100.9818 (WinBuild.160101.0800)
+  powrprof.dll	0x74b50000	10.0.26100.9949 (WinBuild.160101.0800)
+  profapi.dll	0x73c30000	10.0.26100.9818 (WinBuild.160101.0800)
+  qasf.dll	0x5f320000	12.0.26100.8115 (WinBuild.160101.0800)
+  QUARTZ.dll	0x590f0000	10.0.26100.9949 (WinBuild.160101.0800)
+  ResampleDmo.DLL	0x5f500000	10.0.26100.9818 (WinBuild.160101.0800)
+  resourcepolicyclient.dll	0x62ab0000	10.0.26100.8115 (WinBuild.160101.0800)
+  RPCRT4.dll	0x75a70000	10.0.26100.9949 (WinBuild.160101.0800)
+  rsaenh.dll	0x73ed0000	10.0.26100.1 (WinBuild.160101.0800)
+  RTWorkQ.DLL	0x5d6e0000	10.0.26100.3912 (WinBuild.160101.0800)
+  sechost.dll	0x76930000	10.0.26100.1 (WinBuild.160101.0800)
+  SETUPAPI.DLL	0x76ae0000	10.0.26100.9949 (WinBuild.160101.0800)
+  shcore.dll	0x75b40000	10.0.26100.9949 (WinBuild.160101.0800)
+  SHELL32.dll	0x75150000	10.0.26100.9949 (WinBuild.160101.0800)
+  SHLWAPI.dll	0x75de0000	10.0.26100.9949 (WinBuild.160101.0800)
+  SKGuard.dll	0x02500000	
+  SK-Main.exe	0x00400000	
+  textinputframework.dll	0x5dd70000	10.0.26100.9818 (WinBuild.160101.0800)
+  TextShaping.dll	0x6c770000	10.0.26100.9818 (WinBuild.160101.0800)
+  ucrtbase.dll	0x769c0000	10.0.26100.9711 (WinBuild.160101.0800)
+  UMPDC.dll	0x74a00000	10.0.26100.9818 (WinBuild.160101.0800)
+  USER32.dll	0x74dd0000	10.0.26100.9949 (WinBuild.160101.0800)
+  usp10.dll	0x5f4c0000	10.0.26100.1 (WinBuild.160101.0800)
+  uxtheme.dll	0x72fa0000	10.0.26100.9949 (WinBuild.160101.0800)
+  VERSION.dll	0x73ec0000	10.0.26100.1 (WinBuild.160101.0800)
+  wdmaud.drv	0x50140000	10.0.26100.9949 (WinBuild.160101.0800)
+  wdmaud2.drv	0x50110000	10.0.26100.9949 (WinBuild.160101.0800)
+  win32u.dll	0x75db0000	10.0.26100.9818 (WinBuild.160101.0800)
+  windows.storage.dll	0x74280000	10.0.26100.9949 (WinBuild.160101.0800)
+  Windows.UI.dll	0x5dc50000	10.0.26100.7840 (WinBuild.160101.0800)
+  WININET.dll	0x693d0000	11.00.26100.9949 (WinBuild.160101.0800)
+  WINMM.dll	0x74b10000	10.0.26100.9949 (WinBuild.160101.0800)
+  winmmbase.dll	0x62d40000	10.0.26100.1 (WinBuild.160101.0800)
+  wintrust.dll	0x75c20000	10.0.26100.9818 (WinBuild.160101.0800)
+  wldp.dll	0x72ee0000	10.0.26100.9949 (WinBuild.160101.0800)
+  WMASF.DLL	0x50350000	12.0.26100.8737 (WinBuild.160101.0800)
+  WMVCore.DLL	0x503a0000	12.0.26100.9818 (WinBuild.160101.0800)
+  WS2_32.dll	0x76f50000	10.0.26100.9949 (WinBuild.160101.0800)
+  WSOCK32.dll	0x72540000	10.0.26100.9949 (WinBuild.160101.0800)
+
+=== keyword hits ===
+  * d3d9.dll	0x68d40000	10.0.26100.9818 (WinBuild.160101.0800)
+  * devenum.dll	0x5f470000	10.0.26100.9949 (WinBuild.160101.0800)
+  * DINPUT8.dll	0x62db0000	10.0.26100.9949 (WinBuild.160101.0800)
+  * DSOUND.dll	0x5f5d0000	10.0.26100.9949 (WinBuild.160101.0800)
+  * dwmapi.dll	0x68ec0000	10.0.26100.9949 (WinBuild.160101.0800)
+  * IMM32.dll	0x758e0000	10.0.26100.9818 (WinBuild.160101.0800)
+  * l3codeca.acm	0x50330000	1, 9, 0, 0401
+  * LIBEAY32.dll	0x10000000	0.9.8a
+  * MSACM32.dll	0x5f4e0000	10.0.26100.9949 (WinBuild.160101.0800)
+  * msacm32.drv	0x629f0000	10.0.26100.9949 (WinBuild.160101.0800)
+  * msmpeg2adec.dll	0x502a0000	10.0.26100.9818 (WinBuild.160101.0800)
+  * msvcp_win.dll	0x768a0000	10.0.26100.9711 (WinBuild.160101.0800)
+  * MSVCR71.dll	0x7c340000	7.10.3052.4
+  * msvcrt.dll	0x77050000	7.0.26100.9711 (WinBuild.160101.0800)
+  * ole32.dll	0x75910000	10.0.26100.9949 (WinBuild.160101.0800)
+  * Oleacc.dll	0x62df0000	7.2.26100.9818 (WinBuild.160101.0800)
+  * OLEAUT32.dll	0x763d0000	10.0.26100.9818 (WinBuild.160101.0800)
+  * QUARTZ.dll	0x590f0000	10.0.26100.9949 (WinBuild.160101.0800)
+  * SKGuard.dll	0x02500000	
+  * uxtheme.dll	0x72fa0000	10.0.26100.9949 (WinBuild.160101.0800)
+  * VERSION.dll	0x73ec0000	10.0.26100.1 (WinBuild.160101.0800)
+  * WININET.dll	0x693d0000	11.00.26100.9949 (WinBuild.160101.0800)
+  * WINMM.dll	0x74b10000	10.0.26100.9949 (WinBuild.160101.0800)
+  * winmmbase.dll	0x62d40000	10.0.26100.1 (WinBuild.160101.0800)
+  * WS2_32.dll	0x76f50000	10.0.26100.9949 (WinBuild.160101.0800)
+  * WSOCK32.dll	0x72540000	10.0.26100.9949 (WinBuild.160101.0800)
+
+=== teardown ===
+killing SK-Main 38472
+killing SK-Startup 14832
+
+=== KEY DELTAS (analysis of run-17) ===
+SKGuard.dll        loaded at 0x02500000  <-- NOT its preferred base 0x10000000 (relocated)
+LIBEAY32.dll       loaded at 0x10000000
+MSVCR71.dll        loaded at 0x7c340000
+ssleay32.dll       ABSENT  <-- open question resolved: never loaded
+DirectPlay         ABSENT (no dpnet.dll / dpwsockx.dll / dplayx.dll) - network mode not entered
+DirectShow audio   QUARTZ.dll, devenum.dll, l3codeca.acm (MP3), msmpeg2adec.dll, mciqtz32.dll
+DirectMusic        dmusic.dll, dmloader.dll, midimap.dll (MIDI path)
+Graphics           d3d9.dll + nvd3dum.dll (NVIDIA UMD) 10.0.26100.9818 / 32.0.16.2124
+Network stubs      WS2_32.dll, WSOCK32.dll, WININET.dll loaded at startup

@@ -1,0 +1,22 @@
+T+0 LAUNCH pid=24968 workdir=C:\Users\Mateus\AppData\Local\hermes\cache\scratch\sk-sandbox2
+T+1,7 CLICK Window
+T+22,3 game window hwnd=0x1601A2
+  SNAP 01-menu                    284968 bytes
+  >> DIK_DOWN  -> Battle Mode  (scan=0x0x50 ext=True)
+  SNAP 02-menu-battle-selected    257545 bytes
+  >> Enter      -> open Battle setup  (scan=0x0x1C ext=False)
+  SNAP 03-battle-setup            275047 bytes
+  >> Enter      -> confirm/start  (scan=0x0x1C ext=False)
+  SNAP 04-after-confirm           275251 bytes
+  >> Enter      -> confirm again  (scan=0x0x1C ext=False)
+  SNAP 05-after-confirm2          275502 bytes
+  >> DIK_DOWN  (scan=0x0x50 ext=True)
+  SNAP 06-down                    275599 bytes
+  >> Enter  (scan=0x0x1C ext=False)
+  SNAP 07-enter                   275535 bytes
+
+ELAPSED 42,8s
+SK-Main alive ws=98,8MB threads=34
+=== teardown ===
+killing SK-Main 21108
+killing SK-Startup 24968

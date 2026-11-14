@@ -1,0 +1,66 @@
+T+0 LAUNCH pid=9704
+T+1,7 CLICK Window
+T+22,2 game window hwnd=0x170E3C
+  SNAP 01-main-menu                 56748 bytes
+  >> DIK_DOWN -> Battle Mode
+  SNAP 02-battle-selected           267851 bytes
+  >> ENTER -> open Battle setup
+  SNAP 03-battle-setup              275047 bytes
+  >> F3 -> START match
+  SNAP 04-after-F3                  428874 bytes
+  >> F3 -> again (may need Ready)
+  SNAP 05-after-F3b                 531320 bytes
+  >> ENTER -> confirm any prompt
+  SNAP 06-after-enter               545572 bytes
+
+ELAPSED 46,4s
+SK-Main alive ws=106MB threads=35
+=== teardown ===
+killing SK-Main 27308
+killing SK-Startup 9704
+
+=== VERDICT: PLAYABLE MATCH REACHED (T-01b PASS) ===
+
+Sequence that works (scancode / extended / rationale):
+  1. DIK_DOWN  0x50 extended   main menu -> Battle Mode
+  2. ENTER     0x1C plain      open Battle Mode setup
+  3. F3        0x3D plain      START the match   <-- the key that was missing
+  4. ENTER     0x1C plain      confirm
+
+WHY ENTER ALONE FAILED (runs 26): the Battle setup screen advances with F3, not Enter.
+  Evidence from the shipped language file 1041.ini [FUNCTION]:
+    F3_START  =F3 Start
+    F3_COMPLET=F3 Complete
+    F3_CANCEL =F3 Cancel
+    F3_SAVE   =F3 Save
+  and [BATTLE_RESULT] carries READY_AND_WAIT = <Ready>.
+  Enter only manipulates the currently focused mech/team slot.
+
+FRAME EVIDENCE (all inspected visually):
+  01-main-menu          56,748 B   main menu
+  02-battle-selected   267,851 B   selection moved to Battle Mode
+  03-battle-setup      275,047 B   "Select your Mech, Team, and Stage!"
+  04-after-F3          428,874 B   "Battle Start" banner, timer 00:00.000,
+                                   both mechs rendered in a walled arena, full HUD
+  05-after-F3b         531,320 B   countdown progressed
+  06-after-enter       545,572 B   ACTIVE GAMEPLAY, timer 00:10.912
+
+HUD elements observed and cross-checked against the game's own string table:
+  "Philotes"             mech name          (1041.ini [KNIGHTS_NAME] K01=Philotes)
+  "Military Potential"   gauge              (string 0x32a8e8 / 0x328d70)
+  "Radar"                radar panel        (string 0x32a8fc)
+  "Altimeter"/"Alti"     altitude           (string 0x32a8dc)
+  "Danger"               warning overlay    (logo/danger01.bmp, danger02.bmp)
+  "Caution ! Minor damage..."  damage msg   (SilverKnights.ini [MESSAGE] DAMAGE25)
+  timer "Time 00:10.912" match clock        (proves time advanced 10.9 s)
+
+CONCLUSION
+  * Gameplay: PASS. A live match runs, renders 3D geometry with two mechs, and the
+    match timer advances.
+  * The map/scene path works: a walled arena with textured walls renders.
+  * Player state is live: the mech took damage and the DAMAGE25 message fired.
+  * SK-Main stayed alive throughout (106 MB, 35 threads) with no error dialog.
+
+NOT yet proven: post-processing effects at higher EFFECT_LEVEL, audio, controller,
+network. The shipped EFFECT_LEVEL is 1 (lowest), so the heavy D3DX effect paths
+(HDR, bloom, depth-of-field) were likely NOT exercised.

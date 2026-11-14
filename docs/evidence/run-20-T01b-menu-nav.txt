@@ -1,0 +1,50 @@
+T+0 LAUNCH SK-Startup pid=32332
+T+1,6 CLICK Window
+T+12,4 MENU READY hwnd=0xC04B4
+0
+  SNAP A-baseline         sha=d802b4b162524957 bytes=201244
+SEND: Down (keybd_event, 90ms)
+1
+  SNAP B-after-down1      sha=eb7fd5cae5de12cd bytes=305524
+SEND: Down
+2
+  SNAP C-after-down2      sha=8b8406b383fbb022 bytes=296231
+SEND: Down
+3
+  SNAP D-after-down3      sha=4fde5ea90f0c847a bytes=286920
+SEND: Up
+4
+  SNAP E-after-up1        sha=79eb3f7c7aed0046 bytes=273879
+SEND: Enter
+5
+  SNAP F-after-enter      sha=df6857b441c9a5b8 bytes=285719
+SEND: Esc
+6
+  SNAP G-after-esc        sha=43cdfee104fb0643 bytes=305224
+
+=== FRAME ANALYSIS ===
+frames=7 distinct=7
+  A-baseline         d802b4b162524957fb4e98c2
+  B-after-down1      eb7fd5cae5de12cd48476bb7
+  C-after-down2      8b8406b383fbb0229e2aa3e0
+  D-after-down3      4fde5ea90f0c847a15f95c99
+  E-after-up1        79eb3f7c7aed00466236d9a7
+  F-after-enter      df6857b441c9a5b8cad752b8
+  G-after-esc        43cdfee104fb0643a6eb490b
+
+RESULT: INPUT REACHES THE GAME - multiple distinct frames from navigation.
+
+=== teardown ===
+killing SK-Main 26920
+killing SK-Startup 32332
+
+=== INTERPRETATION (added after visual inspection) ===
+A-baseline, D-after-down3, F-after-enter and G-after-esc were inspected visually.
+All four show the same 5-item menu with the selection bar on "Story Mode":
+  Story Mode / Battle Mode / Network Mode / Replay Mode / Option
+CONCLUSION: the game REACHES THE MAIN MENU (verified). Menu NAVIGATION is NOT proven:
+the selection bar did not move on Down x3, Enter, or Esc.
+The large pixel deltas (70-84% of pixels, full-window bbox) between captures are an
+animated background / logo effect, not a selection change. That still proves the render
+loop is live and the D3D9 path works.
+Input injection is therefore the remaining open question for T-01.

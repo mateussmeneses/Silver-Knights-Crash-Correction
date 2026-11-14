@@ -1,0 +1,13 @@
+T+0 LAUNCH pid=36744
+T+1,7 CLICK Window
+T+14,2 focus check: foreground=0xD074E target=0xD074E match=True
+SCAN DOWN (0x50)
+SCAN DOWN
+SCAN ENTER (0x1C)
+
+=== compare with imgdiff ===
+images in C:\projetos\Silver-Knights-Crash-Correction\docs\evidence\t01c
+
+=== teardown ===
+killing SK-Main 21696
+killing SK-Startup 36744

@@ -1,0 +1,72 @@
+T-11 STATIC SEARCH - WHAT IT DID AND DID NOT FIND
+=================================================
+Artefact: docs/evidence/t11-time-cap-search.txt
+Tool:     tools/find_time_cap.py
+
+RESULT
+------
+    1800000 (u32, milliseconds)   0 hits anywhere in the image
+    1800000 (i32)                 0 hits
+    1800 (u32)                   40 hits
+    1800.0f                       0 hits
+    1800.0d                       0 hits
+
+The solid finding is the NEGATIVE one: there is no 1,800,000 millisecond constant in the
+binary. Since the engine's timer tick is milliseconds (it calls `timeGetTime`, which returns
+ms), a cap implemented as "if elapsed_ms > 1800000 then quit" would require that immediate,
+and it is not there.
+
+SO WHAT IS IT DOING?
+----------------------
+The cap is almost certainly a DIFFERENCE of two timestamps against a stored or computed
+limit, not a single compare against a literal. That pattern would not put 1800000 in the
+code at all:
+
+    start = timeGetTime()                 once, at launch or match start
+    now   = timeGetTime()                 each frame
+    if (now - start) > LIMIT then quit
+
+and LIMIT could arrive from anywhere - a computed constant, a float in .rdata, an int
+built by shifts. So the absence of the literal is consistent with the runtime measurement
+and does not weaken it.
+
+WHY THE 40 HITS FOR "1800" ARE NOT USABLE
+------------------------------------------
+They are not comparisons. The bytes `08 07 00 00` occur constantly in x86 code, and the
+tool's context windows show that plainly:
+
+  * 0x41d7df - `fld dword ptr [esp + 0x708]`  -> 0x708 is a STACK OFFSET, not a time value
+  * 0x43a57e - `push 0x708` then `call 0x5c64e0` -> a constant argument, but to an unrelated
+    function, and 1800 as an argument there is coincidental
+  * the rest are mid-instruction alignments: the "hit" is inside a longer instruction or
+    between two, which is why the disassembly around them looks like nonsense
+    (`aad 0xa4`, `lds esp, ...`)
+
+A misaligned search is the classic way to manufacture false positives in x86. Each hit was
+disassembled from an arbitrary lead-in, so the instruction boundaries are not trustworthy
+unless the hit is reached by a valid decode path from a known entry point. None of the 40 is.
+
+WHAT WOULD ACTUALLY SETTLE THE MECHANISM
+-----------------------------------------
+Either of these, neither of which is a byte search:
+
+  1. Find the shutdown call path and walk BACKWARD. The game's orderly exit is provably
+     reachable (it writes the "End" log line), so locate the function that writes that line,
+     find its callers, and look for a caller that is guarded by a time comparison. That
+     identifies the cap site positively rather than by guessing at constants.
+
+  2. Breakpoint `timeGetTime` and watch what the return value is compared against. This is
+     the definitive method, but it collides with the anti-debug hook - which is exactly why
+     the patched build exists (`0x1f4d50` `7E`->`EB` neutralises the timing check). Attach to
+     the PATCHED build, not the original.
+
+Note the ordering constraint: R-02 (does `0x1f4d50` gate anything besides the anti-hook
+verdict?) should be answered before leaning on breakpoints, because if that site gates more
+than the verdict, patching it changes the control flow we would be measuring.
+
+STATUS
+------
+The cap is VERIFIED at runtime (run-48: 1800.067 s, matched Start/End pair). Its MECHANISM
+is UNIDENTIFIED, and this search narrows it to "not a literal 1800000". That is an honest
+partial result, not a failure - and it is the kind of thing that should be stated as a limit
+rather than dressed up as a finding.

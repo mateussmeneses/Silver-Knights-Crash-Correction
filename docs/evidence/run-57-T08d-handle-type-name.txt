@@ -1,0 +1,17 @@
+HandleNames compiled OK
+launched - dismissing launcher dialogs
+game pid=9104
+letting the game settle 150s before sampling
+
+=== resolving type index 42 in pid 9104 ===
+handles of that type found: 79
+
+=== type names seen for this index ===
+    File                     x79
+
+=== object names of that type (top 20 by count) ===
+    x79    (unnamed)
+
+=== teardown ===
+killing SK-Main 9104
+killing SK-Startup 21980

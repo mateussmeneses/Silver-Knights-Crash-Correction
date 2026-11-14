@@ -1,0 +1,204 @@
+========================================================================
+CASE-SENSITIVITY AUDIT
+========================================================================
+executable analysed : .analysis/unpacked/SK-Main.unpacked.exe
+game root           : .
+literal asset refs  : 645
+files on disk       : 1595
+
+exact-case match    : 553
+CASE MISMATCHES     : 12   <-- would FAIL on ext4/APFS
+missing entirely    : 80
+
+------------------------------------------------------------------------
+CASE MISMATCHES (Linux/macOS blocker if the engine uses exact names)
+------------------------------------------------------------------------
+  ref : blast.x
+  disk: mesh/blast.X
+        basename matches but casing differs (different directory)
+
+  ref : blast2.x
+  disk: mesh/blast2.X
+        basename matches but casing differs (different directory)
+
+  ref : bullet.x
+  disk: mesh/icarus/bullet.X
+  disk: mesh/thor/bullet.X
+        basename matches but casing differs (different directory)
+
+  ref : force.x
+  disk: mesh/force.X
+        basename matches but casing differs (different directory)
+
+  ref : giga-bazooka.X
+  disk: mesh/giga/giga-bazooka.x
+        basename matches but casing differs (different directory)
+
+  ref : mist.png
+  disk: png/mist.PNG
+        basename matches but casing differs (different directory)
+
+  ref : philo-gun-emb.X
+  disk: mesh/philo/philo-gun-emb.x
+        basename matches but casing differs (different directory)
+
+  ref : philo-option.x
+  disk: mesh/philo/philo-option.X
+        basename matches but casing differs (different directory)
+
+  ref : shaft.bsp
+  disk: bsp/Shaft.bsp
+        basename matches but casing differs (different directory)
+
+  ref : shaft.wad
+  disk: bsp/Shaft.wad
+        basename matches but casing differs (different directory)
+
+  ref : smoke.x
+  disk: mesh/smoke.X
+        basename matches but casing differs (different directory)
+
+  ref : smoke2.x
+  disk: mesh/smoke2.X
+        basename matches but casing differs (different directory)
+
+------------------------------------------------------------------------
+MISSING (not on disk at all; may be optional or generated at runtime)
+------------------------------------------------------------------------
+  ./original.ini
+  Scene.ini
+  debug.txt
+  joker-arm-l.X
+  joker-arm-r.X
+  joker-body.X
+  joker-boots-l.X
+  joker-boots-r.X
+  joker-dagger.X
+  joker-emblem.X
+  joker-hand-l.X
+  joker-hand-r.X
+  joker-head.X
+  joker-laser-f.x
+  joker-laser.x
+  joker-leg-l.X
+  joker-leg-r.X
+  joker-lumbar.X
+  joker-sword.X
+  kaede-arm-l.X
+  kaede-arm-r.X
+  kaede-body.X
+  kaede-boots-l.X
+  kaede-boots-r.X
+  kaede-calf-l.X
+  kaede-calf-r.X
+  kaede-ear.X
+  kaede-emblem.X
+  kaede-fire.X
+  kaede-hand-l.X
+  kaede-hand-r.X
+  kaede-head.X
+  kaede-leg-l.X
+  kaede-leg-r.X
+  kaede-lumbar.X
+========================================================================
+ANALYSIS AND INTERPRETATION
+========================================================================
+
+SCOPE AND METHOD
+  Extracted every literal asset filename from the unpacked SK-Main.exe (645 references
+  across .x / .bmp / .png / .wav / .mid / .mp3 / .ini / .rep / .bsp / .wad), then resolved
+  each against the files on disk case-sensitively.
+
+  Files on disk: 1595. Exact-case matches: 553.
+
+FINDING 1 - CASE MISMATCHES (12): a real Linux/macOS blocker
+  These references differ from the on-disk filename ONLY by letter case:
+
+    ref blast.x              -> disk mesh/blast.X
+    ref blast2.x             -> disk mesh/blast2.X
+    ref bullet.x             -> disk mesh/icarus/bullet.X, mesh/thor/bullet.X
+    ref force.x              -> disk mesh/force.X
+    ref giga-bazooka.X       -> disk mesh/giga/giga-bazooka.x     (reverse direction!)
+    ref mist.png             -> disk png/mist.PNG
+    ref philo-gun-emb.X      -> disk mesh/philo/philo-gun-emb.x   (reverse direction!)
+    ref philo-option.x       -> disk mesh/philo/philo-option.X
+    ref shaft.bsp            -> disk bsp/Shaft.bsp
+    ref shaft.wad            -> disk bsp/Shaft.wad
+    ref smoke.x              -> disk mesh/smoke.X
+    ref smoke2.x             -> disk mesh/smoke2.X
+
+  Note the direction is inconsistent: most are "binary says lowercase, disk has uppercase",
+  but giga-bazooka and philo-gun-emb are the reverse. That asymmetry is why this cannot be
+  fixed by a blanket rename rule - each case must be decided individually.
+
+  Impact: on NTFS these resolve silently. On ext4 or a case-sensitive APFS volume they will
+  fail to open. Whether the game then crashes, renders an untextured mesh, or falls back
+  gracefully is UNKNOWN and must be observed, not assumed.
+
+  The Shaft.bsp / Shaft.wad pair matters most: a missing .bsp means the map cannot load.
+
+FINDING 2 - TWO UNDELIVERED CHARACTERS (32 assets)
+  The binary references full mesh sets for two mechs that do not exist on disk:
+
+    JOKER  (16 files): joker-body.X, joker-head.X, joker-arm-l/r.X, joker-leg-l/r.X,
+                       joker-emblem.X, joker-sword.X, joker-dagger.X, joker-laser.X,
+                       joker-laser-f.x, ... 
+    KAEDE  (16 files): kaede-body.X, kaede-head.X, kaede-ear.X, kaede-fire.X,
+                       kaede-calf-l/r.X, kaede-emblem.X, ...
+
+  Neither mesh/joker/ nor mesh/kaede/ exists. The 15 mech directories that ARE present
+  cover the 16 selectable knights named in 1041.ini [KNIGHTS_NAME] plus generics.
+
+  Both names appear in the binary's own character list (strings at 0x329d40 JOKER and
+  0x329d5c KAEDE), and ReadMe-English.txt documents K16=Random with K20=IRIS, K21=Siegfried,
+  K22=<kaede/garbled>. So JOKER and KAEDE are characters the developer referenced but never
+  shipped in this 0.13 build.
+
+  Impact: this is a CONTENT gap in the original release, not a porting defect. It will behave
+  identically on every platform. It is recorded so nobody later mistakes a missing-mech error
+  for a compatibility bug. Selecting either would presumably fail; NOT TESTED.
+
+FINDING 3 - benign "missing" entries
+  ./original.ini, Scene.ini and debug.txt are not assets - they are the scene-editor working
+  file and the launcher's debug log, created at runtime. Their absence is correct.
+
+VERDICT
+  Case-sensitivity risk: PRESENT, 12 references, file-specific - must be handled per name,
+  not by a blanket rule. This is the first concrete, verified Linux-specific defect found,
+  and it was found statically without needing a Linux host.
+
+  Not yet known: whether any of the 12 actually breaks the game on a case-sensitive
+  filesystem. That requires running it there. Marking it FAIL would be overclaiming; marking
+  it NOT TESTED would be understating a proven risk. The honest status is INVESTIGATING with
+  the risk quantified.
+
+------------------------------------------------------------------------
+CORRECTION / EXPANSION: FIVE undeclared characters, not two
+------------------------------------------------------------------------
+A closer pass over the missing list shows FIVE mesh prefixes, not two:
+
+    joker   (16 files)   K26=Joker      in 1041.ini
+    kaede   (16 files)   K22=楓  (Kaede) in 1041.ini  [shift_jis 95 96]
+    mai1    (?)          "MAIKAZE1" appears in the binary at 0x329d7c
+    maika   (?)          K24=舞風 (Maikaze) in 1041.ini [shift_jis 95 91 95 97]
+    sieg    (?)          K21=Siegfried   in 1041.ini
+
+  Disk has 15 mech directories: arjuna bacc cerbe giga gyges icarus iris kage masa
+  mist philo shira tarta thor zeph.
+
+  So the shipped 0.13 build defines 21 knights (K01-K16, K20-K26) but supplies meshes
+  for only 15. The six names in 1041.ini that have no directory are:
+     K21 Siegfried, K22 楓 (Kaede), K23 闘龍 (Touryuu), K24 舞風 (Maikaze),
+     K25 不知火 (Shiranui alt?), K26 Joker
+  (Note K14 already covers Shiranui and K15 Kagerou, so K20-K26 is a second "unlockable"
+   tier, not a duplicate list - that much is inferred from the K-number gap at K17-K19.)
+
+  Binary occurrence counts confirm these are real code paths, not dead strings:
+     kaede: 22 occurrences,  joker: 24 occurrences,  MAIKAZE: 1, KAEDE: 1, JOKER: 1
+
+  CONCLUSION: this is a CONTENT GAP in the original 0.13 release, not a porting defect.
+  It will behave identically on Windows, Linux and macOS. Recorded so that a future
+  engineer does not misdiagnose "missing kaede-body.X" as a compatibility failure.
+
+  Still NOT TESTED: what the game actually does if one of those knights is selected.
+  The honest expectation is a load error or a fallback, but that is a guess until observed.

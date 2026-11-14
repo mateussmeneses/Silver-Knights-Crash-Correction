@@ -1,0 +1,133 @@
+T+0 LAUNCH pid=7768 target=30min sample=30s
+match started, beginning sampling
+0
+  T+   70s  WS=  106,8MB  priv=   93,3MB  thr= 31  hnd=  697
+1
+  T+  100s  WS=    107MB  priv=   93,6MB  thr= 31  hnd=  707
+2
+  T+  130s  WS=  106,9MB  priv=   93,5MB  thr= 29  hnd=  713
+3
+  T+  160s  WS=  106,9MB  priv=   93,4MB  thr= 27  hnd=  723
+4
+  T+  190s  WS=  106,9MB  priv=   93,4MB  thr= 27  hnd=  733
+5
+  T+  220s  WS=  106,9MB  priv=   93,4MB  thr= 27  hnd=  744
+6
+  T+  250s  WS=  106,9MB  priv=   93,4MB  thr= 27  hnd=  756
+7
+  T+  281s  WS=  106,9MB  priv=   93,3MB  thr= 26  hnd=  764
+8
+  T+  311s  WS=    107MB  priv=   93,4MB  thr= 27  hnd=  775
+9
+  T+  341s  WS=    107MB  priv=   93,4MB  thr= 27  hnd=  785
+10
+  T+  371s  WS=    107MB  priv=   93,4MB  thr= 27  hnd=  795
+11
+  T+  401s  WS=    107MB  priv=   93,4MB  thr= 27  hnd=  806
+12
+  T+  431s  WS=  106,9MB  priv=   93,3MB  thr= 26  hnd=  814
+13
+  T+  461s  WS=  106,9MB  priv=   93,3MB  thr= 26  hnd=  824
+14
+  T+  491s  WS=  106,9MB  priv=   93,3MB  thr= 26  hnd=  835
+15
+  T+  521s  WS=  106,9MB  priv=   93,3MB  thr= 26  hnd=  845
+16
+  T+  551s  WS=  106,9MB  priv=   93,3MB  thr= 26  hnd=  855
+17
+  T+  581s  WS=  106,9MB  priv=   93,3MB  thr= 26  hnd=  866
+18
+  T+  611s  WS=    107MB  priv=   93,4MB  thr= 27  hnd=  876
+19
+  T+  641s  WS=    107MB  priv=   93,4MB  thr= 27  hnd=  886
+20
+  T+  671s  WS=  106,9MB  priv=   93,2MB  thr= 25  hnd=  897
+21
+  T+  701s  WS=    107MB  priv=   93,3MB  thr= 26  hnd=  907
+22
+  T+  731s  WS=    107MB  priv=   93,3MB  thr= 26  hnd=  917
+23
+  T+  761s  WS=    107MB  priv=   93,3MB  thr= 26  hnd=  928
+24
+  T+  791s  WS=    107MB  priv=   93,3MB  thr= 26  hnd=  938
+25
+  T+  821s  WS=    107MB  priv=   93,3MB  thr= 26  hnd=  948
+26
+  T+  851s  WS=    107MB  priv=   93,3MB  thr= 26  hnd=  959
+27
+  T+  881s  WS=    107MB  priv=   93,3MB  thr= 26  hnd=  969
+28
+  T+  911s  WS=    107MB  priv=   93,3MB  thr= 26  hnd=  979
+29
+  T+  942s  WS=  106,9MB  priv=   93,2MB  thr= 25  hnd=  990
+30
+  T+  972s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1000
+31
+  T+ 1002s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1010
+32
+  T+ 1032s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1021
+33
+  T+ 1062s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1031
+34
+  T+ 1092s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1041
+35
+  T+ 1122s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1052
+36
+  T+ 1152s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1062
+37
+  T+ 1182s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1072
+38
+  T+ 1212s  WS=  106,9MB  priv=   93,2MB  thr= 25  hnd= 1083
+39
+  T+ 1242s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1093
+40
+  T+ 1272s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1103
+41
+  T+ 1302s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1114
+42
+  T+ 1332s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1124
+43
+  T+ 1362s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1134
+44
+  T+ 1392s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1145
+45
+  T+ 1422s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1155
+46
+  T+ 1452s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1165
+47
+  T+ 1482s  WS=  106,9MB  priv=   93,2MB  thr= 25  hnd= 1176
+48
+  T+ 1512s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1186
+49
+  T+ 1542s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1197
+50
+  T+ 1572s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1207
+51
+  T+ 1602s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1217
+52
+  T+ 1632s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1228
+53
+  T+ 1663s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1238
+54
+  T+ 1693s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1248
+55
+  T+ 1723s  WS=    107MB  priv=   93,3MB  thr= 26  hnd= 1259
+56
+  T+ 1753s  WS=    105MB  priv=   91,8MB  thr= 29  hnd= 1274
+57
+  T+ 1783s  WS=  104,9MB  priv=   91,8MB  thr= 29  hnd= 1284
+STOP: SK-Main EXITED at T+1.813s (was it killed by another tool? check the log for a matching 'End' line)
+
+=== SUMMARY ===
+samples          : 58 over 1.783s
+working set      : 106,8MB -> 104,9MB   (-1,9MB, -0,07 MB/min)
+private bytes    : 93,3MB -> 91,8MB   (-1,5MB)
+threads          : 31 -> 29
+handles          : 697 -> 1284   (+587)
+dialogs observed : 0
+VERDICT: STABLE - no meaningful memory growth
+
+=== WER events in the last 32 min ===
+
+=== clean shutdown test ===
+=== teardown ===

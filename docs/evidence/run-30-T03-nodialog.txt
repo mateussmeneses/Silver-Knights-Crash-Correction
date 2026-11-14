@@ -1,0 +1,14 @@
+T+0 LAUNCH SK-Startup pid=11580 cwd=C:\Users\Mateus\AppData\Local\hermes\cache\scratch\sk-sandbox3
+T+0,5 SK-Startup cls='#32770' vis=True rect=669,418,872,548 text='Error Massage'  kids: [Button]OK ; [Static]'SK-Main.exe' file is corrupted.
+T+0,5 SK-Startup cls='MSCTFIME UI' vis=False rect=0,0,0,0 text='MSCTFIME UI'
+T+0,5 SK-Startup cls='IME' vis=False rect=0,0,0,0 text='Default IME'
+--- end state ---
+SK-Startup still running
+--- log tail ---
+2026/11/13 13:14:05.239, SK-Main.exe Start ------------------------>
+2026/11/13 13:14:53.653, SK-Main.exe Start ------------------------>
+2026/11/13 13:15:41.839, SK-Main.exe Start ------------------------>
+2026/11/13 13:16:29.910, SK-Main.exe Start ------------------------>
+--- WER/AppError last 10 min ---
+--- teardown ---
+killing SK-Startup 11580

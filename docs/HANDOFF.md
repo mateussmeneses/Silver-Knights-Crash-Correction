@@ -1,0 +1,310 @@
+# Project Handoff — Silver Knights 0.13 Recovery
+
+**Session date:** 2026-11-13
+**Branch:** `001-recovery-foundation`
+**Base commit:** `747f22e220bafe93d487161a8c7ab85d09119e31` (`main`, "first commit")
+**Agent:** Hermes (Principal Coordinator)
+
+---
+
+## 1. Completed tasks
+
+| ID | Task | Result |
+|---|---|---|
+| T-00.1 | Repository + history intake | Done — 1170 tracked files, single commit, no prior branches |
+| T-00.2 | AI-Workbench CLI + capability inspection | Done — `aiwh` 0.3.0-era CLI; `game-port` triage run; 54 skills / 21 roles / 29 profiles catalogued |
+| T-00.3 | Binary identity and hashes | Done — 6 PE files, full SHA-256 recorded |
+| T-00.4 | PE metadata / imports / exports / ordinal resolution | Done — real imports recovered post-UPX |
+| T-00.5 | UPX unpacking of analysis copies | Done — `.analysis/unpacked/` (gitignored) |
+| T-00.6 | Windows 11 failure reproduction | Done — deterministic 4/4 |
+| T-00.7 | Root cause | Done — proven, not hypothesised |
+| T-00.8 | Experimental fix validated | Done — 4/4 patched runs survive |
+| T-00.9 | Tooling and evidence | Done — 24 scripts, 25 execution records |
+| T-01 | Menu reachability + navigation | **DONE** — menu reached, navigation proven |
+| T-02 | Same-length shippable patch | **DONE** — `tools/build_patched.py`, validated |
+| T-03 | Launcher dialog suppression | **DONE** — 2 `MessageBox` sites NOPed, launcher usable at T+0.5 s |
+| T-04 | Audio verified at the device | **DONE** — WASAPI peak: idle 0.000 (control), menu 0.0499, in-match 1.0000 |
+| T-05b | High-end D3DX renderer | **DONE** — 4 effect profiles, no compile failure, 1280×960 live match |
+| T-05d | Effects visibility | **PARTIAL** — 3.67 % matched first-frame diff; per-effect attribution open |
+| T-07 | Network Mode | **BLOCKED (UI verified)** — screen renders and is stable; DirectPlay never loads because the name field rejects automated input |
+| T-08 | Long-run stability | **PARTIAL** — memory flat; handles leak ~+20/min (hygiene, not a crash cause) |
+| T-08b | Handle-leak root cause | **DONE** — one mailslot (`\Device\Mailslot\SK-Startup.exe`), 27 → 119 in 4.5 min; all other 18 paths static |
+| T-08c | Patch the mailslot reopen | **TODO** — hoist the open out of the loop (peer channel already holds 1 handle) |
+| T-04b | MIDI path | **DONE** — isolated A/B: `MIDI=1` 30/30 non-zero, `MIDI=0` 0/30 on a silent baseline; `dmsynth.dll`/`midimap.dll` loaded, `quartz.dll` absent |
+| T-10a | Case-mismatch audit + renames | **DONE (audit) / NOT PROVEN (runtime)** — 12 → 0 mismatches; renames applied on `002-case-normalization`; Shaft map never loaded, so unverified at runtime |
+| T-11 | 30-minute termination | **RESOLVED** — per-match only; menu idle survived 1885 s with no `End`. No restart workaround needed |
+
+---
+
+## 2. Technical findings
+
+### 2.0 Two root causes, not one
+
+There were **two independent defects**, and the second one cost four failed attempts:
+
+| # | Defect | Root cause | Fix |
+|---|---|---|---|
+| 1 | Fatal self-termination at ~8 s | `winmm!timeGetTime` fingerprint expecting a Win9x prologue | `SK-Main.exe` RVA `0x1f4d50` `7E`→`EB` |
+| 2 | Menu input not registering | `SetForegroundWindow` **refused** for a background process | `AttachThreadInput` + ALT tap + **E0-extended** DIK scancodes |
+
+Defect 2 was **not** an input-protocol problem. `PostMessage`, `keybd_event`, `SendInput`
+with virtual keys, and `SendInput` with plain scancodes all failed — each looked like "the
+game ignores input". The real fault was focus: DirectInput8 polls the keyboard attached to
+**the foreground thread**, and the PowerShell console kept focus because Windows' foreground
+lock refuses `SetForegroundWindow` from a process that did not receive the last input event.
+`GetForegroundWindow() == target` was the check that exposed it.
+
+The correct mechanics, for reuse:
+
+```
+AttachThreadInput(selfThread, foregroundThread, true)
+keybd_event(VK_MENU down/up)              // ALT tap unlocks the foreground change
+SetForegroundWindow(target)
+AttachThreadInput(selfThread, foregroundThread, false)
+
+// arrow keys are E0-extended Set-1 scancodes
+SendInput(KEYEVENTF_SCANCODE | KEYEVENTF_EXTENDEDKEY, wScan=0x50)   // DIK_DOWN
+SendInput(KEYEVENTF_SCANCODE | KEYEVENTF_EXTENDEDKEY, wScan=0x48)   // DIK_UP
+```
+
+The scancode contract is confirmed by `SilverKnights.ini [KEYBOARD]`: `UP=200`, `DOWN=208`,
+`LEFT=203`, `RIGHT=205` are `0x80|scancode` DIK codes. The game reads DirectInput
+scancodes, never virtual keys.
+
+### 2.1 The fatal defect (VERIFIED)
+
+`SK-Main.exe` RVA `0x1f4ee0` fingerprints the first 20 bytes of `winmm!timeGetTime` against a
+hard-coded Windows 9x/2000 prologue:
+
+```
+expected: 83 3D <abs32> 00  0F 85 <rel32>     ; cmp [abs32],0 ; jne
+actual  : FF 25 D8 72 02 10                   ; jmp [IAT]     (modern winmm thunk)
+```
+
+Return encoding on mismatch is `0x100 + byte[0]`; `0x100 + 0xFF = 0x1FF`, which is exactly
+the `(01ff)` printed in the dialog `Timer-API hook was detected.(01ff)`.
+
+Control flow at `0x1f4d43`: `cmp eax,-1` / `jle → clean`; anything `> 5` takes the
+`Timer-API` branch, sets the cheat flag at `0x21428a4`, and calls shutdown `0x5fd640`.
+
+**Fix:** RVA `0x1f4d50`, `7E` → `EB` (`jle` → `jmp`). One byte, same length.
+
+### 2.2 The launcher integrity check (VERIFIED)
+
+`SK-Startup.exe` refuses to launch `SK-Main.exe` unless:
+- file size == `0x00165800` (1,464,320) — constant at `0x12554`
+- MD5 == `84a321d3035de0e2f03539123667f3d6` — constant at `0x12558`
+
+Patching `SK-Main.exe` therefore requires either updating both constants (used in the
+experiment, needs an unpacked binary) or a same-length pack-then-patch pipeline
+(**T-02, not yet done**).
+
+### 2.3 The cosmetic defect (VERIFIED)
+
+`SK-Startup.exe` reads `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ProductId`, which does
+not exist on Windows 11 build 26300 (it lives under `Windows NT\CurrentVersion`). Result: two
+`Error Massage` dialogs, then a fallback to `1234567890`. Not fatal. **T-03**.
+
+### 2.4 Architecture facts that were previously unknown
+
+- Main and launcher are **UPX-packed**; the shipped import table is the UPX stub's. Any
+  analysis of the packed imports would be wrong.
+- Graphics is **D3D9** with a **statically linked D3DX9 runtime effect compiler**. Shaders are
+  compiled at runtime; there is no shader cache on disk. This is the dominant cross-platform
+  blocker.
+- Audio uses **three** paths: DirectSound 8 (`DirectSoundCreate8` by ordinal 11), MCI +
+  DirectShow for MP3, DirectMusic for MIDI.
+- Network gameplay is **DirectPlay 8** (`IDirectPlay8Peer/Server/Client`) — deprecated.
+- `SKGuard.dll` installs a **global `WH_GETMESSAGE` hook** via `SetWindowsHookExA(idHook=3)`.
+- The window class is **`UDX_CLASS`**.
+- `ssleay32.dll` is **never loaded** (open question closed).
+- `SKGuard.dll` loads **relocated** at `0x02500000`, not its preferred `0x10000000`.
+
+---
+
+## 3. Modified files
+
+**No game binary in the repository was modified.** All originals remain byte-identical to
+commit `747f22e`.
+
+Added:
+```
+docs/ARCHITECTURE.md  docs/BINARY-ANALYSIS.md  docs/CRASH-ANALYSIS.md
+docs/WINDOWS-11.md    docs/LINUX.md            docs/MACOS.md
+docs/COMPATIBILITY-MATRIX.md  docs/ROADMAP.md  docs/CHANGELOG.md
+docs/HANDOFF.md (this file)
+docs/evidence/        (20 records + screenshots)
+tools/                (21 scripts)
+```
+
+Modified:
+```
+.gitignore   — added .analysis/, unpacked binaries, dumps, Python caches
+```
+
+Gitignored (must stay local):
+```
+.analysis/           — unpacked + patched binaries (derived from the original)
+```
+
+---
+
+## 4. Tests performed and actual results
+
+| # | Test | Result | Evidence |
+|---|---|---|---|
+| 1 | Direct `SK-Main.exe` launch | Exit 0, 13 s, no log line | session log |
+| 2 | `SK-Startup.exe` monitor | `Error Massage` dialog at T+0.4 s | `run-02` |
+| 3 | Dialog text capture | `RegQueryValueEx … (REsult:2)` then `Failed to acquire the user ID.` | `run-03` |
+| 4 | Drive to game window | window at T+5.0 s, dialog at T+10.2 s | `run-04` |
+| 5 | Capture SK-Main dialog text | **`Timer-API hook was detected.(01ff)`** | `run-06` |
+| 6 | Swapped unpacked binary | Rejected: `'SK-Main.exe' file is corrupted.` | `run-07` |
+| 7 | Patch SK-Main only | Rejected: same corruption message | `run-08` |
+| 8 | Patch both binaries | No dialog for 43 s | `run-09` |
+| 9 | Screenshot title screen | Title art rendered | `run-10` + `.png` |
+| 10 | Second patched run | Alive at end | `run-11` |
+| 11 | 180 s soak | Alive 178 s, 27 threads, ~72 MB, zero dialogs | `run-12` |
+| 12 | Verbose trace + modules | `UDX_CLASS`, `FilterGraphWindow`, full window inventory | `run-15` |
+| 13 | Clean shutdown (`WM_CLOSE`) | Exits, writes `SK-Main.exe End` — **PASS** | `run-16` |
+| 14 | 32-bit module list | `ssleay32` absent, DirectPlay absent, `SKGuard` relocated | `run-17` |
+| 15 | Frame hashing over 90 s | **8 distinct frames** → animated; **menu reached** | `run-19` |
+| 16 | Hardware key injection (VK+plain scancode) | 7 distinct frames but selection bar **did not move** | `run-20` |
+| 17 | Scancode injection, no extended flag | Failed — `0x50` without `EXTENDEDKEY` is NumPad-2 | `run-21` |
+| 18 | Extended scancode, focus unchecked | Failed — `fg != target`, focus refused | `run-22` |
+| 19 | Enumerate all windows + focus retry | **Exactly one `UDX_CLASS`** window; `SetForegroundWindow` still refused | `run-23` |
+| 20 | **`AttachThreadInput` + ALT tap** | **Focus acquired (`match=True`)**; navigation works | `run-24` |
+| 21 | Same-length re-packed build | **1,464,320 bytes, launched, integrity passed, navigated** | `run-25` |
+| 22 | Battle setup via Enter | Reached setup screen; Enter only moves slot focus | `run-26` |
+| 23 | **F3 to start the match** | **"Battle Start" → timer `00:10.912` → live HUD** | `run-27` |
+| 24 | High-effect profiles (4 runs) | **No D3DX compile failure at any setting**; 1280×960; threads 33→45; INI restored | `run-28` |
+| 25 | Static audit: case sensitivity | **12 case mismatches + 5 undeclared mechs** found without a Linux host | `run-29` |
+| 26 | T-03 startup dialogs suppressed | **Zero dialogs**; launcher usable T+0.5 s (was 2 dialogs, T+14 s) | `run-31`, `run-32` |
+| 27 | Replay recording via F2 | **FAILED** — no `.rep` produced; camera cannot be frozen | `run-34` |
+| 28 | Battle setup as effect surface | **NEGATIVE** — effects-off/on byte-identical; that screen is UI, not a scene | `run-35` |
+| 29 | Audio via WASAPI peak meter | **PASS** — idle 0.00000 (control), menu 0.0499 (24/24), match 1.00000 (24/24) | `run-33` |
+| 30 | Matched effect diff, gameplay | **PARTIAL** — 3.67 % in upper-scene band; per-effect attribution not isolated | `run-36` |
+
+### Verified PASS
+
+Launch · launcher UI (dialog-free) · D3D9 init · title screen · **main menu** · **menu
+navigation** · **Battle Mode setup** · **playable match with live HUD** · **3D map geometry** ·
+**high-end renderer compiles and runs** · **audio: SFX + BGM measured as real signal** ·
+180 s stability · clean shutdown · **same-length reproducible single-command build**.
+
+### Verified FAIL
+
+Anti-cheat integrity (neutralised by design — documented behavioural change).
+
+### PARTIAL
+
+- **Effect comparison.** A matched first-frame diff shows 3.67 % change concentrated in the
+  3D scene band, but all six effect toggles were flipped together, so per-effect attribution
+  is not established, and camera drift cannot be excluded without a replay (which would not
+  record).
+
+### NOT TESTED / NOT PROVEN
+
+- **MIDI audio path** — the measured music is MP3/DirectShow. `dmusic.dll` loaded but silent
+  vs. unused is undetermined.
+- **Controller** · **network mode** · **lobby/CGI**.
+- Every **Linux** and **macOS** row (no host available).
+
+---
+
+## 5. Remaining blockers
+
+| # | Blocker | Severity | Owner |
+|---|---|---|---|
+| B-1 | **No Linux or macOS host.** Runtime testing on those platforms cannot proceed here. Static Linux audit is done; runtime is blocked on hardware. | **Blocking** | — needs the user |
+| B-2 | Case-mismatched asset references: **audit resolved (12 → 0)**, renames applied on `002-case-normalization`, but the Shaft map was never loaded so runtime behaviour is unproven, and a control test showed a missing effect mesh fails **silently** rather than crashing. | Medium (was High) | Codex (T-10b) |
+| B-3 | Root cause has not been independently reviewed. | High | Claude (R-01) |
+| B-4 | Patch blast radius: **ANSWERED statically** (R-02 — the site is a verdict dispatch and the whole function is debugger detection). Independent re-check still desirable. | Low (was High) | Claude (R-02 confirm) |
+| B-5 | Per-effect attribution missing; camera drift not excluded. | Medium | Codex (T-05d) |
+| B-6 | MIDI path unverified. | Medium | Codex (T-04b) |
+| B-7 | `SKGuard.dll` hook body not reversed. | Medium | Claude (R-03) |
+| B-8 | DirectPlay 8: binaries **confirmed present** in `SysWOW64`, but initialisation unproven because the network name field rejects all automated input (`SendInput` and `WM_CHAR`). Needs a human keystroke. | Medium | Codex (T-07b) |
+| B-9 | **30-min cap: per-match or per-process-age?** ✅ **RESOLVED — per-match only.** `run-53` survived 1885 s in the menu with no `End`. No restart workaround needed. | — | Closed |
+| B-10 | Handle leak — **root cause found**: one mailslot reopened every ~3 s. Fix not applied. | Low (hygiene) / Medium (Wine) | Codex (T-08c) |
+
+---
+
+## 6. Next task
+
+**Windows-only work, in priority order** (the user chose this track):
+
+1. **T-11 — finish the cap discrimination.** `run-51` idles in the menu for 33 min. If it
+   survives, the cap is per-match (benign). If it writes a matched `Start`/`End` pair, it is
+   per-process-age and the port needs a documented restart rule. **Do not** accept a verdict
+   that is not backed by a matched log pair — that mistake was already made once (`run-49`).
+2. **T-07b — network, human-assisted.** Type one name at the keyboard, then record whether
+   `dpnet.dll`/`dplayx.dll` load. Minutes of work, and it is the only way past the field.
+3. **T-05d — per-effect attribution.** One toggle at a time, several runs each, comparing the
+   upper-scene band (y61–372). Converts the current PARTIAL into per-effect evidence.
+4. **T-04b — isolate the MIDI path.** Rename the `mp3\` set (or `MIDI=1 WAVE=0`) so any
+   measured signal must come from `dmusic.dll`. Cheap and decisive.
+5. **R-01 / R-02 — independent review** of the root cause and the patch's blast radius.
+6. **T-08b — name the leaking handle type** using `tools/t08c-handle-diff.ps1 -AttachToExisting`.
+7. **T-10b — confirm the Shaft map loads** under the renamed tree, or reverse the stage-focus
+   model the way the F3 match-start key was reversed.
+
+---
+
+## 7. Assigned agents
+
+| Agent | Branch | Task |
+|---|---|---|
+| **Codex** | `codex/t05d-per-effect` | One effect at a time; attribute each to a scene-band signature |
+| **Codex** | `codex/t04b-midi` | Isolate the DirectMusic MIDI path by removing the MP3 path |
+| **Codex** | `codex/t10a-case-remediation` | Per-file case-mismatch decision table (no Linux host needed) |
+| **Claude** | n/a | R-01 reproduce the `0x1FF` arithmetic; R-02 enumerate what `0x1f4d50` gates; R-03 reverse the `SKGuard` hook body; R-05 challenge the strategy choice |
+| **Blocked** | — | Linux/macOS runtime (T-10…T-15, T-20…T-22) pending a host |
+
+File ownership is disjoint. No task modifies a tracked game binary.
+
+---
+
+## 8. Cautions for the next session
+
+1. **Do not trust `SilverKnights.log`.** An `End` line proves the shutdown handler ran, not
+   that the session was healthy. The original defect produced a clean `Start`/`End` pair after
+   8 seconds.
+2. **Do not analyse the packed binary's imports.** They are the UPX stub's. Unpack first.
+3. **Do not run `SK-Main.exe` directly.** It exits 0 with no log line; the mailslot peer
+   `SK-Startup.exe` is required.
+4. **A 64-bit module walk of a WOW64 process shows only `ntdll` + `wow64*`.** Use a 32-bit
+   enumerator.
+5. **`Add-Type` silently fails** if the C# helper references `System.Drawing` types inside the
+   type definition. Keep GDI work in PowerShell, not in the P/Invoke type.
+6. **`pefile` holds a file lock.** Close the PE object before writing to the same path, or
+   write to a different path.
+7. **Do not enable Windows XP compatibility mode as a fix.** It cannot change
+   `winmm!timeGetTime` machine code.
+8. **Attaching a debugger produces a different failure** (`Debugger process was detected.`).
+   Use the observable window trace harness, not a debugger, to reproduce the baseline.
+9. **Never commit `.analysis/`.** Unpacked binaries are derived from a copyrighted game the
+   author forbids distributing.
+10. **The title's licence forbids distribution.** Any packaging effort must be personal-use
+    only.
+11. **`Get-Process -Name 'SK-Main' | Kill` in a teardown kills EVERY instance**, including one
+    another harness is sampling. This already destroyed a 33-minute experiment and produced a
+    false "the cap is per-process-age" verdict (`run-49`). Sample by **pid**, and make teardown
+    kill only the pid you launched.
+12. **A verdict must be derived from the log's `Start`/`End` pair, not from liveness.** A
+    self-termination writes both lines; a kill writes only `Start`. Checking "is the process
+    still running" cannot tell the two apart and has already produced one wrong conclusion.
+13. **Do not draw conclusions from a run shorter than its schedule.** A 33-minute experiment
+    that ends at 11 minutes has been interfered with; the duration is the tell.
+14. **PowerShell 5.1's `Add-Type` compiles C# 5.** `out int x` inline declarations and other
+    C# 7 syntax fail with a cryptic parse error in a temp `.cs` file. Declare the variable
+    first.
+15. **`Write-Output` inside a PowerShell function pollutes its return value.** A helper that
+    prints diagnostics and returns a collection returns both, and the collection is silently
+    gone. Use `Write-Host` for diagnostics.
+16. **The game's UI is game-rendered and DirectInput-polled.** Text fields and the stage
+    selector do **not** accept `SendInput`, `PostMessage(WM_CHAR)`, or synthetic clicks. Three
+    separate attempts to drive the stage selector failed. Do not budget automation time for
+    these; either drive them by hand or reverse the focus model first (as was done for the
+    `F3` match-start key).
+17. **A missing effect mesh fails silently.** Deleting `mesh/blast.x` produced no dialog and a
+    normally running match (`run-46`). Do not assume an asset failure will announce itself —
+    the likely Linux symptom is "effects are missing", not "the game will not start".

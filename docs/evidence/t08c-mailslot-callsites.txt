@@ -1,0 +1,134 @@
+C:\projetos\Silver-Knights-Crash-Correction\tools\find_mailslot_calls.py:6: SyntaxWarning: "\D" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\D"? A raw string is also an option.
+  \Device\Mailslot\SK-Startup.exe   27 -> 119 handles in 4.5 min   LEAKS
+# Mailslot call-site search (T-08c)
+
+Runtime evidence says the launcher mailslot leaks and its peer does not. This finds
+both sites so the difference is visible in code.
+
+## launcher channel (LEAKS)
+VA `0x72a858` · RVA `0x32a858` · section `.data`
+### referenced by `push` at RVA `0x1f3cc9` (file `0x1f3cc9`)
+```
+  0x005f3c81  mov     dword ptr [esp + 0x18], 0
+  0x005f3c89  mov     dword ptr [esp + 0x1c], 0
+  0x005f3c91  mov     dword ptr [esp + 0x20], 0
+  0x005f3c99  sub     esp, 0xc
+  0x005f3c9c  mov     eax, dword ptr [esp + 0x24]
+  0x005f3ca0  mov     ecx, dword ptr [esp + 0x28]
+  0x005f3ca4  mov     edx, esp
+  0x005f3ca6  push    0x1e0dbf8
+  0x005f3cab  mov     dword ptr [edx], eax
+  0x005f3cad  mov     eax, dword ptr [esp + 0x30]
+  0x005f3cb1  mov     dword ptr [edx + 4], ecx
+  0x005f3cb4  mov     ecx, 0x1e1b6b8
+  0x005f3cb9  mov     dword ptr [edx + 8], eax
+  0x005f3cbc  call    0x5f5240
+  0x005f3cc1  push    1
+  0x005f3cc3  push    0
+  0x005f3cc5  push    0
+  0x005f3cc7  push    0
+  0x005f3cc9  push    0x72a858  <== format string
+  0x005f3cce  mov     ecx, 0x1e0dc94
+  0x005f3cd3  call    0x5f9fe0
+  0x005f3cd8  push    0x3f800000
+  0x005f3cdd  mov     dword ptr [esp + 0x18], 0
+  0x005f3ce5  mov     edx, dword ptr [esp + 0x18]
+  0x005f3ce9  sub     esp, 0xc
+  0x005f3cec  mov     ecx, esp
+  0x005f3cee  mov     dword ptr [esp + 0x28], 0
+  0x005f3cf6  mov     eax, dword ptr [esp + 0x28]
+  0x005f3cfa  mov     dword ptr [esp + 0x2c], 0
+  0x005f3d02  mov     dword ptr [ecx], edx
+```
+
+
+## "GetMailslotInfo" @ RVA 0x320630
+VA `0x720630` · RVA `0x320630` · section `.rdata`
+  no immediate reference found (address may be computed)
+
+## "CreateMailslotA" @ RVA 0x320642
+VA `0x720642` · RVA `0x320642` · section `.rdata`
+  no immediate reference found (address may be computed)
+
+## "\\%s\mailslot\%s" @ RVA 0x329280
+VA `0x729280` · RVA `0x329280` · section `.data`
+### referenced by `push` at RVA `0x1d06a1` (file `0x1d06a1`)
+```
+  0x005d0659  sal     ebx, cl
+  0x005d065b  add     al, byte ptr [eax]
+  0x005d065d  add     esp, 0x24
+  0x005d0660  pop     esi
+  0x005d0661  add     esp, 0x30
+  0x005d0664  ret     
+  0x005d0665  nop     
+  0x005d0666  nop     
+  0x005d0667  nop     
+  0x005d0668  nop     
+  0x005d0669  nop     
+  0x005d066a  nop     
+  0x005d066b  nop     
+  0x005d066c  nop     
+  0x005d066d  nop     
+  0x005d066e  nop     
+  0x005d066f  nop     
+  0x005d0670  sub     esp, 0x114
+  0x005d0676  push    esi
+  0x005d0677  push    0x7292bc
+  0x005d067c  call    dword ptr [0x6fd190]
+  0x005d0682  push    0x7292a8
+  0x005d0687  push    eax
+  0x005d0688  call    0x5fed30
+  0x005d068d  call    eax
+  0x005d068f  mov     dword ptr [esp + 8], eax
+  0x005d0693  push    0x729298
+  0x005d0698  push    0x729294
+  0x005d069d  lea     eax, [esp + 0x1c]
+  0x005d06a1  push    0x729280  <== format string
+```
+
+
+## "\\.\mailslot\%s" @ RVA 0x32a83c
+VA `0x72a83c` · RVA `0x32a83c` · section `.data`
+### referenced by `push` at RVA `0x1f292f` (file `0x1f292f`)
+```
+  0x005f28e7  add     byte ptr [eax], al
+  0x005f28e9  add     byte ptr [eax - 0x6f6f6f70], dl
+  0x005f28ef  nop     
+  0x005f28f0  mov     ecx, 0x2145038
+  0x005f28f5  jmp     0x60320d
+  0x005f28fa  nop     
+  0x005f28fb  nop     
+  0x005f28fc  nop     
+  0x005f28fd  nop     
+  0x005f28fe  nop     
+  0x005f28ff  nop     
+  0x005f2900  push    0x5f2910
+  0x005f2905  call    0x605255
+  0x005f290a  pop     ecx
+  0x005f290b  ret     
+  0x005f290c  nop     
+  0x005f290d  nop     
+  0x005f290e  nop     
+  0x005f290f  nop     
+  0x005f2910  mov     ecx, 0x2145038
+  0x005f2915  jmp     0x60338e
+  0x005f291a  nop     
+  0x005f291b  nop     
+  0x005f291c  nop     
+  0x005f291d  nop     
+  0x005f291e  nop     
+  0x005f291f  nop     
+  0x005f2920  sub     esp, 0x620
+  0x005f2926  push    ebx
+  0x005f2927  push    ebp
+```
+
+
+## What to look for
+
+- A `call [CreateMailslotA]` or `call [CreateFileA]` near the launcher format string
+  identifies the leaking open.
+- A matching `call [CloseHandle]` dominated by it would mean the handle IS closed and the
+  leak has another cause; its ABSENCE within the same function supports the reopen theory.
+- The peer channel's site should hold its handle in a global and never re-open it. That
+  difference is the model for the fix.

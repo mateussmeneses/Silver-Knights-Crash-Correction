@@ -1,0 +1,460 @@
+===== Application Error 1000 =====
+[2026-11-13 06:57:27] id=1000 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-13 06:57:24] id=1000 src=HidHideWatchdog
+    
+[2026-11-12 19:41:23] id=1000 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-12 19:41:20] id=1000 src=HidHideWatchdog
+    
+[2026-11-12 01:28:32] id=1000 src=EA Javelin Anticheat
+    
+[2026-11-12 00:46:13] id=1000 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-12 00:45:39] id=1000 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-12 00:45:35] id=1000 src=HidHideWatchdog
+    
+[2026-11-12 00:44:41] id=1000 src=HidHideWatchdog
+    
+[2026-11-11 14:09:54] id=1000 src=Application Error
+    Nome do aplicativo com falha: SystemSettings.exe, versão: 10.0.26100.9818, carimbo de data/hora: 0x9bd9c6e5 ; Nome do módulo com falha: SettingsHandlers_StorageSense.dll, versão: 10.0.26100.9818, carimbo de data/hora: 0x0fb5a959 ; Código de exceção: 0xc0000005 ; Deslocamento de falha: 0x0000000000094d72 ; ID do processo com falha: 0x4848 ; Hora de início do aplicativo com falha: 0x1DD71CA24BA9E30 
+[2026-11-11 07:44:33] id=1000 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-11 07:44:30] id=1000 src=HidHideWatchdog
+    
+[2026-11-10 11:14:11] id=1000 src=Application Error
+    Nome do aplicativo com falha: Arms.Corporate.Api.exe, versão: 1.0.0.0, carimbo de data/hora: 0x66470000 ; Nome do módulo com falha: KERNELBASE.dll, versão: 10.0.26100.9818, carimbo de data/hora: 0x09f91ee4 ; Código de exceção: 0xe0434352 ; Deslocamento de falha: 0x00000000000c569a ; ID do processo com falha: 0x31C4 ; Hora de início do aplicativo com falha: 0x1DD711DC10C490B ; Caminho do aplicativo
+[2026-11-10 11:12:55] id=1000 src=Application Error
+    Nome do aplicativo com falha: Arms.Corporate.Api.exe, versão: 1.0.0.0, carimbo de data/hora: 0x66470000 ; Nome do módulo com falha: KERNELBASE.dll, versão: 10.0.26100.9818, carimbo de data/hora: 0x09f91ee4 ; Código de exceção: 0xe0434352 ; Deslocamento de falha: 0x00000000000c569a ; ID do processo com falha: 0x7ADC ; Hora de início do aplicativo com falha: 0x1DD711D9311A9A7 ; Caminho do aplicativo
+[2026-11-10 11:11:52] id=1000 src=Application Error
+    Nome do aplicativo com falha: Arms.Corporate.Api.exe, versão: 1.0.0.0, carimbo de data/hora: 0x66470000 ; Nome do módulo com falha: KERNELBASE.dll, versão: 10.0.26100.9818, carimbo de data/hora: 0x09f91ee4 ; Código de exceção: 0xe0434352 ; Deslocamento de falha: 0x00000000000c569a ; ID do processo com falha: 0x864C ; Hora de início do aplicativo com falha: 0x1DD711D6C6D9CAE ; Caminho do aplicativo
+[2026-11-10 10:50:13] id=1000 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-10 10:50:10] id=1000 src=HidHideWatchdog
+    
+[2026-11-10 01:36:17] id=1000 src=HidHideWatchdog
+    
+[2026-11-09 23:45:48] id=1000 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-09 23:45:13] id=1000 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-09 23:45:12] id=1000 src=HidHideWatchdog
+    
+[2026-11-09 21:16:52] id=1000 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-09 21:16:51] id=1000 src=HidHideWatchdog
+    
+[2026-11-09 15:43:27] id=1000 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-09 08:04:43] id=1000 src=HidHideWatchdog
+    
+===== WER 1001 =====
+[2026-11-12 00:46:12] id=1001 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-12 00:44:41] id=1001 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-09 23:45:47] id=1001 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-09 21:15:41] id=1001 src=CodexSandboxService.OpenAI.Codex
+    
+===== Application Hang 1002 =====
+[2026-11-12 00:46:12] id=1002 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-09 23:45:47] id=1002 src=CodexSandboxService.OpenAI.Codex
+    
+[2026-11-09 21:15:41] id=1002 src=CodexSandboxService.OpenAI.Codex
+    
+===== Events around 2026-11-13 10:19-10:22 (all logs, System+Application) =====
+Application [10:23:35] id=4 lvl=Informações src=Microsoft-Windows-AppModel-State :: Função ApiSet: CreateStateChangeNotification:statechangenotification.cpp,226,80070002;[ReadStateName];statemanager.cpp,1158,80070002; retornou com Resultado: -2147024894
+Application [10:19:16] id=10001 lvl=Informações src=Microsoft-Windows-RestartManager :: Encerrando a sessão 1 iniciada ‎2026‎-‎11‎-‎13T12:50:00.367932700Z.
+System [10:23:39] id=1 lvl=Informações src=Microsoft-Windows-IsolatedUserMode :: Secure Trustlet \??\C:\WINDOWS\System32\NgcIso.exe Id 6 and Pid 40120 started with status STATUS_SUCCESS.
+System [10:23:39] id=5 lvl=Informações src=Microsoft-Windows-IsolatedUserMode :: Secure Trustlet NULL Id 0 and Pid 0 started with status STATUS_SUCCESS.
+System [10:21:25] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000010200001AA). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:21:25] id=7040 lvl=Informações src=Service Control Manager :: O tipo de inicialização do serviço Serviço de Transferência Inteligente em Segundo Plano foi alterado de iniciar automaticamente para iniciar demanda.
+System [10:19:13] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000010200001AA). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:13] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000820000016). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:13] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000820000016). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:13] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000820000015). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:12] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000820000015). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:12] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001420000131). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:12] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001420000131). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:12] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000122000010B). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:12] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000122000010B). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:12] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001420000130). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:11] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001420000130). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:11] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000B20000009). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:11] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000B20000009). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:11] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000F7). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:11] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000F7). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:11] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000122000010A). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:11] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000122000010A). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:11] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000017200000B7). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:10] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000017200000B7). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:10] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000B20000008). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:10] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000B20000008). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:10] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000015200000CD). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:10] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000015200000CD). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:10] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000010200001A9). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:09] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000010200001A9). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:09] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000010200001A8). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:09] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000010200001A8). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:09] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000142000012F). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:08] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000142000012F). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:08] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000B20000007). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:08] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000B20000007). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:08] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000720000005). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:07] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000720000005). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:07] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000015200000CC). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:06] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000015200000CC). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:06] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000820000014). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:05] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000820000014). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:05] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000142000012E). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:05] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000142000012E). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:05] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000720000004). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:03] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000720000004). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:03] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000015200000CB). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:03] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000015200000CB). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:03] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000820000013). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:02] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000820000013). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:02] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000F6). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:02] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000F6). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:19:02] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000720000003). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:59] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000720000003). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:59] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000F5). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:59] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000F5). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:59] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000820000012). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:58] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000820000012). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:58] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000015200000CA). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:58] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000015200000CA). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:58] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000142000012D). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:57] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000142000012D). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:57] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000016200000C3). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:57] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000016200000C3). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:57] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000F4). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:56] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000F4). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:56] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000015200000C9). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:56] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000015200000C9). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:56] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000F3). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:55] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000F3). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:55] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000017200000B6). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:55] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000017200000B6). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:55] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000C2000000E). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:51] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000C2000000E). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:51] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000142000012C). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:51] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000142000012C). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:51] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000820000011). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:49] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000820000011). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:49] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000010200001A7). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:49] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000010200001A7). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:49] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000F2). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:48] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000F2). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:48] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000142000012B). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:48] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000142000012B). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:48] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000820000010). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:47] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000820000010). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:47] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000017200000B5). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:47] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000017200000B5). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:47] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000082000000F). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:46] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000082000000F). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:46] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000082000000E). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:46] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000082000000E). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:46] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000720000002). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:45] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000720000002). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:45] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000B20000006). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:45] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000B20000006). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:45] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000B20000005). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:44] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000B20000005). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:44] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000010200001A6). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:44] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000010200001A6). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:44] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000F1). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:43] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000F1). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:43] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000010200001A5). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:43] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000010200001A5). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:43] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000F0). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:41] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000F0). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:41] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001220000109). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:41] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001220000109). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:41] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001220000108). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:40] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001220000108). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:40] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001220000107). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:40] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001220000107). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:40] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000EF). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:39] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000EF). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:39] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001220000106). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:39] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001220000106). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:39] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000C2000000D). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:38] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000C2000000D). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:38] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000EE). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:38] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000EE). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:38] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000ED). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:38] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000ED). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:38] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001220000105). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:38] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001220000105). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:38] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000A2000000F). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:37] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000A2000000F). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:37] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000A2000000E). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:37] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000A2000000E). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:37] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000082000000D). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:37] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000082000000D). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:37] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000010200001A4). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:36] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000010200001A4). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:36] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000A2000000D). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:36] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000A2000000D). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:36] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000EC). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:36] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000EC). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:36] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000062000000F). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:32] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000062000000F). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:32] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000A2000000C). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:32] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000A2000000C). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:32] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000002000000E). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:31] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000002000000E). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:31] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000E2000000A). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:31] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000E2000000A). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:31] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000C2000000C). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:31] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000C2000000C). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:31] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000017200000B4). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:31] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000017200000B4). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:31] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000017200000B3). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:30] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000017200000B3). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:30] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000062000000E). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:29] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000062000000E). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:29] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001220000104). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:29] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001220000104). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:29] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000EB). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:28] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000EB). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:28] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000EA). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:27] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000EA). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:27] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000142000012A). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:27] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000142000012A). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:27] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001220000103). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:26] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001220000103). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:26] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000016200000C2). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:26] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000016200000C2). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:26] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000112000010A). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:25] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000112000010A). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:25] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001220000102). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:25] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001220000102). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:25] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000E9). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:24] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000E9). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:24] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000015200000C8). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:24] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000015200000C8). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:24] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000062000000D). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:23] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000062000000D). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:23] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001420000129). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:23] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001420000129). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:23] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000062000000C). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:23] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000062000000C). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:23] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001220000101). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:23] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001220000101). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:23] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000A2000000B). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:22] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000A2000000B). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:22] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000420000009). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:22] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000420000009). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:22] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000A2000000A). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:22] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000A2000000A). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:22] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001420000128). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:22] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001420000128). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:22] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001420000127). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:21] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001420000127). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:21] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00000A20000009). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:21] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00000A20000009). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:21] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001220000100). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:20] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE00001220000100). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:20] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000013200000E8). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:19] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000013200000E8). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:19] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE0000062000000B). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:18] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE0000062000000B). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:18] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE000010200001A3). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:18] id=113 lvl=Informações src=Microsoft-Windows-HttpService :: Tentativa de adicionar URL (http://*:2869/upnp/eventing/) ao grupo de URLs (0xFE000010200001A3). Status: 0x0. ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+System [10:18:18] id=114 lvl=Informações src=Microsoft-Windows-HttpService :: URL (http://*:2869/upnp/eventing/) removida do grupo de URLs (0xFE00001420000126). ID do processo 0x4AE4 caminho executável \Device\HarddiskVolume3\Windows\System32\svchost.exe, Usuário S-1-5-19
+===== AppCompat / Application-Experience =====
+[2026-11-13 07:27:54] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2701.1001.9.0_x64__8wekyb3d8bbwe\XboxPcAppFT.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-13 07:27:54] id=500 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2701.1001.9.0_x64__8wekyb3d8bbwe\XboxGameBarWidgets.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x10205.
+[2026-11-13 07:27:27] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\Edge\Application\157.0.4341.57\identity_helper.exe. ; Informações de correção: MicrosoftEdge, {268d6880-ee2e-441a-a9a6-9ff9fe1e7357}, 0x80010101.
+[2026-11-13 07:05:26] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\Edge\Application\157.0.4341.46\identity_helper.exe. ; Informações de correção: MicrosoftEdge, {268d6880-ee2e-441a-a9a6-9ff9fe1e7357}, 0x80010101.
+[2026-11-13 07:03:55] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\Edge\Application\157.0.4341.46\identity_helper.exe. ; Informações de correção: MicrosoftEdge, {268d6880-ee2e-441a-a9a6-9ff9fe1e7357}, 0x80010101.
+[2026-11-13 07:03:43] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\Edge\Application\157.0.4341.46\identity_helper.exe. ; Informações de correção: MicrosoftEdge, {268d6880-ee2e-441a-a9a6-9ff9fe1e7357}, 0x80010101.
+[2026-11-13 06:59:57] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\Edge\Application\157.0.4341.46\identity_helper.exe. ; Informações de correção: MicrosoftEdge, {268d6880-ee2e-441a-a9a6-9ff9fe1e7357}, 0x80010101.
+[2026-11-13 06:59:54] id=500 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\Edge\Application\157.0.4341.46\identity_helper.exe. ; Informações de correção: MicrosoftEdge, {268d6880-ee2e-441a-a9a6-9ff9fe1e7357}, 0x10101.
+[2026-11-13 06:58:36] id=505 Correção de compatibilidade aplicada às C:\Windows\ImmersiveControlPanel\SystemSettings.exe. ; Informações de correção: Microsoft Apps, {f4db680c-9c1e-4a31-b6b0-3be6bfd4f55f}, 0x80010101.
+[2026-11-13 06:58:36] id=505 Correção de compatibilidade aplicada às C:\Windows\ImmersiveControlPanel\SystemSettings.exe. ; Informações de correção: Microsoft Apps, {15a89f9e-4f3e-4aa2-b026-7271def4f208}, 0x80010101.
+[2026-11-12 21:09:12] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2701.1001.9.0_x64__8wekyb3d8bbwe\XboxGameBarWidgets.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-12 21:07:56] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2701.1001.9.0_x64__8wekyb3d8bbwe\XboxPcTray.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-12 19:45:39] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2701.1001.9.0_x64__8wekyb3d8bbwe\XboxGameBarWidgets.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-12 19:43:31] id=505 Correção de compatibilidade aplicada às C:\Windows\ImmersiveControlPanel\SystemSettings.exe. ; Informações de correção: Microsoft Apps, {f4db680c-9c1e-4a31-b6b0-3be6bfd4f55f}, 0x80010101.
+[2026-11-12 19:43:31] id=505 Correção de compatibilidade aplicada às C:\Windows\ImmersiveControlPanel\SystemSettings.exe. ; Informações de correção: Microsoft Apps, {15a89f9e-4f3e-4aa2-b026-7271def4f208}, 0x80010101.
+[2026-11-12 19:42:53] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2701.1001.9.0_x64__8wekyb3d8bbwe\XboxPcAppFT.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-12 19:42:53] id=500 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2701.1001.9.0_x64__8wekyb3d8bbwe\XboxPcTray.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x10205.
+[2026-11-12 16:51:29] id=505 Correção de compatibilidade aplicada às C:\Windows\ImmersiveControlPanel\SystemSettings.exe. ; Informações de correção: Microsoft Apps, {f4db680c-9c1e-4a31-b6b0-3be6bfd4f55f}, 0x80010101.
+[2026-11-12 16:51:29] id=505 Correção de compatibilidade aplicada às C:\Windows\ImmersiveControlPanel\SystemSettings.exe. ; Informações de correção: Microsoft Apps, {15a89f9e-4f3e-4aa2-b026-7271def4f208}, 0x80010101.
+[2026-11-12 01:28:31] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2701.1001.7.0_x64__8wekyb3d8bbwe\XboxGameBarWidgets.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-12 00:47:55] id=505 Correção de compatibilidade aplicada às C:\Windows\ImmersiveControlPanel\SystemSettings.exe. ; Informações de correção: Microsoft Apps, {f4db680c-9c1e-4a31-b6b0-3be6bfd4f55f}, 0x80010101.
+[2026-11-12 00:47:55] id=505 Correção de compatibilidade aplicada às C:\Windows\ImmersiveControlPanel\SystemSettings.exe. ; Informações de correção: Microsoft Apps, {15a89f9e-4f3e-4aa2-b026-7271def4f208}, 0x80010101.
+[2026-11-12 00:46:28] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2701.1001.7.0_x64__8wekyb3d8bbwe\XboxGameBarWidgets.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-12 00:46:11] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2701.1001.7.0_x64__8wekyb3d8bbwe\XboxPcAppFT.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-12 00:46:11] id=500 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2701.1001.7.0_x64__8wekyb3d8bbwe\XboxPcTray.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x10205.
+[2026-11-11 21:37:47] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2612.1001.23.0_x64__8wekyb3d8bbwe\XboxGameBarWidgets.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-11 21:35:23] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2612.1001.23.0_x64__8wekyb3d8bbwe\XboxPcTray.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-11 17:29:22] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2612.1001.23.0_x64__8wekyb3d8bbwe\XboxPcTray.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-11 17:29:02] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2612.1001.23.0_x64__8wekyb3d8bbwe\XboxGameBarWidgets.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-11 17:29:01] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\EdgeWebView\Application\157.0.4341.46\msedgewebview2.exe. ; Informações de correção: MSEdge Webview2, {173182d1-a32b-49e3-b604-1f4a00ea4def}, 0x80010101.
+[2026-11-11 17:29:01] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\EdgeWebView\Application\157.0.4341.46\msedgewebview2.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-11 17:29:01] id=505 Correção de compatibilidade aplicada às C:\Program Files\WindowsApps\Microsoft.GamingApp_2612.1001.23.0_x64__8wekyb3d8bbwe\XboxPcTray.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-11 17:29:01] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\EdgeWebView\Application\157.0.4341.46\msedgewebview2.exe. ; Informações de correção: MSEdge Webview2, {173182d1-a32b-49e3-b604-1f4a00ea4def}, 0x80010101.
+[2026-11-11 17:29:01] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\EdgeWebView\Application\157.0.4341.46\msedgewebview2.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-11 17:29:01] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\EdgeWebView\Application\157.0.4341.46\msedgewebview2.exe. ; Informações de correção: MSEdge Webview2, {173182d1-a32b-49e3-b604-1f4a00ea4def}, 0x80010101.
+[2026-11-11 17:29:01] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\EdgeWebView\Application\157.0.4341.46\msedgewebview2.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-11 17:29:00] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\EdgeWebView\Application\157.0.4341.46\msedgewebview2.exe. ; Informações de correção: MSEdge Webview2, {173182d1-a32b-49e3-b604-1f4a00ea4def}, 0x80010101.
+[2026-11-11 17:29:00] id=505 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\EdgeWebView\Application\157.0.4341.46\msedgewebview2.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x80010205.
+[2026-11-11 17:29:00] id=500 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\EdgeWebView\Application\157.0.4341.46\msedgewebview2.exe. ; Informações de correção: MSEdge Webview2, {173182d1-a32b-49e3-b604-1f4a00ea4def}, 0x10101.
+[2026-11-11 17:29:00] id=500 Correção de compatibilidade aplicada às C:\Program Files (x86)\Microsoft\EdgeWebView\Application\157.0.4341.46\msedgewebview2.exe. ; Informações de correção: AdminProtectionGeneral, {5bef4a31-43b2-4849-972e-4fbbaf53b68d}, 0x10205.
+===== SM faults (bugcheck / LiveKernelEvent) last 90d =====
+[2026-11-13 06:57:16] id=41 Microsoft-Windows-Kernel-Power :: O sistema foi reiniciado sem um desligamento correto primeiro. Esse erro pode ser causado quando o sistema para de responder, trava ou fica sem energia inesperadamente.
+[2026-11-13 06:57:24] id=6008 EventLog :: O desligamento do sistema que ocorreu às 21:20:20 do dia ‎12/‎11/‎2026 não era esperado.
+[2026-11-06 14:50:37] id=6008 EventLog :: O desligamento do sistema que ocorreu às 14:03:33 do dia ‎06/‎11/‎2026 não era esperado.
+[2026-11-02 20:25:39] id=6008 EventLog :: O desligamento do sistema que ocorreu às 19:03:06 do dia ‎02/‎11/‎2026 não era esperado.
+[2026-11-01 21:09:01] id=41 Microsoft-Windows-Kernel-Power :: O sistema foi reiniciado sem um desligamento correto primeiro. Esse erro pode ser causado quando o sistema para de responder, trava ou fica sem energia inesperadamente.
+[2026-11-01 21:09:09] id=6008 EventLog :: O desligamento do sistema que ocorreu às 20:32:52 do dia ‎01/‎11/‎2026 não era esperado.
+[2026-10-31 22:12:09] id=6008 EventLog :: O desligamento do sistema que ocorreu às 21:21:19 do dia ‎31/‎10/‎2026 não era esperado.
+[2026-10-31 19:41:19] id=6008 EventLog :: O desligamento do sistema que ocorreu às 18:53:18 do dia ‎31/‎10/‎2026 não era esperado.
+[2026-10-28 17:32:18] id=41 Microsoft-Windows-Kernel-Power :: O sistema foi reiniciado sem um desligamento correto primeiro. Esse erro pode ser causado quando o sistema para de responder, trava ou fica sem energia inesperadamente.
+[2026-10-28 17:32:29] id=6008 EventLog :: O desligamento do sistema que ocorreu às 17:32:18 do dia ‎28/‎10/‎2026 não era esperado.
+[2026-10-28 14:06:00] id=41 Microsoft-Windows-Kernel-Power :: O sistema foi reiniciado sem um desligamento correto primeiro. Esse erro pode ser causado quando o sistema para de responder, trava ou fica sem energia inesperadamente.
+[2026-10-28 14:06:09] id=6008 EventLog :: O desligamento do sistema que ocorreu às 13:45:04 do dia ‎28/‎10/‎2026 não era esperado.
+===== LocalDumps registry =====
+--- ArmouryCrate.exe ---
+
+
+DumpFolder : C:\ProgramData\ASUS\Armoury Crate Diagnosis
+DumpCount  : 1
+DumpType   : 1
+
+
+
+--- ArmouryCrate.Service.exe ---
+
+
+DumpFolder : C:\ProgramData\ASUS\Armoury Crate Diagnosis
+DumpCount  : 1
+DumpType   : 1
+
+
+
+--- ArmouryCrate.UserSessionHelper.exe ---
+
+
+DumpFolder : C:\ProgramData\ASUS\Armoury Crate Diagnosis
+DumpCount  : 1
+DumpType   : 1
+
+
+
+--- AsusSystemAnalysis.exe ---
+
+
+DumpCount  : 1
+DumpType   : 1
+DumpFolder : C:\ProgramData\ASUS\ASUS System Control Interface\log\dump\AsusSystemAnalysis
+
+
+
+--- JetBrains.DPA.Collector.exe ---
+
+
+DumpFolder : C:\WINDOWS\TEMP\JetDumps
+DumpType   : 1
+DumpCount  : 10
+
+
+
+--- JetBrains.ETW.Collector.exe ---
+
+
+DumpFolder : C:\WINDOWS\TEMP\JetDumps
+DumpType   : 1
+DumpCount  : 10
+
+
+
+--- LightingService.exe ---
+
+
+DumpFolder : C:\ProgramData\ASUS\Armoury Crate Diagnosis
+DumpCount  : 1
+DumpType   : 1
+
+
+
+--- nvcontainer.exe ---
+
+
+DumpFolder : C:\ProgramData\NVIDIA Corporation\CrashDumps
+DumpCount  : 15
+DumpType   : 1
+
+
+
+--- NVIDIA App Permission.exe ---
+
+
+DumpFolder : C:\ProgramData\NVIDIA Corporation\CrashDumps
+DumpCount  : 15
+DumpType   : 1
+
+
+
+--- NVIDIA App.exe ---
+
+
+DumpFolder : C:\ProgramData\NVIDIA Corporation\CrashDumps
+DumpCount  : 15
+DumpType   : 1
+
+
+
+--- NVIDIA Overlay.exe ---
+
+
+DumpFolder : C:\ProgramData\NVIDIA Corporation\CrashDumps
+DumpCount  : 15
+DumpType   : 1
+
+
+
+--- NvOAWrapperCache.exe ---
+
+
+DumpFolder : C:\ProgramData\NVIDIA Corporation\CrashDumps
+DumpCount  : 15
+DumpType   : 1
+
+
+
+--- nvsphelper64.exe ---
+
+
+DumpFolder : C:\ProgramData\NVIDIA Corporation\CrashDumps
+DumpCount  : 15
+DumpType   : 1
+
+
+
+--- OAWrapper.exe ---
+
+
+DumpFolder : C:\ProgramData\NVIDIA Corporation\CrashDumps
+DumpCount  : 15
+DumpType   : 1
+
+
+
+--- ROGLiveService.exe ---
+
+
+DumpFolder : C:\ProgramData\ASUS\Armoury Crate Diagnosis
+DumpCount  : 1
+DumpType   : 1
+
+
+

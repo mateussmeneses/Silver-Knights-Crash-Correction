@@ -1,0 +1,313 @@
+[
+  {
+    "file": "SK-Startup.exe",
+    "path_relative": "SK-Startup.exe",
+    "size_bytes": 47616,
+    "sha256": "9adb707007c992a6bb75447a090cbbc8a0f4db63e0f2c61f21bd4fba1634f27b",
+    "machine": "i386",
+    "machine_raw": "0x14c",
+    "is_64bit": false,
+    "characteristics": "0x10f",
+    "is_dll": false,
+    "timestamp": 1343570803,
+    "subsystem": "WINDOWS_GUI",
+    "subsystem_raw": 2,
+    "os_version": "4.0",
+    "subsystem_version": "4.0",
+    "image_version": "0.0",
+    "linker_version": "6.0",
+    "dll_characteristics": "0x0",
+    "checksum_stored": "0x0",
+    "checksum_computed": "0xc66e",
+    "image_base": "0x400000",
+    "entry_point_rva": "0x1c7e0",
+    "size_of_image": 131072,
+    "size_of_headers": 4096,
+    "size_of_code": 36864,
+    "size_of_initialized_data": 12288,
+    "size_of_uninitialized_data": 77824,
+    "section_alignment": 4096,
+    "file_alignment": 512,
+    "dll_characteristics_flags": [],
+    "sections": [
+      {
+        "name": "UPX0",
+        "virtual_address": "0x1000",
+        "virtual_size": 77824,
+        "raw_pointer": "0x400",
+        "raw_size": 0,
+        "characteristics": "0xe0000080",
+        "entropy": 0.0,
+        "md5": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "name": "UPX1",
+        "virtual_address": "0x14000",
+        "virtual_size": 36864,
+        "raw_pointer": "0x400",
+        "raw_size": 35328,
+        "characteristics": "0xe0000040",
+        "entropy": 7.8898,
+        "md5": "847a186276b4f1df1292578542f41b49"
+      },
+      {
+        "name": ".rsrc",
+        "virtual_address": "0x1d000",
+        "virtual_size": 12288,
+        "raw_pointer": "0x8e00",
+        "raw_size": 11264,
+        "characteristics": "0xc0000040",
+        "entropy": 4.3855,
+        "md5": "abc14bad7a69211e69938af60bd89123"
+      }
+    ],
+    "imports": {
+      "KERNEL32.DLL": [
+        "ExitProcess",
+        "GetProcAddress",
+        "LoadLibraryA"
+      ],
+      "ADVAPI32.dll": [
+        "RegCloseKey"
+      ],
+      "GDI32.dll": [
+        "BitBlt"
+      ],
+      "LIBEAY32.dll": [
+        "ordinal_477"
+      ],
+      "USER32.dll": [
+        "EndPaint"
+      ],
+      "WINMM.dll": [
+        "timeGetTime"
+      ]
+    },
+    "delay_imports": {},
+    "exports": [],
+    "resources": [
+      {
+        "path": "/3/1/1041",
+        "size": 744,
+        "rva": "0x1d14c"
+      },
+      {
+        "path": "/3/2/1041",
+        "size": 3752,
+        "rva": "0x1d438"
+      },
+      {
+        "path": "/3/3/1041",
+        "size": 5672,
+        "rva": "0x1e2e4"
+      },
+      {
+        "path": "/5/102/1041",
+        "size": 430,
+        "rva": "0x18150"
+      },
+      {
+        "path": "/14/101/1041",
+        "size": 48,
+        "rva": "0x1f910"
+      }
+    ],
+    "version_info": {},
+    "load_config": {},
+    "tls": null,
+    "relocations_present": false,
+    "has_manifest": false,
+    "manifest_text": null,
+    "security_directory": {},
+    "debug_directory": {},
+    "packer_hints": [
+      "UPX section names present: UPX0, UPX1",
+      "marker UPX! at offset 992",
+      "marker UPX0 at offset 480",
+      "marker UPX1 at offset 520"
+    ]
+  },
+  {
+    "file": "SKGuard.dll",
+    "path_relative": "SKGuard.dll",
+    "size_bytes": 57344,
+    "sha256": "3b9d0346ac6dae3e5b85604f53de5e5231c2792721180003c28b9b6d57e1b576",
+    "machine": "i386",
+    "machine_raw": "0x14c",
+    "is_64bit": false,
+    "characteristics": "0x210e",
+    "is_dll": true,
+    "timestamp": 1205845840,
+    "subsystem": "WINDOWS_GUI",
+    "subsystem_raw": 2,
+    "os_version": "4.0",
+    "subsystem_version": "4.0",
+    "image_version": "0.0",
+    "linker_version": "6.0",
+    "dll_characteristics": "0x0",
+    "checksum_stored": "0x0",
+    "checksum_computed": "0x13133",
+    "image_base": "0x10000000",
+    "entry_point_rva": "0x1fa9",
+    "size_of_image": 65536,
+    "size_of_headers": 4096,
+    "size_of_code": 28672,
+    "size_of_initialized_data": 32768,
+    "size_of_uninitialized_data": 0,
+    "section_alignment": 4096,
+    "file_alignment": 4096,
+    "dll_characteristics_flags": [],
+    "sections": [
+      {
+        "name": ".text",
+        "virtual_address": "0x1000",
+        "virtual_size": 27098,
+        "raw_pointer": "0x1000",
+        "raw_size": 28672,
+        "characteristics": "0x60000020",
+        "entropy": 6.417,
+        "md5": "808ae2fee060255586241bae4f6bcb9b"
+      },
+      {
+        "name": ".rdata",
+        "virtual_address": "0x8000",
+        "virtual_size": 3563,
+        "raw_pointer": "0x8000",
+        "raw_size": 4096,
+        "characteristics": "0x40000040",
+        "entropy": 4.9325,
+        "md5": "770fc956c07f83489a8aa717e8ec97fd"
+      },
+      {
+        "name": ".data",
+        "virtual_address": "0x9000",
+        "virtual_size": 18528,
+        "raw_pointer": "0x9000",
+        "raw_size": 12288,
+        "characteristics": "0xc0000040",
+        "entropy": 1.0231,
+        "md5": "2c7f744256d8a92d99d4b978d5b25e5d"
+      },
+      {
+        "name": "Shared",
+        "virtual_address": "0xe000",
+        "virtual_size": 8,
+        "raw_pointer": "0xc000",
+        "raw_size": 4096,
+        "characteristics": "0xd0000040",
+        "entropy": 0.0,
+        "md5": "620f0b67a91f7f74151bc5be745b7110"
+      },
+      {
+        "name": ".reloc",
+        "virtual_address": "0xf000",
+        "virtual_size": 3764,
+        "raw_pointer": "0xd000",
+        "raw_size": 4096,
+        "characteristics": "0x42000040",
+        "entropy": 4.0571,
+        "md5": "3ce25d1ea7915ffcae784356fa31031c"
+      }
+    ],
+    "imports": {
+      "KERNEL32.dll": [
+        "CloseHandle",
+        "CreateToolhelp32Snapshot",
+        "DeleteCriticalSection",
+        "EnterCriticalSection",
+        "ExitProcess",
+        "FlushFileBuffers",
+        "FreeEnvironmentStringsA",
+        "FreeEnvironmentStringsW",
+        "GetACP",
+        "GetCPInfo",
+        "GetCommandLineA",
+        "GetCurrentProcess",
+        "GetCurrentProcessId",
+        "GetCurrentThreadId",
+        "GetEnvironmentStrings",
+        "GetEnvironmentStringsW",
+        "GetEnvironmentVariableA",
+        "GetFileType",
+        "GetLastError",
+        "GetModuleFileNameA",
+        "GetModuleHandleA",
+        "GetOEMCP",
+        "GetProcAddress",
+        "GetStartupInfoA",
+        "GetStdHandle",
+        "GetStringTypeA",
+        "GetStringTypeW",
+        "GetVersion",
+        "GetVersionExA",
+        "HeapAlloc",
+        "HeapCreate",
+        "HeapDestroy",
+        "HeapFree",
+        "HeapReAlloc",
+        "HeapSize",
+        "InitializeCriticalSection",
+        "InterlockedDecrement",
+        "InterlockedIncrement",
+        "LCMapStringA",
+        "LCMapStringW",
+        "LeaveCriticalSection",
+        "LoadLibraryA",
+        "Module32First",
+        "Module32Next",
+        "MultiByteToWideChar",
+        "RtlUnwind",
+        "SetFilePointer",
+        "SetHandleCount",
+        "SetLastError",
+        "SetStdHandle",
+        "TerminateProcess",
+        "TlsAlloc",
+        "TlsFree",
+        "TlsGetValue",
+        "TlsSetValue",
+        "VirtualAlloc",
+        "VirtualFree",
+        "VirtualProtect",
+        "VirtualQuery",
+        "WideCharToMultiByte",
+        "WriteFile",
+        "WriteProcessMemory",
+        "lstrcmpiA"
+      ],
+      "USER32.dll": [
+        "CallNextHookEx",
+        "FindWindowA",
+        "SendMessageA",
+        "SetWindowsHookExA",
+        "UnhookWindowsHookEx"
+      ],
+      "dbghelp.dll": [
+        "ImageDirectoryEntryToData"
+      ]
+    },
+    "delay_imports": {},
+    "exports": [
+      {
+        "ordinal": 1,
+        "address_rva": "0x1120",
+        "name": "_API_Hook_AllApps_Start@4"
+      },
+      {
+        "ordinal": 2,
+        "address_rva": "0x1240",
+        "name": "_API_Hook_AllApps_Stop@0"
+      }
+    ],
+    "resources": [],
+    "version_info": {},
+    "load_config": {},
+    "tls": null,
+    "relocations_present": true,
+    "has_manifest": false,
+    "manifest_text": null,
+    "security_directory": {},
+    "debug_directory": {},
+    "packer_hints": []
+  }
+]
